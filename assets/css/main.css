@@ -172,7 +172,7 @@ h6 {
   margin-right: 8px;
 }
 
-.header .logo h1 {
+.header .logo .sitename {
   font-size: 24px;
   margin: 0;
   font-weight: 500;
@@ -783,6 +783,34 @@ section,
   font-size: 1.25rem;
 }
 
+.hero .hero-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: -0.75rem 0 2rem;
+  color: color-mix(in srgb, var(--default-color), transparent 18%);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.hero .hero-benefits li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.hero .hero-benefits i {
+  color: var(--accent-color);
+}
+
+@media (max-width: 992px) {
+  .hero .hero-benefits {
+    justify-content: center;
+  }
+}
+
 .hero .btn-primary {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
@@ -844,6 +872,12 @@ section,
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
+}
+
+.hero .customers-badge .customer-avatars strong {
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+  font-size: 0.95rem;
 }
 
 .hero .customers-badge .avatar {
@@ -1198,7 +1232,7 @@ section,
   font-size: 48px;
 }
 
-.features .nav-link h4 {
+.features .nav-link .tab-title {
   font-size: 14px;
   font-weight: 500;
   margin: 0;
@@ -1208,7 +1242,7 @@ section,
   border-color: color-mix(in srgb, var(--default-color), transparent 80%);
 }
 
-.features .nav-link:hover h4 {
+.features .nav-link:hover .tab-title {
   color: var(--accent-color);
 }
 
@@ -1217,7 +1251,7 @@ section,
   border-color: var(--accent-color);
 }
 
-.features .nav-link.active h4 {
+.features .nav-link.active .tab-title {
   color: var(--contrast-color);
 }
 
@@ -1286,7 +1320,7 @@ section,
   margin-bottom: 20px;
 }
 
-.features-cards .feature-box h4 {
+.features-cards .feature-box h3 {
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 10px 0;
@@ -2106,6 +2140,12 @@ section,
   border-color: var(--contrast-color);
 }
 
+.call-to-action-2 .cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 /*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
@@ -2258,6 +2298,50 @@ section,
 
 .contact .contact-form .btn:hover {
   background-color: color-mix(in srgb, var(--accent-color), var(--contrast-color) 20%);
+}
+
+/*--------------------------------------------------------------
+# Compact Footer
+--------------------------------------------------------------*/
+.footer .footer-summary {
+  padding-top: 3.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.footer .footer-summary .logo .sitename {
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+  font-size: 1.65rem;
+  font-weight: 800;
+}
+
+.footer .footer-summary h4 {
+  margin-bottom: 1rem;
+}
+
+.footer .footer-summary p {
+  color: color-mix(in srgb, var(--default-color), transparent 28%);
+  max-width: 34rem;
+}
+
+.footer .footer-compact-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer .footer-compact-links li + li {
+  margin-top: 0.55rem;
+}
+
+.footer .footer-compact-links a,
+.footer .footer-summary a:not(.logo) {
+  color: color-mix(in srgb, var(--default-color), transparent 18%);
+}
+
+.footer .footer-compact-links a:hover,
+.footer .footer-summary a:not(.logo):hover {
+  color: var(--accent-color);
 }
 
 /*--------------------------------------------------------------
