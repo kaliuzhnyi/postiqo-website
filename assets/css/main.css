@@ -6,6 +6,14 @@
 * License: https://bootstrapmade.com/license/
 */
 
+@font-face {
+  font-family: "Nunito";
+  src: url("../fonts/Nunito-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+}
+
 /*--------------------------------------------------------------
 # Font & Color Variables
 # Help: https://bootstrapmade.com/color-system/
@@ -2483,4 +2491,182 @@ section,
 --------------------------------------------------------------*/
 .starter-section {
   /* Add your styles here */
+}
+
+/*--------------------------------------------------------------
+# Postiqo cosmetic refinements
+--------------------------------------------------------------*/
+body {
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.025em;
+}
+
+.header .header-container {
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 88%);
+  box-shadow: 0 10px 35px rgba(45, 70, 94, 0.1);
+}
+
+.header .logo .sitename,
+.footer .footer-summary .logo .sitename {
+  color: var(--accent-color);
+  font-family: var(--heading-font);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+}
+
+.hero .btn-primary,
+.header .btn-getstarted,
+.contact .contact-form .btn {
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--accent-color), transparent 76%);
+}
+
+.hero .hero-image > .dealer-workflow-visual {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
+  border-radius: 28px;
+  box-shadow: 0 28px 65px rgba(45, 70, 94, 0.15);
+}
+
+.hero .customers-badge {
+  right: 18px;
+  bottom: 18px;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
+  border-radius: 16px;
+  box-shadow: 0 14px 36px rgba(45, 70, 94, 0.16);
+  animation: none;
+}
+
+.about .image-wrapper .main-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
+  border-radius: 28px !important;
+  box-shadow: 0 28px 65px rgba(45, 70, 94, 0.16);
+}
+
+.about .image-wrapper .experience-badge {
+  right: 18px;
+  bottom: 18px;
+  min-width: 190px;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 16px 38px rgba(13, 84, 160, 0.25);
+  animation: none;
+}
+
+.about .image-wrapper .experience-badge h3 {
+  line-height: 1;
+}
+
+.features-cards .feature-box {
+  --card-accent: var(--accent-color);
+  position: relative;
+  overflow: hidden;
+  padding: 34px 28px;
+  background: var(--surface-color) !important;
+  border: 1px solid color-mix(in srgb, var(--card-accent), transparent 82%);
+  border-radius: 20px;
+  box-shadow: 0 14px 36px rgba(45, 70, 94, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.features-cards .feature-box::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: var(--card-accent);
+}
+
+.features-cards .feature-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 46px rgba(45, 70, 94, 0.13);
+}
+
+.features-cards .feature-box > i {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 22px;
+  background: color-mix(in srgb, var(--card-accent), transparent 88%);
+  color: var(--card-accent);
+  border-radius: 16px;
+  font-size: 27px;
+}
+
+.features-cards .feature-box.orange {
+  --card-accent: #dd8338;
+}
+
+.features-cards .feature-box.blue {
+  --card-accent: #0d83fd;
+}
+
+.features-cards .feature-box.green {
+  --card-accent: #2eaa71;
+}
+
+.features-cards .feature-box.red {
+  --card-accent: #dc6464;
+}
+
+.features-cards .feature-box.orange > i,
+.features-cards .feature-box.blue > i,
+.features-cards .feature-box.green > i,
+.features-cards .feature-box.red > i {
+  color: var(--card-accent);
+}
+
+.features .tab-pane video {
+  display: block;
+  width: 100%;
+  background: #f7fbff;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
+  border-radius: 18px;
+  box-shadow: 0 18px 44px rgba(45, 70, 94, 0.12);
+}
+
+.partners-row {
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 90%);
+  box-shadow: 0 14px 38px rgba(45, 70, 94, 0.08);
+}
+
+@media (max-width: 992px) {
+  .hero .customers-badge,
+  .about .image-wrapper .experience-badge {
+    position: static;
+    margin: 1rem auto 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
