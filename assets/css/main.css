@@ -2670,3 +2670,548 @@ h6 {
     animation-iteration-count: 1 !important;
   }
 }
+
+/*--------------------------------------------------------------
+# Multi-channel Publisher Enhancements
+--------------------------------------------------------------*/
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding: 0.42rem 0.85rem;
+  background: color-mix(in srgb, var(--accent-color), transparent 91%);
+  color: var(--accent-color);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 82%);
+  border-radius: 50px;
+  font-family: var(--nav-font);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero .hero-channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: -1.55rem 0 1.8rem;
+}
+
+.hero .hero-channels span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.48rem 0.72rem;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--heading-color);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 83%);
+  border-radius: 10px;
+  box-shadow: 0 7px 18px rgba(45, 70, 94, 0.06);
+  font-family: var(--nav-font);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.hero .hero-channels i {
+  color: var(--accent-color);
+  font-size: 0.95rem;
+}
+
+.hero .hero-benefits {
+  margin-top: 0;
+}
+
+.publisher-network {
+  position: relative;
+  padding: 86px 0;
+  background:
+    radial-gradient(circle at 8% 20%, color-mix(in srgb, var(--accent-color), transparent 92%), transparent 24%),
+    linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.publisher-network .section-title {
+  max-width: 780px;
+  padding-bottom: 44px;
+}
+
+.publisher-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) 54px minmax(0, 0.92fr) 54px minmax(0, 1.35fr);
+  align-items: stretch;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
+  border-radius: 24px;
+  box-shadow: 0 24px 65px rgba(45, 70, 94, 0.11);
+}
+
+.publisher-flow .flow-card {
+  min-height: 218px;
+  padding: 1.6rem;
+  border-radius: 18px;
+}
+
+.publisher-flow .flow-source {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #f7fbff;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 86%);
+}
+
+.publisher-flow .flow-icon,
+.publisher-flow .publisher-mark {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  background: color-mix(in srgb, var(--accent-color), transparent 88%);
+  color: var(--accent-color);
+  border-radius: 18px;
+  font-size: 1.7rem;
+}
+
+.publisher-flow .flow-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: color-mix(in srgb, var(--default-color), transparent 43%);
+  font-family: var(--nav-font);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.publisher-flow h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.38rem;
+  font-weight: 700;
+}
+
+.publisher-flow p {
+  margin: 0;
+  color: color-mix(in srgb, var(--default-color), transparent 27%);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.publisher-flow .flow-publisher {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(145deg, #1689fd 0%, #056bd6 100%);
+  color: #ffffff;
+  box-shadow: 0 18px 38px rgba(13, 131, 253, 0.23);
+}
+
+.publisher-flow .flow-publisher .publisher-mark {
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.publisher-flow .flow-publisher .flow-label,
+.publisher-flow .flow-publisher p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.publisher-flow .flow-publisher h3 {
+  color: #ffffff;
+}
+
+.publisher-flow .flow-connector {
+  display: flex;
+  align-items: center;
+  color: var(--accent-color);
+}
+
+.publisher-flow .flow-connector span {
+  width: 100%;
+  height: 2px;
+  background: color-mix(in srgb, var(--accent-color), transparent 55%);
+}
+
+.publisher-flow .flow-connector i {
+  margin-left: -2px;
+  font-size: 1.15rem;
+}
+
+.publisher-flow .channel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.publisher-flow .channel-card {
+  --channel-color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+  min-width: 0;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--channel-color), transparent 77%);
+  border-radius: 15px;
+  box-shadow: 0 9px 24px rgba(45, 70, 94, 0.07);
+}
+
+.publisher-flow .channel-card > i {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  background: color-mix(in srgb, var(--channel-color), transparent 89%);
+  color: var(--channel-color);
+  border-radius: 11px;
+  font-size: 1.1rem;
+}
+
+.publisher-flow .channel-card strong,
+.publisher-flow .channel-card small {
+  display: block;
+  min-width: 0;
+}
+
+.publisher-flow .channel-card strong {
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+  font-size: 0.93rem;
+  line-height: 1.15;
+}
+
+.publisher-flow .channel-card small {
+  margin-top: 0.15rem;
+  color: color-mix(in srgb, var(--default-color), transparent 43%);
+  font-size: 0.7rem;
+}
+
+.publisher-flow .channel-card.craigslist {
+  --channel-color: #6c5494;
+}
+
+.publisher-flow .channel-card.kijiji {
+  --channel-color: #7b3fc5;
+}
+
+.publisher-flow .channel-card.autotrader {
+  --channel-color: #e44b45;
+}
+
+.automation-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0 0;
+}
+
+.automation-actions > div {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.95rem 1rem;
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 86%);
+  border-radius: 13px;
+  box-shadow: 0 8px 22px rgba(45, 70, 94, 0.05);
+  font-size: 0.84rem;
+}
+
+.automation-actions i {
+  color: var(--accent-color);
+  font-size: 1.1rem;
+}
+
+.publisher-note {
+  margin: 1.25rem auto 0;
+  color: color-mix(in srgb, var(--default-color), transparent 34%);
+  font-size: 0.86rem;
+  text-align: center;
+}
+
+.publisher-note i {
+  margin-right: 0.35rem;
+  color: var(--accent-color);
+}
+
+.pricing .plan-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+  padding: 0.38rem 0.68rem;
+  background: color-mix(in srgb, var(--accent-color), transparent 90%);
+  color: var(--accent-color);
+  border-radius: 50px;
+  font-family: var(--nav-font);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.pricing .pricing-card.popular .plan-kicker {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.pricing .marketplace-addon {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(245px, 0.65fr);
+  overflow: hidden;
+  margin-top: 0.75rem;
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 78%);
+  border-radius: 20px;
+  box-shadow: 0 18px 48px rgba(45, 70, 94, 0.11);
+}
+
+.pricing .addon-main {
+  display: flex;
+  gap: 1.25rem;
+  padding: 2rem;
+}
+
+.pricing .addon-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  background: color-mix(in srgb, var(--accent-color), transparent 88%);
+  color: var(--accent-color);
+  border-radius: 17px;
+  font-size: 1.65rem;
+}
+
+.pricing .addon-badge {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  color: var(--accent-color);
+  font-family: var(--nav-font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pricing .addon-copy h3 {
+  margin-bottom: 0.55rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.pricing .addon-copy p {
+  margin-bottom: 1rem;
+  color: color-mix(in srgb, var(--default-color), transparent 28%);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.pricing .addon-channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.pricing .addon-channels span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.62rem;
+  background: #f5f9fe;
+  color: var(--heading-color);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 86%);
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pricing .addon-channels i {
+  color: var(--accent-color);
+}
+
+.pricing .addon-price-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.8rem;
+  background: linear-gradient(145deg, #eef7ff 0%, #f8fbff 100%);
+  border-left: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
+  text-align: center;
+}
+
+.pricing .addon-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--heading-color);
+  line-height: 1;
+}
+
+.pricing .addon-price > span {
+  margin: 0.35rem 0.22rem 0 0;
+  color: var(--accent-color);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.pricing .addon-price strong {
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+  font-size: 2.55rem;
+}
+
+.pricing .addon-price small {
+  flex-basis: 100%;
+  margin-top: 0.35rem;
+  color: color-mix(in srgb, var(--default-color), transparent 36%);
+  font-size: 0.76rem;
+}
+
+.pricing .addon-price-wrap > p {
+  margin: 0.8rem 0 1.15rem;
+  color: color-mix(in srgb, var(--default-color), transparent 32%);
+  font-size: 0.78rem;
+}
+
+.pricing .addon-price-wrap .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.72rem 1rem;
+  border-radius: 50px;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.pricing .pricing-totals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  margin: 0 1rem;
+  background: color-mix(in srgb, var(--accent-color), transparent 75%);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 82%);
+  border-top: 0;
+  border-radius: 0 0 13px 13px;
+}
+
+.pricing .pricing-totals span {
+  padding: 0.72rem 1rem;
+  background: color-mix(in srgb, var(--accent-color), white 94%);
+  color: color-mix(in srgb, var(--default-color), transparent 18%);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.pricing .pricing-totals strong {
+  color: var(--heading-color);
+}
+
+.pricing .pricing-currency-note {
+  margin: 1.4rem 0 0;
+  color: color-mix(in srgb, var(--default-color), transparent 42%);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+@media (max-width: 1199px) {
+  .publisher-flow {
+    grid-template-columns: minmax(0, 1fr) 42px minmax(0, 0.9fr) 42px minmax(0, 1.2fr);
+  }
+
+  .publisher-flow .flow-card {
+    padding: 1.25rem;
+  }
+
+  .publisher-flow .flow-source {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .publisher-flow .channel-card {
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .hero .hero-channels {
+    justify-content: center;
+  }
+
+  .publisher-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .publisher-flow .flow-card {
+    min-height: 0;
+  }
+
+  .publisher-flow .flow-source {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .publisher-flow .flow-connector {
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .publisher-flow .flow-connector span {
+    width: 2px;
+    height: 44px;
+  }
+
+  .publisher-flow .flow-connector i {
+    margin: 0 0 -31px -7px;
+    transform: rotate(90deg);
+  }
+
+  .automation-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pricing .marketplace-addon {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing .addon-price-wrap {
+    border-top: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 575px) {
+  .publisher-network {
+    padding: 66px 0;
+  }
+
+  .publisher-flow {
+    padding: 0.8rem;
+    border-radius: 18px;
+  }
+
+  .publisher-flow .flow-source {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .publisher-flow .channel-grid,
+  .automation-actions,
+  .pricing .pricing-totals {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing .addon-main {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .pricing .addon-price-wrap {
+    padding: 1.5rem;
+  }
+}
