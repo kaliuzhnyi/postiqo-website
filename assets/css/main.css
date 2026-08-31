@@ -2530,19 +2530,21 @@ h6 {
   box-shadow: 0 10px 24px color-mix(in srgb, var(--accent-color), transparent 76%);
 }
 
-.hero .hero-image > .dealer-workflow-visual {
+.hero .hero-image,
+.about .image-wrapper .images {
+  mix-blend-mode: multiply;
+}
+
+.hero .hero-image > .dealer-illustration {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
-  border-radius: 28px;
-  box-shadow: 0 28px 65px rgba(45, 70, 94, 0.15);
+  height: auto;
+  object-fit: contain;
 }
 
 .hero .customers-badge {
-  right: 18px;
-  bottom: 18px;
+  position: static;
+  margin: 1.5rem auto 0;
   border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
   border-radius: 16px;
   box-shadow: 0 14px 36px rgba(45, 70, 94, 0.16);
@@ -2552,16 +2554,17 @@ h6 {
 .about .image-wrapper .main-image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 84%);
-  border-radius: 28px !important;
-  box-shadow: 0 28px 65px rgba(45, 70, 94, 0.16);
+  height: auto;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0 !important;
+  box-shadow: none;
 }
 
 .about .image-wrapper .experience-badge {
-  right: 18px;
-  bottom: 18px;
+  position: static;
+  width: fit-content;
+  margin: 1.5rem 0 0 auto;
   min-width: 190px;
   padding: 1.15rem 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.35);
