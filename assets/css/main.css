@@ -2826,20 +2826,25 @@ h6 {
 }
 
 .publisher-flow .flow-connector {
-  display: flex;
-  align-items: center;
-  color: var(--accent-color);
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  color: color-mix(in srgb, var(--accent-color), transparent 24%);
 }
 
-.publisher-flow .flow-connector span {
-  width: 100%;
-  height: 2px;
-  background: color-mix(in srgb, var(--accent-color), transparent 55%);
+.publisher-flow .flow-connector svg {
+  display: block;
+  width: min(100%, 48px);
+  height: auto;
+  overflow: visible;
 }
 
-.publisher-flow .flow-connector i {
-  margin-left: -2px;
-  font-size: 1.15rem;
+.publisher-flow .flow-connector path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .publisher-flow .channel-grid {
@@ -3160,17 +3165,11 @@ h6 {
   }
 
   .publisher-flow .flow-connector {
-    justify-content: center;
-    min-height: 44px;
+    min-height: 52px;
   }
 
-  .publisher-flow .flow-connector span {
-    width: 2px;
-    height: 44px;
-  }
-
-  .publisher-flow .flow-connector i {
-    margin: 0 0 -31px -7px;
+  .publisher-flow .flow-connector svg {
+    width: 44px;
     transform: rotate(90deg);
   }
 
