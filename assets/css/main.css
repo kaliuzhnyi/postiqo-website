@@ -2535,6 +2535,64 @@ h6 {
   mix-blend-mode: multiply;
 }
 
+.hero .hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero .btn-try {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0.75rem 1.75rem;
+  border: 1px solid #0865c4;
+  border-radius: 50px;
+  background: #fff;
+  color: #0865c4;
+  font-weight: 500;
+}
+
+.hero .btn-try:hover {
+  background: #eaf4ff;
+  border-color: #064f9b;
+  color: #064f9b;
+}
+
+.hero .hero-trial-note {
+  margin: 14px 0 8px;
+  color: #526579;
+  font-size: 0.9375rem;
+}
+
+.hero-watch-demo .btn-link {
+  padding-left: 0;
+}
+
+.contact .contact-trial-link {
+  margin-top: 14px;
+  font-size: 0.9375rem;
+}
+
+.contact-trial-link a {
+  color: #0865c4;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hero .btn-try:focus-visible,
+.contact-trial-link a:focus-visible {
+  outline: 3px solid var(--heading-color);
+  outline-offset: 4px;
+}
+
+@media (max-width: 575px) {
+  .hero .hero-buttons > .btn {
+    width: 100%;
+  }
+}
+
 .hero .hero-image > .dealer-illustration {
   display: block;
   width: 100%;

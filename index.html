@@ -222,7 +222,7 @@
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <link href="assets/css/main.css?v=1.0.3" rel="stylesheet">
+    <link href="assets/css/main.css?v=1.0.4" rel="stylesheet">
 
 </head>
 
@@ -245,7 +245,7 @@
                 <li><a href="#features">Product Demo</a></li>
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="/try/">Try Postiqo</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
@@ -295,8 +295,12 @@
                         </ul>
 
                         <div class="hero-buttons">
-                            <a class="btn btn-primary me-0 me-sm-2 mx-1" href="#contact">Book a Live Demo</a>
-                            <a class="btn btn-link mt-2 mt-sm-0 glightbox"
+                            <a class="btn btn-primary" href="#contact">Book a Live Demo</a>
+                            <a class="btn btn-try" href="/try/">Try Postiqo <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+                        </div>
+                        <p class="hero-trial-note">Download, explore the settings, then request trial access.</p>
+                        <div class="hero-watch-demo">
+                            <a class="btn btn-link glightbox"
                                data-bs-custom-class="custom-tooltip"
                                data-bs-placement="top"
                                data-bs-title="Postiqo Demo: Publish a Marketplace Listing in 1 Minute"
@@ -1400,6 +1404,7 @@
         <div class="container section-title" data-aos="fade-up">
             <h2>Book your Postiqo demo</h2>
             <p>Tell us about your dealership and we’ll show you the workflow with your goals in mind.</p>
+            <p class="contact-trial-link">Prefer to explore first? <a href="/try/">Download Postiqo and request a trial <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a></p>
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -1456,6 +1461,7 @@
                               data-aos="fade-up"
                               data-aos-delay="200"
                               id="contact-form"
+                              data-postiqo-request="demo"
                               method="post">
                             <input name="_subject" type="hidden" value="New Postiqo demo request">
                             <div class="row gy-4">
@@ -1493,8 +1499,8 @@
 
                                 <div class="col-12 text-center">
                                     <div aria-live="polite" class="loading" role="status">Sending</div>
-                                    <div class="error-message" role="alert"></div>
-                                    <div aria-live="polite" class="sent-message" role="status">Your demo request has been sent. Thank you!</div>
+                                    <div class="error-message" role="alert" tabindex="-1"></div>
+                                    <div aria-live="polite" class="sent-message" role="status" tabindex="-1">Your demo request has been sent. Thank you!</div>
 
                                     <button class="btn" type="submit">Request My Demo</button>
                                 </div>
@@ -1532,6 +1538,7 @@
                         <li><a href="#features">Product Demo</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#faq">FAQ</a></li>
+                        <li><a href="/try/">Try Postiqo</a></li>
                     </ul>
                 </nav>
             </div>
@@ -1567,7 +1574,7 @@
 
 <!-- Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/contact.js"></script>
+<script src="assets/js/request-form.js?v=1"></script>
 <script>
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

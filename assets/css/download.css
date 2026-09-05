@@ -143,6 +143,27 @@
   font-size: 0.875rem;
 }
 
+.download-trial {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #dce8f3;
+  border-radius: 14px;
+  background: #f3f9ff;
+  color: #526579;
+  font-size: 0.9375rem;
+}
+
+.download-trial p {
+  margin: 0 0 10px;
+}
+
+.download-trial a {
+  color: #0865c4;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .download-support a {
   margin-left: 3px;
   color: #0865c4;
