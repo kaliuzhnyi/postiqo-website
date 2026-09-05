@@ -169,7 +169,7 @@
                             </div>
                             <div class="try-field try-field-full">
                                 <label for="trial-facebook">Facebook user ID</label>
-                                <input id="trial-facebook" name="facebook_user_id" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Your ID or full Facebook profile URL" aria-describedby="facebook-help facebook-format" maxlength="2048" required>
+                                <input id="trial-facebook" name="facebook_user_id" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Your ID, username, or profile URL" aria-describedby="facebook-help facebook-format" maxlength="2048" required>
                                 <p id="facebook-help" class="try-field-help">Use the personal Facebook account you will use in Postiqo. This is the account we will add to your license.</p>
                                 <div class="try-facebook-guide" id="facebook-format">
                                     <h4>Where to find it</h4>
@@ -178,7 +178,20 @@
                                         <li>Open <a href="https://www.facebook.com/me" target="_blank" rel="noopener noreferrer">facebook.com/me <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span class="visually-hidden"> (opens in a new tab)</span></a> and wait for your profile to load.</li>
                                         <li>Copy the resulting address from the address bar and paste it above.</li>
                                     </ol>
-                                    <p>For <code>facebook.com/profile.php?id=123456789</code>, the ID is <code>123456789</code>. If your address contains a username, paste the full profile link.</p>
+                                    <p><strong>The easiest option:</strong> paste the full profile address into the Facebook user ID field above. You can also enter just the number or username, as shown below.</p>
+                                    <p>
+                                        <strong>Example 1: your address contains a number</strong><br>
+                                        <code>facebook.com/profile.php?id=<strong>123456789</strong></code><br>
+                                        Your user ID is <code>123456789</code>.<br>
+                                        <strong>Enter:</strong> <code>123456789</code>
+                                    </p>
+                                    <p>
+                                        <strong>Example 2: your address contains a username</strong><br>
+                                        <code>facebook.com/<strong>john.smith</strong></code><br>
+                                        Your username is <code>john.smith</code>.<br>
+                                        <strong>Enter:</strong> <code>john.smith</code> in the same Facebook user ID field.
+                                    </p>
+                                    <p>These are examples. Use the number or username from <strong>your own profile address</strong>, including any dots or numbers. The <code>facebook.com/me</code> shortcut itself is not your user ID.</p>
                                     <p class="mb-0">Please send your profile ID or link, never your Facebook password.</p>
                                 </div>
                             </div>
