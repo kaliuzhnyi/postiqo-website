@@ -12,9 +12,11 @@ With JavaScript enabled, the Facebook field accepts a numeric ID, username, or p
 
 Trial activation is manual. After adding the requested account to the license, email the customer to confirm access. The website only collects the request and tells the customer to wait for that email before signing in through Postiqo and running a flow.
 
-### Adding the setup video
+### Setup video
 
-Replace the commented `.try-video-placeholder` figure in `try/index.html` with the finished setup video. Use a native `<video controls preload="metadata">` or an iframe with a descriptive title. Provide captions for spoken instructions and keep the setup checklist available.
+Step 2 of `/try/` includes the 9:54 English setup tutorial, covering instances, settings, login, and logs. Its responsive YouTube player uses the privacy-enhanced `youtube-nocookie.com` host, loads lazily, supports fullscreen, and requests English captions. The setup checklist and a direct YouTube link remain available alongside the video.
+
+The video ID is `RazuBwVoWag`. When replacing the tutorial, update both the iframe and the direct link in `try/index.html`, upload the English captions to YouTube, and update the duration if needed. Keep `referrerpolicy="strict-origin-when-cross-origin"` on the iframe so YouTube receives the website origin needed to identify the embedded player.
 
 ### Local preview
 
