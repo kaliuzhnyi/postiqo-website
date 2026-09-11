@@ -1457,45 +1457,46 @@
                         <h3>Request an optional demo</h3>
                         <p>Share a few details and we’ll contact you to arrange a walkthrough.</p>
 
-                        <form action="https://formspree.io/f/xvgeqgdd"
+                        <form action="https://licensing.postiqo.io/v1/public/demo-requests"
                               class="php-email-form"
                               data-aos="fade-up"
                               data-aos-delay="200"
                               id="contact-form"
                               data-postiqo-request="demo"
+                              data-trial-config="https://licensing.postiqo.io/v1/public/trial-config"
                               method="post">
-                            <input name="_subject" type="hidden" value="New Postiqo demo request">
+                            <div hidden aria-hidden="true"><label for="demo-gotcha">Leave this field empty</label><input id="demo-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
                             <div class="row gy-4">
 
                                 <div class="col-md-6">
                                     <label class="visually-hidden" for="contact-name">Your name</label>
                                     <input autocomplete="name" class="form-control" id="contact-name" name="name"
-                                           placeholder="Your Name" required type="text">
+                                           placeholder="Your Name" required type="text" maxlength="120">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="visually-hidden" for="contact-dealership">Dealership or company</label>
                                     <input autocomplete="organization" class="form-control" id="contact-dealership"
-                                           name="dealership" placeholder="Dealership / Company" required type="text">
+                                           name="dealership" placeholder="Dealership / Company" required type="text" maxlength="200">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="visually-hidden" for="contact-email">Work email</label>
                                     <input autocomplete="email" class="form-control" id="contact-email" name="email"
-                                           placeholder="Work Email" required type="email">
+                                           placeholder="Work Email" required type="email" maxlength="254">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="visually-hidden" for="contact-phone">Phone number</label>
                                     <input autocomplete="tel" class="form-control" id="contact-phone" name="phone"
-                                           placeholder="Phone Number (optional)" type="tel">
+                                           placeholder="Phone Number (optional)" type="tel" maxlength="40">
                                 </div>
 
                                 <div class="col-12">
                                     <label class="visually-hidden" for="contact-message">Your dealership goals</label>
                                     <textarea class="form-control" id="contact-message" name="message"
                                               placeholder="How many vehicles or Marketplace accounts do you manage?"
-                                              required rows="6"></textarea>
+                                              required rows="6" maxlength="5000"></textarea>
                                 </div>
 
                                 <div class="col-12 text-center">
@@ -1507,6 +1508,7 @@
                                 </div>
 
                             </div>
+                            <noscript><p>Enable JavaScript to verify and send this form, or email support@postiqo.io.</p></noscript>
                         </form>
 
                     </div>
@@ -1575,7 +1577,7 @@
 
 <!-- Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/request-form.js?v=1"></script>
+<script src="assets/js/request-form.js?v=3"></script>
 <script>
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

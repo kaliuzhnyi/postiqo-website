@@ -8,7 +8,9 @@
 
 The primary trial request lives in Postiqo Publisher. Customers first sign in to Facebook in the app, which includes the account automatically. The dealership website is required and can be edited after being filled from the inventory source settings. Importing and reviewing vehicles needs neither a license nor Facebook sign-in. Publishing still requires an active license.
 
-The collapsed website trial form is an optional fallback. It sends to `https://licensing.postiqo.io/v1/public/trial-requests`, which stores requests in the same Cloudflare D1 queue as the desktop and exposes them at `https://admin.postiqo.io/#trials`. Demo requests retain the existing Formspree endpoint. Both use the shared handler in `assets/js/request-form.js`.
+The collapsed website trial form is an optional fallback. It sends to `https://licensing.postiqo.io/v1/public/trial-requests`, which stores requests in the same Cloudflare D1 queue as the desktop and exposes them at `https://admin.postiqo.io/#trials`. Demo requests use `/v1/public/demo-requests` and email the administrator without creating a trial. Both use the shared handler in `assets/js/request-form.js` and Cloudflare Email Service. Formspree is no longer used.
+
+The six contact fields match the desktop form: name (120 characters), dealership (200), website (2048), email (254), phone (40), and optional message (5000). The website additionally asks for the Facebook account that the desktop supplies after login. Source is assigned by the server and displayed in the administration table and notification.
 
 Opening the website form loads the public Turnstile configuration and a managed verification widget. Submission requires server-side token verification, an allowed website Origin and an IP rate limit. The Worker fixes the source to `website`, applies the one-trial-per-account rule and schedules one administrator notification for a new request. No desktop token, Turnstile secret, admin credential or AI key is embedded in this site. A failed notification does not discard the saved request. Turnstile limits automated abuse; it does not verify ownership of a typed Facebook account, so trial activation stays manual.
 
@@ -28,7 +30,7 @@ The video ID is `RazuBwVoWag`. When replacing the tutorial, update both the ifra
 
 ### Local preview
 
-Serve the repository root with any static HTTP server, then open `/try/`. No build step is required. Test form submissions with a local mock endpoint to avoid sending test email to the live Formspree inbox.
+Serve the repository root with any static HTTP server, then open `/try/`. No build step is required. Test form submissions with a local mock endpoint and verification fixture to avoid creating production requests or emailing the administrator.
 
 #### Website template
 https://bootstrapmade.com/ilanding-bootstrap-landing-page-template/

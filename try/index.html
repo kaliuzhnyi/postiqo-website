@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="/assets/vendor/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="/assets/css/main.css?v=1.0.5">
     <link rel="stylesheet" href="/assets/css/try.css?v=3">
-    <script src="/assets/js/request-form.js?v=2" defer></script>
+    <script src="/assets/js/request-form.js?v=3" defer></script>
 </head>
 
 <body class="try-page">
@@ -152,8 +152,6 @@
                     <summary>Prefer to request your trial on the website?</summary>
                     <p class="try-form-intro">This form is an optional alternative to the request in Postiqo. Enter the personal Facebook account you will use in the app. All fields are required except the additional notes.</p>
                     <form id="trial-form" class="php-email-form" action="https://licensing.postiqo.io/v1/public/trial-requests" method="post" data-postiqo-request="trial" data-trial-config="https://licensing.postiqo.io/v1/public/trial-config">
-                        <input type="hidden" name="_subject" value="New Postiqo trial request">
-                        <input type="hidden" name="request_type" value="Trial request">
                         <div hidden aria-hidden="true">
                             <label for="trial-gotcha">Leave this field empty</label>
                             <input type="text" id="trial-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
