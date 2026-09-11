@@ -202,12 +202,14 @@
             trial_already_used:'This Facebook account has already requested a trial. Each account can receive only one trial. Contact support@postiqo.io for help.',
             verification_required:'Please complete verification and try again.',
             verification_failed:'Verification expired or failed. Please try again.',
+            verification_unavailable:"We couldn't verify your browser with Cloudflare. Please wait a moment and try again. Your details are still here.",
+            service_unavailable:'Our request service is temporarily unavailable. Your details are still here. Please try again shortly or email support@postiqo.io.',
             rate_limited:'Too many requests. Please wait a minute and try again.',
             validation_error:isTrial ? 'Check your contact details, website and Facebook account, then try again.' : 'Check your contact details and message, then try again.',
             website_trial_disabled:unavailableMessage,
             email_not_configured:unavailableMessage,
             request_conflict:'This request was already received with different details. Please reload the page before starting a new request.',
-          }[data.error] || 'Your request could not be sent. Please try again or contact support@postiqo.io.');
+          }[data.error] || `Your request could not be sent (HTTP ${response.status}). Please try again or contact support@postiqo.io. Your details are still here.`);
         }
 
         const data = await response.json();
