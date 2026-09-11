@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  // Both requests use the site's existing Formspree inbox. Trial activation is manual.
+  // Trial requests use Cloudflare; demo requests retain the existing inbox.
   function facebookAccount(value) {
     const input = value.trim();
     const numericId = /^[1-9]\d{0,29}$/;
@@ -50,6 +50,37 @@
     const facebook = form.querySelector('[name="facebook_user_id"]');
     const website = form.querySelector('[name="website"]');
     let sending = false;
+    const cloudflareTrial = Boolean(form.dataset.trialConfig);
+    let trialWidget, trialReady = null;
+    async function prepareTrial() {
+      if (!cloudflareTrial) return;
+      if (trialReady) return trialReady;
+      trialReady = (async () => {
+        const response = await fetch(form.dataset.trialConfig, {credentials:'omit', signal:AbortSignal.timeout(10000)});
+        const config = await response.json();
+        if (!response.ok || config.ok !== true || typeof config.site_key !== 'string') throw new Error('Website trial requests are temporarily unavailable. Please request your trial in the Postiqo app.');
+        if (!window.turnstile) await new Promise((resolve,reject) => {
+          const script = document.createElement('script');
+          const fail = () => { script.remove(); reject(new Error('Could not load verification. Check your connection and try again.')); };
+          const deadline = setTimeout(fail, 10000);
+          script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+          script.async = true;
+          script.onload = () => { clearTimeout(deadline); resolve(); };
+          script.onerror = () => { clearTimeout(deadline); fail(); };
+          document.head.append(script);
+        });
+        const challenge = document.createElement('div');
+        challenge.className = 'try-verification'; button.before(challenge);
+        trialWidget = window.turnstile.render(challenge, {sitekey:config.site_key, action:'trial_request', size:'flexible'});
+      })().catch(failure => {trialReady=null; throw failure;});
+      return trialReady;
+    }
+    if (cloudflareTrial) {
+      const details = form.closest('details');
+      const initialize = () => {if (!details || details.open) prepareTrial().catch(failure => {error.textContent=failure.message;error.style.display='block';});};
+      details?.addEventListener('toggle',initialize);
+      initialize();
+    }
 
     // Keep native validation available if JavaScript is unavailable. With JS,
     // normalize pasted profile URLs and bare dealership domains before validation.
@@ -119,16 +150,31 @@
       const timeout = setTimeout(() => controller.abort(), 20000);
 
       try {
+        if (cloudflareTrial) {
+          await prepareTrial();
+          const token = window.turnstile.getResponse(trialWidget);
+          if (!token) throw new Error('Please complete the verification below, then send your request.');
+          payload.set('turnstile_token',token);
+        }
         const response = await fetch(form.action, {
           method: form.method,
-          body: payload,
-          headers: { Accept: "application/json" },
+          body: cloudflareTrial ? JSON.stringify(Object.fromEntries(payload)) : payload,
+          headers: { Accept: "application/json", ...(cloudflareTrial ? {'Content-Type':'application/json'} : {}) },
           credentials: "omit",
           signal: controller.signal
         });
 
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));
+          if (cloudflareTrial) throw new Error({
+            licence_active:'This Facebook account already has active access. Sign in to it in the Postiqo app.',
+            trial_already_used:'This Facebook account has already requested a trial. Each account can receive only one trial. Contact support@postiqo.io for help.',
+            verification_required:'Please complete verification and try again.',
+            verification_failed:'Verification expired or failed. Please try again.',
+            rate_limited:'Too many requests. Please wait a minute and try again.',
+            validation_error:'Check your contact details, website and Facebook account, then try again.',
+            website_trial_disabled:'Website trial requests are temporarily unavailable. Please request your trial in the Postiqo app.',
+          }[data.error] || 'Your request could not be sent. Please try again or contact support@postiqo.io.');
           const messages = Array.isArray(data.errors)
             ? data.errors.map(item => item.message).filter(message => typeof message === "string")
             : [];
@@ -137,11 +183,15 @@
             : messages.join(" ") || (typeof data.error === "string" && data.error) || "Your request could not be sent. Please try again or email support@postiqo.io.");
         }
 
+        if (cloudflareTrial) {
+          const data = await response.json();
+          if (data.ok !== true) throw new Error('We could not confirm delivery. Please check with support@postiqo.io before sending again.');
+        }
         form.reset();
         success.style.display = "block";
         success.focus();
       } catch (failure) {
-        error.textContent = failure.name === "AbortError"
+        error.textContent = ['AbortError', 'TimeoutError'].includes(failure.name)
           ? "We couldn't confirm delivery in time. Your details are still here. Please try again later or email support@postiqo.io."
           : failure instanceof TypeError
             ? "We couldn't confirm delivery. Check your connection and try again, or email support@postiqo.io. Your details are still here."
@@ -154,6 +204,7 @@
         button.disabled = false;
         form.removeAttribute("aria-busy");
         loading.style.display = "none";
+        if (cloudflareTrial && trialWidget !== undefined) window.turnstile?.reset(trialWidget);
       }
     });
   });

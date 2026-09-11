@@ -630,6 +630,10 @@
   cursor: wait;
 }
 
+.try-verification {
+  margin: 16px 0;
+}
+
 .try-submit-note {
   margin-top: 12px;
   text-align: center;

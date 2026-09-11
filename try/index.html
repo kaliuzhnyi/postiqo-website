@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="/assets/vendor/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="/assets/css/main.css?v=1.0.5">
     <link rel="stylesheet" href="/assets/css/try.css?v=3">
-    <script src="/assets/js/request-form.js?v=1" defer></script>
+    <script src="/assets/js/request-form.js?v=2" defer></script>
 </head>
 
 <body class="try-page">
@@ -151,7 +151,7 @@
                 <details class="try-form-panel try-fallback-form" id="website-trial-request">
                     <summary>Prefer to request your trial on the website?</summary>
                     <p class="try-form-intro">This form is an optional alternative to the request in Postiqo. Enter the personal Facebook account you will use in the app. All fields are required except the additional notes.</p>
-                    <form id="trial-form" class="php-email-form" action="https://formspree.io/f/xvgeqgdd" method="post" data-postiqo-request="trial">
+                    <form id="trial-form" class="php-email-form" action="https://licensing.postiqo.io/v1/public/trial-requests" method="post" data-postiqo-request="trial" data-trial-config="https://licensing.postiqo.io/v1/public/trial-config">
                         <input type="hidden" name="_subject" value="New Postiqo trial request">
                         <input type="hidden" name="request_type" value="Trial request">
                         <div hidden aria-hidden="true">
@@ -225,7 +225,7 @@
                         </div>
                         <button class="try-button try-submit" type="submit">Request My Trial <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
                         <p class="try-small try-submit-note">Your 7-day publishing trial starts when our team activates it. We'll confirm by email.</p>
-                        <noscript><p class="try-field-help">Submitting will open Formspree's confirmation page. We will email you separately when your trial is active.</p></noscript>
+                        <noscript><p class="try-field-help">Enable JavaScript to verify and send this form, or request your trial in the Postiqo app.</p></noscript>
                     </form>
                 </details>
             </div>
