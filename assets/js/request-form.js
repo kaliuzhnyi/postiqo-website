@@ -55,7 +55,15 @@
     const unavailableMessage = isTrial
       ? 'Website trial requests are temporarily unavailable. Please request your trial in the Postiqo app.'
       : 'Demo requests are temporarily unavailable. Please email support@postiqo.io.';
-    let trialWidget, trialReady = null;
+    let trialWidget, trialReady = null, verificationNote, verificationTimer;
+    function verificationMessage(message) {
+      clearTimeout(verificationTimer);
+      if (verificationNote) verificationNote.textContent = message;
+    }
+    function waitingForVerification() {
+      verificationMessage('Checking your browser...');
+      verificationTimer = setTimeout(() => verificationMessage('Verification is taking longer than expected. Check your connection, reload this page, or try another browser.'), 15000);
+    }
     async function prepareTrial() {
       if (trialReady) return trialReady;
       trialReady = (async () => {
@@ -75,7 +83,22 @@
         const challenge = document.createElement('div');
         challenge.className = 'try-verification'; button.before(challenge);
         challenge.style.marginBottom = '16px';
-        trialWidget = window.turnstile.render(challenge, {sitekey:config.site_key, action:isTrial ? 'trial_request' : 'demo_request', size:'flexible'});
+        verificationNote = document.createElement('p');
+        verificationNote.className = 'small';
+        verificationNote.setAttribute('role', 'status');
+        button.before(verificationNote);
+        waitingForVerification();
+        trialWidget = window.turnstile.render(challenge, {
+          sitekey:config.site_key, action:isTrial ? 'trial_request' : 'demo_request', size:'flexible',
+          callback: () => verificationMessage('Verification complete. You can send your request.'),
+          'error-callback': code => {
+            verificationMessage(`Browser verification could not finish (code ${code}). Reload this page or try another browser. If this continues, contact support@postiqo.io.`);
+            return true;
+          },
+          'expired-callback': () => verificationMessage('Verification expired. Please complete the check again before sending.'),
+          'timeout-callback': () => verificationMessage('Verification timed out. Please complete the check again before sending.'),
+          'unsupported-callback': () => verificationMessage('Verification does not support this browser. Please use an up-to-date browser.'),
+        });
       })().catch(failure => {trialReady=null; throw failure;});
       return trialReady;
     }
@@ -201,7 +224,10 @@
         button.disabled = false;
         form.removeAttribute("aria-busy");
         loading.style.display = "none";
-        if (trialWidget !== undefined) window.turnstile?.reset(trialWidget);
+        if (trialWidget !== undefined) {
+          waitingForVerification();
+          window.turnstile?.reset(trialWidget);
+        }
       }
     });
   });
