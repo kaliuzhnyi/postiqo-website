@@ -52,6 +52,7 @@
     const website = form.querySelector('[name="website"]');
     let sending = false;
     const isTrial = form.dataset.postiqoRequest === 'trial';
+    let demoSubmission = null;
     const unavailableMessage = isTrial
       ? 'Website trial requests are temporarily unavailable. Please request your trial in the Postiqo app.'
       : 'Demo requests are temporarily unavailable. Please email support@postiqo.io.';
@@ -163,6 +164,11 @@
       }
 
       const payload = new FormData(form);
+      if (!isTrial) {
+        const details = JSON.stringify(['name', 'dealership', 'website', 'email', 'phone', 'message'].map(key => payload.get(key) || ''));
+        if (!demoSubmission || demoSubmission.details !== details) demoSubmission = {details, id: crypto.randomUUID()};
+        payload.set('request_id', demoSubmission.id);
+      }
       if (account) {
         // Keep identifiers as strings to preserve long Facebook IDs exactly.
         payload.set("facebook_user_id", account.id);
@@ -200,13 +206,16 @@
             validation_error:isTrial ? 'Check your contact details, website and Facebook account, then try again.' : 'Check your contact details and message, then try again.',
             website_trial_disabled:unavailableMessage,
             email_not_configured:unavailableMessage,
+            request_conflict:'This request was already received with different details. Please reload the page before starting a new request.',
           }[data.error] || 'Your request could not be sent. Please try again or contact support@postiqo.io.');
         }
 
         const data = await response.json();
         if (data.ok !== true) throw new Error('We could not confirm delivery. Please check with support@postiqo.io before sending again.');
         if (isTrial && data.duplicate) success.textContent = 'A trial request for this Facebook account is already awaiting review. You do not need to submit another request. We will contact you when it is reviewed.';
+        else if (data.duplicate) success.textContent = 'Your demo request is already with our team. We will contact you to arrange a time.';
         else success.innerHTML = successMessage;
+        demoSubmission = null;
         form.reset();
         success.style.display = "block";
         success.focus();
