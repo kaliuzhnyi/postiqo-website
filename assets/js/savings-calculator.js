@@ -1,20 +1,23 @@
-/* Example labour costs, not a promise of sales or cash savings. */
+/* Editable estimates for an ongoing vehicle listing rotation. */
 (() => {
   "use strict";
 
   function estimateListingWork(values) {
-    const { activeListings, newListings, postingMinutes, refreshes, refreshMinutes, hourlyCost, reviewHours, accounts } = values;
-    const manualHours = (newListings * postingMinutes + activeListings * refreshes * refreshMinutes) / 60;
+    const { inventory, hourlyCost, postingMinutes, removalMinutes, sharingMinutes, rotationDays, accounts } = values;
+    const dailyListings = inventory / rotationDays;
+    const monthlyListings = dailyListings * 30;
+    const minutesPerListing = postingMinutes + removalMinutes + sharingMinutes;
+    const manualHours = monthlyListings * minutesPerListing / 60;
+    const manualCost = manualHours * hourlyCost;
     const subscription = accounts * (accounts >= 5 ? 90 : 100);
-    const hoursBack = manualHours - reviewHours;
     return {
+      dailyListings,
+      monthlyListings,
+      minutesPerListing,
       manualHours,
+      manualCost,
       subscription,
-      hoursBack,
-      manualCost: manualHours * hourlyCost,
-      assistedCost: subscription + reviewHours * hourlyCost,
-      netValue: hoursBack * hourlyCost - subscription,
-      breakEvenHours: hourlyCost > 0 ? subscription / hourlyCost + reviewHours : null
+      netValue: manualCost - subscription
     };
   }
 
@@ -40,18 +43,17 @@
 
     const values = Object.fromEntries(fields.map(field => [field.name, field.valueAsNumber]));
     const estimate = estimateListingWork(values);
-    write("calculator-hours", `${number.format(estimate.hoursBack)} hours`);
+    write("calculator-hours", `${number.format(estimate.manualHours)} staff hours / month`);
     write("calculator-value", money(estimate.netValue));
-    write("calculator-value-label", estimate.netValue >= 0 ? "Labour value after subscription / month" : "Negative labour value at these inputs / month");
+    write("calculator-value-label", estimate.netValue >= 0 ? "Estimated savings / month" : "Monthly difference: subscription costs more");
     // A negative result must stay visible, rather than being turned into a savings claim.
     results.classList.toggle("calculator-negative", estimate.netValue < 0);
-    write("calculator-manual", `${number.format(estimate.manualHours)} hours / ${money(estimate.manualCost)}`);
-    write("calculator-assisted", `${number.format(values.reviewHours)} review hours + ${money(estimate.subscription)} plan / ${money(estimate.assistedCost)}`);
-    write("calculator-plan", `${values.accounts >= 5 ? "Multi-Account" : "Standard"} plan: ${values.accounts} ${values.accounts === 1 ? "account" : "accounts"} at ${money(values.accounts >= 5 ? 90 : 100)} per account / month.`);
-    write("calculator-break-even", estimate.breakEvenHours === null
-      ? "Enter an hourly cost above zero to calculate the break-even point."
-      : `Break-even: replace ${number.format(estimate.breakEvenHours)} hours of manual listing work per month, including your ${number.format(values.reviewHours)} review hours.`);
-    write("calculator-formula", `(${number.format(values.newListings)} new listings x ${number.format(values.postingMinutes)} minutes + ${number.format(values.activeListings)} active listings x ${number.format(values.refreshes)} refreshes x ${number.format(values.refreshMinutes)} minutes) / 60 = ${number.format(estimate.manualHours)} manual hours per month.`);
+    write("calculator-manual", money(estimate.manualCost));
+    write("calculator-subscription", money(estimate.subscription));
+    write("calculator-plan", values.accounts === 1 ? "1 publishing account" : `${values.accounts} accounts at ${money(values.accounts >= 5 ? 90 : 100)} / month each`);
+    write("calculator-routine", `${number.format(estimate.dailyListings)} posts + ${number.format(estimate.dailyListings)} removals per day${values.sharingMinutes > 0 ? ", with group sharing" : ""}.`);
+    write("calculator-cycle", `Based on a ${number.format(values.rotationDays)}-day listing rotation.`);
+    write("calculator-formula", `${number.format(values.inventory)} vehicles / ${number.format(values.rotationDays)} days x 30 days x (${number.format(values.postingMinutes)} + ${number.format(values.removalMinutes)} + ${number.format(values.sharingMinutes)} minutes) / 60 = ${number.format(estimate.manualHours)} manual hours per month.`);
   }
 
   let pendingUpdate;

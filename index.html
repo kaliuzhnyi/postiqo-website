@@ -213,7 +213,7 @@
             "name": "How much listing time could my team save?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "It depends on how many listings you manage, how often you refresh them, and how long each task takes. The listing time calculator above lets you enter your own numbers, including time to review Postiqo and your account subscription. Its example is an estimate of staff capacity, not measured customer savings."
+                "text": "Enter your vehicle inventory and hourly staff cost in the calculator above. It estimates an ongoing listing rotation, including publishing, finding and removing old ads, and group sharing, then compares the manual labour cost with a Postiqo subscription. You can adjust the cycle and task times. The figures are estimates, not measured customer results."
             }
         },
         {
@@ -318,7 +318,7 @@
     <!-- Main CSS File -->
     <link href="assets/css/main.css?v=1.0.6" rel="stylesheet">
 
-    <link rel="stylesheet" href="/assets/css/dealer-value.css?v=1">
+    <link rel="stylesheet" href="/assets/css/dealer-value.css?v=2">
     <noscript><style>.index-page .tab-content > .tab-pane { display: block; opacity: 1; margin-bottom: 40px; } .index-page .navmenu { display: none; } .index-page .swiper-wrapper { display: flex; flex-wrap: wrap; gap: 24px; transform: none !important; } .index-page .swiper-slide { width: 140px; } .calculator-layout { grid-template-columns: 1fr; }</style></noscript>
 </head>
 
@@ -714,86 +714,82 @@
     <section class="calculator-section section" id="savings" aria-labelledby="savings-title">
         <div class="container">
             <div class="section-title">
-                <span class="section-eyebrow">The cost of doing it by hand</span>
-                <h2 id="savings-title">What is listing admin costing your dealership?</h2>
-                <p>The first post is only part of the job. Refreshing existing listings takes time every month. Use your own numbers to compare that work with a Postiqo subscription.</p>
+                <span class="section-eyebrow">Your inventory. Your time.</span>
+                <h2 id="savings-title">What could you save on listing work?</h2>
+                <p>Enter your inventory and hourly staff cost. See the cost of posting vehicles, finding and removing old ads, and sharing to groups.</p>
             </div>
             <div class="calculator-layout">
-                <form class="calculator-form" id="listing-calculator" aria-describedby="calculator-assumptions" hidden>
+                <form class="calculator-form" id="listing-calculator" hidden>
                     <fieldset>
-                        <legend>Your monthly listing workload</legend>
-                        <p class="calculator-hint">Start with an example, then change it to match your team. Count listings across the accounts and channels you want to automate.</p>
+                        <legend>Your dealership</legend>
                         <div class="calculator-fields">
                             <div class="calculator-field">
-                                <label for="calc-active">Active listings</label>
-                                <input id="calc-active" name="activeListings" type="number" min="0" max="100000" step="1" value="50" inputmode="numeric" required aria-describedby="calc-active-help">
-                                <small id="calc-active-help">Count each copy on another account or channel as a separate listing.</small>
+                                <label for="calc-inventory">Vehicles in your inventory</label>
+                                <input id="calc-inventory" name="inventory" type="number" min="0" max="100000" step="1" value="90" inputmode="numeric" required>
                             </div>
                             <div class="calculator-field">
-                                <label for="calc-new">New listings / month</label>
-                                <input id="calc-new" name="newListings" type="number" min="0" max="100000" step="1" value="20" inputmode="numeric" required>
-                            </div>
-                            <div class="calculator-field">
-                                <label for="calc-posting">Minutes per new listing</label>
-                                <input id="calc-posting" name="postingMinutes" type="number" min="0" max="240" step="0.5" value="10" inputmode="decimal" required>
-                            </div>
-                            <div class="calculator-field">
-                                <label for="calc-hourly">Team cost / hour (CAD)</label>
+                                <label for="calc-hourly">Staff cost / hour (CAD)</label>
                                 <input id="calc-hourly" name="hourlyCost" type="number" min="0" max="1000" step="0.5" value="30" inputmode="decimal" required>
                             </div>
                         </div>
                     </fieldset>
-                    <details class="calculator-advanced">
-                        <summary>Adjust refreshes, review time, and accounts</summary>
+                    <p class="calculator-routine"><strong id="calculator-routine">12.9 posts + 12.9 removals per day, with group sharing.</strong><span id="calculator-cycle">Based on a 7-day listing rotation.</span></p>
+                    <details class="calculator-advanced" id="calculator-assumptions">
+                        <summary>Adjust the assumptions</summary>
+                        <p class="calculator-assumption-note">Starting estimates for a careful manual workflow. Change the times to match how your team works.</p>
                         <div class="calculator-fields">
                             <div class="calculator-field">
-                                <label for="calc-refreshes">Refreshes / listing / month</label>
-                                <input id="calc-refreshes" name="refreshes" type="number" min="0" max="31" step="0.5" value="4" inputmode="decimal" required aria-describedby="calc-refreshes-help">
-                                <small id="calc-refreshes-help">Example frequency only. Renewals depend on platform eligibility.</small>
+                                <label for="calc-posting">Minutes to publish a vehicle</label>
+                                <input id="calc-posting" name="postingMinutes" type="number" min="0" max="240" step="0.5" value="15" inputmode="decimal" required aria-describedby="calc-posting-help">
+                                <small id="calc-posting-help">Find and download photos, arrange them, write the vehicle description, fill in the fields, and check the listing.</small>
                             </div>
                             <div class="calculator-field">
-                                <label for="calc-refresh-minutes">Minutes per refresh</label>
-                                <input id="calc-refresh-minutes" name="refreshMinutes" type="number" min="0" max="240" step="0.5" value="2" inputmode="decimal" required>
+                                <label for="calc-removal">Minutes to find &amp; remove an old ad</label>
+                                <input id="calc-removal" name="removalMinutes" type="number" min="0" max="240" step="0.5" value="3" inputmode="decimal" required aria-describedby="calc-removal-help">
+                                <small id="calc-removal-help">Track listing age, find the right vehicle, and delete its old ad.</small>
                             </div>
                             <div class="calculator-field">
-                                <label for="calc-review">Postiqo review hours / month</label>
-                                <input id="calc-review" name="reviewHours" type="number" min="0" max="744" step="0.5" value="2" inputmode="decimal" required aria-describedby="calc-review-help">
-                                <small id="calc-review-help">Allow time to check inventory, settings, and results.</small>
+                                <label for="calc-sharing">Minutes for group sharing / vehicle</label>
+                                <input id="calc-sharing" name="sharingMinutes" type="number" min="0" max="240" step="0.5" value="2" inputmode="decimal" required aria-describedby="calc-sharing-help">
+                                <small id="calc-sharing-help">Choose your groups, add a caption, and share. Use 0 if you do not share to groups.</small>
                             </div>
                             <div class="calculator-field">
-                                <label for="calc-accounts">Publishing accounts</label>
+                                <label for="calc-rotation">Replace each listing after (days)</label>
+                                <input id="calc-rotation" name="rotationDays" type="number" min="1" max="365" step="1" value="7" inputmode="numeric" required aria-describedby="calc-rotation-help">
+                                <small id="calc-rotation-help">Spread your inventory over this cycle, then remove and repost ageing ads.</small>
+                            </div>
+                            <div class="calculator-field">
+                                <label for="calc-accounts">Postiqo accounts</label>
                                 <input id="calc-accounts" name="accounts" type="number" min="1" max="100" step="1" value="1" inputmode="numeric" required aria-describedby="calc-accounts-help">
-                                <small id="calc-accounts-help">C$100 each, or C$90 each with 5 or more accounts.</small>
+                                <small id="calc-accounts-help">C$100 each, or C$90 each with 5 or more accounts. Account count changes the subscription, not your vehicle count.</small>
                             </div>
                         </div>
+                        <div class="calculator-method">
+                            <h4>How we calculate it</h4>
+                            <p id="calculator-formula">90 vehicles / 7 days x 30 days x (15 + 3 + 2 minutes) / 60 = 128.6 manual hours per month.</p>
+                            <p>Manual cost = these hours x your hourly rate. Estimated savings = manual cost minus the Postiqo subscription. Negative savings mean the subscription costs more at your inputs.</p>
+                            <p>This models an ongoing 30-day month after the listing rotation is established, with one listing per vehicle and one old ad removed for each replacement. The daily average is rounded only for display. The cycle is your workflow assumption, not a marketplace requirement.</p>
+                            <p>The comparison uses the subscription price only for Postiqo. Initial setup, changing stock levels, taxes, and third-party fees are excluded. Task times are estimates, not measured customer results. Labour value becomes cash savings only when it reduces an actual expense.</p>
+                        </div>
+                        <button type="reset" class="calculator-reset">Reset example</button>
                     </details>
-                    <button type="reset" class="calculator-reset">Reset example</button>
                 </form>
-                <p class="calculator-error" id="calculator-error" role="status" hidden>Enter a valid number in every field to update the estimate. Open the adjustments above if needed.</p>
-                <div class="calculator-results" id="calculator-results" role="region" aria-label="Estimated monthly listing workload" data-nosnippet>
-                    <h3>Your monthly estimate</h3>
-                    <div aria-live="polite" aria-atomic="true" class="calculator-metrics">
-                        <p class="calculator-metric"><strong id="calculator-hours">8 hours</strong><span>Estimated team time freed up / month</span></p>
-                        <p class="calculator-metric"><strong id="calculator-value">C$140</strong><span id="calculator-value-label">Labour value after subscription / month</span></p>
-                    </div>
+                <p class="calculator-error" id="calculator-error" role="status" hidden>Enter a valid number in the highlighted field. Open Adjust the assumptions if needed.</p>
+                <div class="calculator-results" id="calculator-results" role="region" aria-label="Estimated monthly listing costs" data-nosnippet>
+                    <h3>Your monthly comparison</h3>
                     <dl class="calculator-comparison">
-                        <div><dt>Manual listing work</dt><dd id="calculator-manual">10 hours / C$300</dd></div>
-                        <div><dt>Postiqo + your review time</dt><dd id="calculator-assisted">2 review hours + C$100 plan / C$160</dd></div>
+                        <div><dt>Manual listing work</dt><dd><strong id="calculator-manual">C$3,857</strong><span>/ month</span><small id="calculator-hours">128.6 staff hours / month</small></dd></div>
+                        <div><dt>With Postiqo</dt><dd><strong id="calculator-subscription">C$100</strong><span>/ month</span><small id="calculator-plan">1 publishing account</small></dd></div>
                     </dl>
-                    <p id="calculator-plan" class="calculator-plan">Standard plan: 1 account at C$100 per account / month.</p>
-                    <p id="calculator-break-even" class="calculator-break-even">Break-even: replace 5.3 hours of manual listing work per month, including your 2 review hours.</p>
+                    <div aria-live="polite" aria-atomic="true" class="calculator-metrics">
+                        <p class="calculator-metric"><strong id="calculator-value">C$3,757</strong><span id="calculator-value-label">Estimated savings / month</span></p>
+                    </div>
                     <a class="calculator-cta" href="/try/">Try with My Inventory <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
-                    <a class="calculator-demo" href="#contact">Walk through my numbers in a demo</a>
+                    <a class="calculator-demo" href="#contact">See Postiqo in a demo</a>
                 </div>
             </div>
-            <p class="calculator-example">Example, not measured customer results: 50 active listings, 20 new posts at 10 minutes each, 4 monthly refreshes at 2 minutes each, C$30/hour, and 2 review hours with Postiqo.</p>
-            <details class="calculator-method" id="calculator-assumptions">
-                <summary>How the estimate works</summary>
-                <p id="calculator-formula">(20 new listings x 10 minutes + 50 active listings x 4 refreshes x 2 minutes) / 60 = 10 manual hours per month.</p>
-                <p>Time freed up = manual hours minus your Postiqo review hours. Labour value after subscription = that time x your hourly cost, minus the monthly subscription. A negative result means the subscription and review time cost more than the manual work at your inputs.</p>
-                <p>The estimate covers initial posts and routine refresh work. Count the same refresh or repost only once. Extra price edits, sold-car removal, group sharing, initial setup, computer running time, taxes, and any third-party charges are excluded. Refresh frequency is your assumption, not a promise of platform availability. Time freed up represents staff capacity; it becomes cash savings only if it reduces an actual expense. Results vary with your inventory and workflow.</p>
-            </details>
-            <noscript><p class="calculator-example">The example above works without JavaScript. Enable JavaScript to enter your own figures, or <a href="#contact">ask us to walk through your workload</a>.</p></noscript>
+            <p class="calculator-example">Estimated manual labour cost versus the Postiqo subscription, for a 30-day month. Task times and the listing cycle are adjustable.</p>
+            <noscript><p class="calculator-example">Example: 90 vehicles, C$30/hour, a 7-day cycle, and 15 minutes posting + 3 minutes removal + 2 minutes group sharing per vehicle. Enable JavaScript to enter your own figures, or <a href="#contact">ask us to walk through your workload</a>.</p></noscript>
         </div>
     </section>
 
@@ -1383,7 +1379,7 @@
 
                         <details class="faq-item"><summary><h3>How much does Postiqo cost for a dealership?</h3></summary><div class="faq-content"><div class="faq-inner"><p>The Standard Plan is C$100 per publishing account per month. With 5 or more accounts, the Multi-Account Plan is C$90 per account per month, starting at C$450 per month in total. Both plans include Facebook Marketplace and Craigslist automation. All prices are in Canadian dollars.</p></div></div></details><!-- End Faq item-->
 
-                        <details class="faq-item"><summary><h3>How much listing time could my team save?</h3></summary><div class="faq-content"><div class="faq-inner"><p>It depends on how many listings you manage, how often you refresh them, and how long each task takes. The listing time calculator above lets you enter your own numbers, including time to review Postiqo and your account subscription. Its example is an estimate of staff capacity, not measured customer savings.</p></div></div></details><!-- End Faq item-->
+                        <details class="faq-item"><summary><h3>How much listing time could my team save?</h3></summary><div class="faq-content"><div class="faq-inner"><p>Enter your vehicle inventory and hourly staff cost in the calculator above. It estimates an ongoing listing rotation, including publishing, finding and removing old ads, and group sharing, then compares the manual labour cost with a Postiqo subscription. You can adjust the cycle and task times. The figures are estimates, not measured customer results.</p></div></div></details><!-- End Faq item-->
 
                         <details class="faq-item"><summary><h3>Does Postiqo renew Facebook Marketplace listings every seven days?</h3></summary><div class="faq-content"><div class="faq-inner"><p>Postiqo can attempt to renew eligible listings after seven days when Facebook makes renewal available. You control renewal and listing lifetime settings. Renewal availability depends on Facebook; a fixed number of renewals or increased reach is not guaranteed.</p></div></div></details><!-- End Faq item-->
 
@@ -1754,7 +1750,7 @@
 
 <!-- Main JS File -->
 <script src="assets/js/main.js?v=2"></script>
-<script src="assets/js/savings-calculator.js?v=1" defer></script>
+<script src="assets/js/savings-calculator.js?v=2" defer></script>
 <script src="assets/js/request-form.js?v=6"></script>
 <script>
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
