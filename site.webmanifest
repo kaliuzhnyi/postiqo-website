@@ -1,7 +1,7 @@
 {
   "name": "Postiqo",
   "short_name": "Postiqo",
-  "description": "Multi-channel vehicle listing automation for automotive dealerships.",
+  "description": "Facebook Marketplace auto posting and Craigslist vehicle listing automation for car dealerships.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

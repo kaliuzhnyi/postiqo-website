@@ -31,9 +31,18 @@
     document.querySelector('body').classList.toggle('mobile-nav-active');
     mobileNavToggleBtn.classList.toggle('bi-list');
     mobileNavToggleBtn.classList.toggle('bi-x');
+    const expanded = document.body.classList.contains('mobile-nav-active');
+    mobileNavToggleBtn.setAttribute('aria-expanded', String(expanded));
+    mobileNavToggleBtn.setAttribute('aria-label', expanded ? 'Close navigation' : 'Open navigation');
   }
   if (mobileNavToggleBtn) {
     mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && document.body.classList.contains('mobile-nav-active')) {
+        mobileNavToogle();
+        mobileNavToggleBtn.focus();
+      }
+    });
   }
 
   /**
@@ -82,19 +91,6 @@
   document.addEventListener('scroll', toggleScrollTop);
 
   /**
-   * Animation on scroll function and init
-   */
-  function aosInit() {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    });
-  }
-  window.addEventListener('load', aosInit);
-
-  /**
    * Initiate glightbox
    */
   const glightbox = GLightbox({
@@ -121,27 +117,13 @@
   window.addEventListener("load", initSwiper);
 
   /**
-   * Initiate Pure Counter
-   */
-  new PureCounter();
-
-  /**
-   * Frequently Asked Questions Toggle
-   */
-  document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
-    faqItem.addEventListener('click', () => {
-      faqItem.parentNode.classList.toggle('faq-active');
-    });
-  });
-
-  /**
    * Correct scrolling position upon page load for URLs containing hash links.
    */
   window.addEventListener('load', function(e) {
     if (window.location.hash) {
-      if (document.querySelector(window.location.hash)) {
+      const section = document.getElementById(window.location.hash.slice(1));
+      if (section) {
         setTimeout(() => {
-          let section = document.querySelector(window.location.hash);
           let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
           window.scrollTo({
             top: section.offsetTop - parseInt(scrollMarginTop),

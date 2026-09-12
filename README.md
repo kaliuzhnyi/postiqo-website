@@ -1,5 +1,17 @@
 # postiqo-website
 
+## SEO and dealer conversion
+
+The three public pages (`/`, `/try/`, `/download/`) have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards. The download page is now indexable for branded Windows download searches and is included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.
+
+The homepage includes Product/SoftwareApplication, Organization, WebSite, WebPage and visible FAQ structured data. Pricing is per account in CAD, and the five-account minimum is explicit. Never invent ratings to satisfy a rich-result validator. When editing FAQ answers, update their JSON-LD equivalents as well.
+
+The calculator in `assets/js/savings-calculator.js` compares initial posts and routine refreshes with a subscription plus monthly review time. Inputs are illustrative and editable. It counts listing copies across channels/accounts, applies the C$90 rate at five accounts, and preserves negative results. It sends no calculator inputs to a server. Pricing changes must be applied to the cards, schema, calculator, examples, and tests together.
+
+Run `python scripts/check-seo.py` and `node --test tests/savings-calculator.test.cjs` before publishing. The checks cover metadata, internal links/assets, FAQ/schema consistency, sitemap, and calculator arithmetic. Browser checks should also cover mobile navigation, calculator input/reset/error states, native FAQs, demo tabs, and the trial/download paths. Video posters come from the existing demos; videos load on demand. Marketing content and FAQ answers remain available without animation scripts.
+
+See [SEO and marketing handoff](docs/seo-marketing.md) for query intent, factual claims, publication checks, and suggested social copy.
+
 ## Getting started and trial requests
 
 - `/try/` links directly to the stable Windows installer and guides visitors through importing and previewing inventory for free, then requesting a 7-day publishing trial in the app.

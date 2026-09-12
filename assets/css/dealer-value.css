@@ -1,0 +1,96 @@
+/* Dealer-facing copy, accessible controls, and the listing workload estimate. */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 10000;
+  padding: 12px 20px;
+  color: #164675;
+  background: #fff;
+  border: 2px solid currentColor;
+  transform: translateY(-180%);
+}
+.skip-link:focus { transform: translateY(0); }
+.index-page :is(a, button, input, summary):focus-visible {
+  outline: 3px solid #174b7d;
+  outline-offset: 4px;
+}
+.index-page .hero .hero-content h1 { font-size: clamp(2.4rem, 4.3vw, 3.45rem); line-height: 1.1; }
+.hero-value-note { color: #405870; font-size: 1rem; }
+.hero-value-note a, .value-inline-link { color: #075daf; text-decoration: underline; text-underline-offset: 3px; }
+.index-page .company-badge { font-size: 0.9375rem; }
+.index-page .company-badge, .index-page .section-eyebrow { color: #0865c4; }
+.index-page .header .btn-getstarted, .index-page .hero .btn-primary { background-color: #0868cb; }
+.index-page .section-eyebrow, .index-page .hero-channels span, .index-page .flow-label { font-size: 0.875rem; }
+.index-page .mobile-nav-toggle { border: 0; background: transparent; padding: 12px 8px; }
+.index-page .about .experience-badge h3 { font-size: 1.5rem; line-height: 1.2; }
+.index-page .contact-form label:not(.visually-hidden) { display: block; color: var(--heading-color); font-size: 0.9375rem; font-weight: 600; margin-bottom: 6px; }
+.demo-outcomes { padding-left: 1.25rem; margin: 1rem 0 1.5rem; }
+.demo-outcomes li { margin-bottom: 0.5rem; }
+.index-page .faq .faq-item summary { position: relative; list-style: none; cursor: pointer; padding-right: 24px; }
+.index-page .faq .faq-item summary::-webkit-details-marker { display: none; }
+.index-page .faq .faq-item summary::after { content: "+"; position: absolute; right: 0; top: 0; color: #0865c4; font-size: 1.5rem; line-height: 1; }
+.index-page .faq .faq-item[open] summary::after { content: "-"; }
+.index-page .faq .faq-item h3 { display: block; margin: 0; line-height: 1.5; }
+.index-page .faq .faq-item[open] h3 { color: #0865c4; }
+.index-page .faq .faq-item .faq-content { display: block; opacity: 1; padding-top: 14px; }
+.index-page .features .nav-link { cursor: pointer; }
+.index-page .features video { aspect-ratio: 16 / 10; object-fit: contain; }
+.index-page .features video[poster] { background: #eef4fb; }
+.calculator-section { padding-block: 84px; background: #eef6ff; }
+.calculator-section .section-title { padding-bottom: 30px; }
+.calculator-section .section-title p { max-width: 740px; margin-inline: auto; }
+.calculator-layout { display: grid; grid-template-columns: 1.08fr 1fr; gap: 24px; align-items: start; }
+.calculator-form { padding: 30px; background: #fff; border: 1px solid #d0e0ef; border-radius: 22px; }
+.calculator-form fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.calculator-form legend { font: 800 1.4rem var(--heading-font); color: #253f5b; margin-bottom: 8px; }
+.calculator-form .calculator-hint { color: #526579; font-size: 0.9375rem; margin-bottom: 24px; }
+.calculator-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.calculator-field { min-width: 0; }
+.calculator-field label { display: block; color: #263f59; font-size: 0.9375rem; font-weight: 600; margin-bottom: 8px; }
+.calculator-field input { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid #91abc4; border-radius: 9px; color: #203d58; background: #fff; font: 600 1.0625rem var(--nav-font); }
+.calculator-field input[aria-invalid="true"] { border-color: #a42622; }
+.calculator-field small { display: block; color: #526579; font-size: 0.875rem; line-height: 1.45; margin-top: 7px; }
+.calculator-advanced { margin-top: 24px; padding-top: 20px; border-top: 1px solid #dbe6f0; }
+.calculator-advanced summary { color: #075daf; cursor: pointer; font-size: 1rem; font-weight: 600; }
+.calculator-advanced[open] summary { margin-bottom: 20px; }
+.calculator-reset { margin-top: 24px; padding: 8px 0; background: transparent; border: 0; color: #075daf; text-decoration: underline; text-underline-offset: 3px; font-size: 0.9375rem; }
+.calculator-results { padding: 32px; color: #fff; background: #133f69; border-radius: 22px; }
+.calculator-results h3 { color: #fff; font-size: 1.35rem; margin: 0 0 22px; }
+.calculator-metrics { display: grid; gap: 22px; }
+.calculator-metric { margin: 0; }
+.calculator-metric strong { display: block; color: #fff; font: 800 clamp(2.15rem, 3.5vw, 3rem)/1.1 var(--heading-font); margin-bottom: 8px; letter-spacing: -0.03em; }
+.calculator-metric span { color: #dcecfb; font-size: 0.9375rem; }
+.calculator-comparison { margin: 26px 0 18px; padding-top: 20px; border-top: 1px solid #456b90; }
+.calculator-comparison div + div { margin-top: 12px; }
+.calculator-comparison dt { color: #dcecfb; font-weight: 400; font-size: 0.875rem; }
+.calculator-comparison dd { color: #fff; margin: 3px 0 0; font-weight: 600; }
+.calculator-plan, .calculator-break-even { font-size: 0.875rem; color: #dcecfb; }
+.calculator-results .calculator-cta { display: block; margin-top: 24px; padding: 13px 20px; background: #fff; color: #123e68; border-radius: 50px; text-align: center; font-weight: 700; }
+.calculator-results .calculator-demo { display: block; padding: 12px 0 0; text-align: center; color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.calculator-results a:focus-visible { outline-color: #fff; }
+.calculator-negative #calculator-value { color: #ffd6bf; }
+.calculator-error { color: #80251e; background: #fff4ee; padding: 24px; border-radius: 12px; }
+.calculator-method { max-width: 960px; margin: 26px auto 0; color: #455d74; font-size: 0.9375rem; }
+.calculator-method summary { color: #264e74; cursor: pointer; font-weight: 600; }
+.calculator-method p { margin: 12px 0 0; }
+.calculator-example { max-width: 820px; margin: 28px auto 0; color: #405870; text-align: center; font-size: 0.9375rem; }
+.try-benefit-links { display: flex; flex-wrap: wrap; gap: 14px 24px; justify-content: center; margin-top: 20px; }
+.try-benefit-links a { text-decoration: underline; text-underline-offset: 3px; font-size: 0.9375rem; }
+.download-page .download-description { font-size: 1rem; }
+@media (max-width: 991px) {
+  .calculator-layout { grid-template-columns: 1fr; }
+  .calculator-section { padding-block: 60px; }
+  .calculator-results { max-width: none; }
+}
+@media (max-width: 575px) {
+  .calculator-form, .calculator-results { padding: 24px 20px; border-radius: 16px; }
+  .calculator-fields { gap: 18px 14px; }
+  .calculator-field label { min-height: 2.8em; }
+  .index-page .hero .hero-content h1 { font-size: clamp(2rem, 8vw, 2.5rem); }
+  .index-page .hero .company-badge { padding-inline: 12px; }
+}
+@media (max-width: 359px) {
+  .calculator-fields { grid-template-columns: 1fr; }
+  .calculator-field label { min-height: 0; }
+}

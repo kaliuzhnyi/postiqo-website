@@ -1,0 +1,6 @@
+# Keep maintenance files out of the public GitHub Pages output.
+exclude:
+  - README.md
+  - docs
+  - scripts
+  - tests
