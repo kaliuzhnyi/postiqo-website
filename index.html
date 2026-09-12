@@ -729,28 +729,28 @@
                             </div>
                             <div class="calculator-field">
                                 <label for="calc-hourly">Staff cost / hour (CAD)</label>
-                                <input id="calc-hourly" name="hourlyCost" type="number" min="0" max="1000" step="0.5" value="30" inputmode="decimal" required>
+                                <input id="calc-hourly" name="hourlyCost" type="number" min="0" max="1000" step="0.5" value="20" inputmode="decimal" required>
                             </div>
                         </div>
                     </fieldset>
                     <p class="calculator-routine"><strong id="calculator-routine">12.9 posts + 12.9 removals per day, with group sharing.</strong><span id="calculator-cycle">Based on a 7-day listing rotation.</span></p>
                     <details class="calculator-advanced" id="calculator-assumptions">
                         <summary>Adjust the assumptions</summary>
-                        <p class="calculator-assumption-note">Starting estimates for a careful manual workflow. Change the times to match how your team works.</p>
+                        <p class="calculator-assumption-note">Starting estimates for a familiar routine, using existing vehicle photos and details. Change the times to match how your team works.</p>
                         <div class="calculator-fields">
                             <div class="calculator-field">
                                 <label for="calc-posting">Minutes to publish a vehicle</label>
-                                <input id="calc-posting" name="postingMinutes" type="number" min="0" max="240" step="0.5" value="15" inputmode="decimal" required aria-describedby="calc-posting-help">
+                                <input id="calc-posting" name="postingMinutes" type="number" min="0" max="240" step="0.5" value="7" inputmode="decimal" required aria-describedby="calc-posting-help">
                                 <small id="calc-posting-help">Find and download photos, arrange them, write the vehicle description, fill in the fields, and check the listing.</small>
                             </div>
                             <div class="calculator-field">
                                 <label for="calc-removal">Minutes to find &amp; remove an old ad</label>
-                                <input id="calc-removal" name="removalMinutes" type="number" min="0" max="240" step="0.5" value="3" inputmode="decimal" required aria-describedby="calc-removal-help">
+                                <input id="calc-removal" name="removalMinutes" type="number" min="0" max="240" step="0.5" value="1" inputmode="decimal" required aria-describedby="calc-removal-help">
                                 <small id="calc-removal-help">Track listing age, find the right vehicle, and delete its old ad.</small>
                             </div>
                             <div class="calculator-field">
                                 <label for="calc-sharing">Minutes for group sharing / vehicle</label>
-                                <input id="calc-sharing" name="sharingMinutes" type="number" min="0" max="240" step="0.5" value="2" inputmode="decimal" required aria-describedby="calc-sharing-help">
+                                <input id="calc-sharing" name="sharingMinutes" type="number" min="0" max="240" step="0.5" value="1" inputmode="decimal" required aria-describedby="calc-sharing-help">
                                 <small id="calc-sharing-help">Choose your groups, add a caption, and share. Use 0 if you do not share to groups.</small>
                             </div>
                             <div class="calculator-field">
@@ -766,7 +766,7 @@
                         </div>
                         <div class="calculator-method">
                             <h4>How we calculate it</h4>
-                            <p id="calculator-formula">90 vehicles / 7 days x 30 days x (15 + 3 + 2 minutes) / 60 = 128.6 manual hours per month.</p>
+                            <p id="calculator-formula">90 vehicles / 7 days x 30 days x (7 + 1 + 1 minutes) / 60 = 57.9 manual hours per month.</p>
                             <p>Manual cost = these hours x your hourly rate. Estimated savings = manual cost minus the Postiqo subscription. Negative savings mean the subscription costs more at your inputs.</p>
                             <p>This models an ongoing 30-day month after the listing rotation is established, with one listing per vehicle and one old ad removed for each replacement. The daily average is rounded only for display. The cycle is your workflow assumption, not a marketplace requirement.</p>
                             <p>The comparison uses the subscription price only for Postiqo. Initial setup, changing stock levels, taxes, and third-party fees are excluded. Task times are estimates, not measured customer results. Labour value becomes cash savings only when it reduces an actual expense.</p>
@@ -778,18 +778,18 @@
                 <div class="calculator-results" id="calculator-results" role="region" aria-label="Estimated monthly listing costs" data-nosnippet>
                     <h3>Your monthly comparison</h3>
                     <dl class="calculator-comparison">
-                        <div><dt>Manual listing work</dt><dd><strong id="calculator-manual">C$3,857</strong><span>/ month</span><small id="calculator-hours">128.6 staff hours / month</small></dd></div>
+                        <div><dt>Manual listing work</dt><dd><strong id="calculator-manual">C$1,157</strong><span>/ month</span><small id="calculator-hours">57.9 staff hours / month</small></dd></div>
                         <div><dt>With Postiqo</dt><dd><strong id="calculator-subscription">C$100</strong><span>/ month</span><small id="calculator-plan">1 publishing account</small></dd></div>
                     </dl>
                     <div aria-live="polite" aria-atomic="true" class="calculator-metrics">
-                        <p class="calculator-metric"><strong id="calculator-value">C$3,757</strong><span id="calculator-value-label">Estimated savings / month</span></p>
+                        <p class="calculator-metric"><strong id="calculator-value">C$1,057</strong><span id="calculator-value-label">Estimated savings / month</span></p>
                     </div>
                     <a class="calculator-cta" href="/try/">Try with My Inventory <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
                     <a class="calculator-demo" href="#contact">See Postiqo in a demo</a>
                 </div>
             </div>
             <p class="calculator-example">Estimated manual labour cost versus the Postiqo subscription, for a 30-day month. Task times and the listing cycle are adjustable.</p>
-            <noscript><p class="calculator-example">Example: 90 vehicles, C$30/hour, a 7-day cycle, and 15 minutes posting + 3 minutes removal + 2 minutes group sharing per vehicle. Enable JavaScript to enter your own figures, or <a href="#contact">ask us to walk through your workload</a>.</p></noscript>
+            <noscript><p class="calculator-example">Example: 90 vehicles, C$20/hour, a 7-day cycle, and 7 minutes posting + 1 minute removal + 1 minute group sharing per vehicle. Enable JavaScript to enter your own figures, or <a href="#contact">ask us to walk through your workload</a>.</p></noscript>
         </div>
     </section>
 
