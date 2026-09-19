@@ -69,7 +69,7 @@ for route, filename in PAGES.items():
         assert 'aggregateRating' not in product and 'review' not in product
         faq = next(item for item in schemas if item.get('@type') == 'FAQPage')
         visible = re.findall(r'<details class="faq-item">(.*?)</details><!-- End Faq item-->', source, re.S)
-        assert len(visible) == len(faq['mainEntity']) == 14
+        assert len(visible) == len(faq['mainEntity']) == 16
         for item, entry in zip(visible, faq['mainEntity']):
             assert text(re.search(r'<h3>(.*?)</h3>', item, re.S)[1]) == entry['name']
             answer = ' '.join(text(p) for p in re.findall(r'<p[^>]*>(.*?)</p>', item, re.S))

@@ -12,6 +12,14 @@ Run `python scripts/check-seo.py` and `node --test tests/savings-calculator.test
 
 See [SEO and marketing handoff](docs/seo-marketing.md) for query intent, factual claims, publication checks, and suggested social copy.
 
+## Inventory templates and price sheets
+
+The homepage sections `#description-templates` and `#price-sheets` explain these tools through dealership use cases, illustrative examples, and calls to try Postiqo. The trial and download pages link back to them. Styling for the homepage examples lives in `assets/css/inventory-tools.css`; they are illustrations, not product screenshots.
+
+Keep claims aligned with the app: listing templates have no fixed count limit and optional CEL conditions; matching special templates take precedence, with random selection among matches and general templates as fallback. Price Sheets imports editable DOCX templates and exports PDFs with one page per vehicle, up to 200 selected vehicles per batch. PDF generation needs the optional local document engine. Do not imply that printed sheets update automatically or that template conditions select price sheet designs.
+
+When updating the older description-template demo video, remove its version note only when the replacement shows the current editor. Keep the visible FAQs and JSON-LD answers synchronized.
+
 ## Getting started and trial requests
 
 - `/try/` links directly to the stable Windows installer and guides visitors through importing and previewing inventory for free, then requesting a 7-day publishing trial in the app.

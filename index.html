@@ -5,22 +5,22 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Facebook Marketplace Auto Poster for Car Dealers | Postiqo</title>
-    <meta name="description" content="Automate vehicle listings on Facebook Marketplace and Craigslist. Keep prices current, remove sold cars and save dealer admin time. Try Postiqo free.">
+    <meta name="description" content="Automate car listings on Facebook Marketplace and Craigslist. Match custom descriptions to each vehicle and create branded price sheets from your inventory.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Postiqo">
     <meta property="og:locale" content="en_CA">
     <meta property="og:url" content="https://postiqo.io/">
-    <meta property="og:title" content="Less listing admin. More time for buyers. | Postiqo">
-    <meta property="og:description" content="Automate your dealership listings, price updates and sold-car removal. C$100 per account/month. Import your inventory free and request a 7-day trial.">
+    <meta property="og:title" content="Your listings. Your words. Your price sheets. | Postiqo">
+    <meta property="og:description" content="Automate vehicle listings, match unlimited description templates to your stock, and create branded price sheets. See what your inventory can do with Postiqo.">
     <meta property="og:image" content="https://postiqo.io/public/og.png?v=2">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Postiqo vehicle listing automation for car dealerships">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Less listing admin. More time for buyers. | Postiqo">
-    <meta name="twitter:description" content="Automate your dealership listings, price updates and sold-car removal. C$100 per account/month. Import your inventory free and request a 7-day trial.">
+    <meta name="twitter:title" content="Your listings. Your words. Your price sheets. | Postiqo">
+    <meta name="twitter:description" content="Automate vehicle listings, match unlimited description templates to your stock, and create branded price sheets. See what your inventory can do with Postiqo.">
     <meta name="twitter:image" content="https://postiqo.io/public/og.png?v=2">
     <meta name="twitter:image:alt" content="Postiqo vehicle listing automation for car dealerships">
     <meta content="Postiqo" name="author">
@@ -95,7 +95,7 @@
             "name": "Postiqo Publisher",
             "url": "https://postiqo.io/",
             "image": "https://postiqo.io/public/og.png?v=2",
-            "description": "Software that helps automotive dealerships publish, synchronize, update, renew, repost, and remove vehicle listings on Facebook Marketplace and Craigslist. Craigslist automation is included as a bonus in both plans.",
+            "description": "Software that helps automotive dealerships publish, synchronize, update, renew, repost, and remove vehicle listings on Facebook Marketplace and Craigslist. Craigslist automation is included as a bonus in both plans. Includes unlimited vehicle description templates with matching conditions and customizable vehicle price sheets with PDF export.",
             "category": "Automotive dealership software",
             "brand": {
                 "@id": "https://postiqo.io/#organization"
@@ -163,7 +163,8 @@
                 "Eligible listing renewals",
                 "Sold vehicle listing removal",
                 "Facebook group sharing",
-                "Vehicle description templates"
+                "Unlimited vehicle description templates with optional matching conditions",
+                "Custom DOCX price sheet templates and batch PDF export for up to 200 vehicles"
             ]
         },
         {
@@ -303,6 +304,22 @@
                 "@type": "Answer",
                 "text": "Yes. Disable the scheduler, pause an account, or turn off selected actions at any time. Postiqo stops new automated tasks while preserving your configuration for when you’re ready to resume."
             }
+        },
+        {
+            "@type": "Question",
+            "name": "Can I use different descriptions for different vehicles?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Create as many named description templates as you need and add optional CEL conditions for make, model, price, or words in the title. For example, use one message for Honda vehicles, another for BMW, and a separate message for AS IS stock. Postiqo randomly chooses one of the matching templates. If none match, it chooses from your general templates, if configured. You can preview the result with your own inventory before publishing."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Can I create branded vehicle price sheets?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Use the included price sheet design or import a DOCX template with your own logo, colours, layout, and optional vehicle photos. Edit templates in Word or Google Docs and save them as DOCX. Select up to 200 vehicles and export a PDF with one page per vehicle, ready to review and print. PDF generation uses a local LibreOffice document engine: use an existing installation or download the optional engine from the app."
+            }
         }
     ]
 }
@@ -319,6 +336,7 @@
     <link href="assets/css/main.css?v=1.0.6" rel="stylesheet">
 
     <link rel="stylesheet" href="/assets/css/dealer-value.css?v=2">
+    <link rel="stylesheet" href="/assets/css/inventory-tools.css?v=1">
     <noscript><style>.index-page .tab-content > .tab-pane { display: block; opacity: 1; margin-bottom: 40px; } .index-page .navmenu { display: none; } .index-page .swiper-wrapper { display: flex; flex-wrap: wrap; gap: 24px; transform: none !important; } .index-page .swiper-slide { width: 140px; } .calculator-layout { grid-template-columns: 1fr; }</style></noscript>
 </head>
 
@@ -394,6 +412,10 @@
                         </div>
                         <p class="hero-trial-note">Download for Windows. Import your vehicles and preview listings for free. Request a 7-day publishing trial in the app when you're ready.</p>
                         <p class="hero-value-note">C$100 per account/month. Craigslist automation included. <a href="#savings">Calculate your time savings</a>.</p>
+                        <div class="hero-tool-links" aria-label="More ways to use your inventory">
+                            <a href="#description-templates"><i class="bi bi-ui-checks" aria-hidden="true"></i> Unlimited description templates</a>
+                            <a href="#price-sheets"><i class="bi bi-file-earmark-text" aria-hidden="true"></i> Branded price sheets</a>
+                        </div>
                         <div class="hero-watch-demo">
                             <a class="btn btn-link glightbox"
                                data-bs-custom-class="custom-tooltip"
@@ -680,9 +702,10 @@
                 <div class="col-xl-3 col-md-6">
                     <div class="feature-box blue">
                         <i class="bi bi-robot"></i>
-                        <h3>Stop rewriting the same details</h3>
-                        <p>Turn year, make, model, price, and mileage into consistent vehicle descriptions with reusable templates or AI instructions.</p>
-                        <p class="mb-0">Keep your dealership message in every listing without writing each description from scratch.</p>
+                        <h3>Your words. The right vehicle.</h3>
+                        <p>Create unlimited description templates for different makes, models, or sale conditions. Vehicle details fill in automatically.</p>
+                        <p class="mb-0">Set your matching rules once and keep your dealership's voice across your inventory.</p>
+                        <a class="feature-detail-link" href="#description-templates">See how templates work <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                     </div>
                 </div>
 
@@ -709,6 +732,82 @@
         </div>
 
     </section><!-- /Features Cards Section -->
+
+    <section class="inventory-tools section" id="dealer-tools" aria-labelledby="dealer-tools-title">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-eyebrow">More from the inventory you already have</span>
+                <h2 id="dealer-tools-title">Your words online.<br>Your brand on the lot.</h2>
+                <p>Turn the same vehicle data into tailored listing descriptions and polished price sheets. Set up your style once, then put it to work across your stock.</p>
+            </div>
+
+            <article class="inventory-tool" id="description-templates" aria-labelledby="templates-feature-title">
+                <div class="tool-copy">
+                    <span class="tool-eyebrow">Unlimited description templates</span>
+                    <h3 id="templates-feature-title">The right description<br>for every vehicle.</h3>
+                    <p>A BMW and an AS IS trade-in need different messages. Build your own template library and let Postiqo match your wording to the vehicle.</p>
+                    <ul class="tool-benefits">
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span><strong>Room for every sales angle.</strong> Create, name, duplicate, and edit as many templates as you need.</span></li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span><strong>You decide what fits.</strong> Add conditions for make, model, price, or words in the title. Keep a general template for everything else.</span></li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span><strong>Vehicle details, filled in.</strong> Insert prices, mileage, and contact details automatically, then preview with your own inventory.</span></li>
+                    </ul>
+                    <a class="tool-cta" href="/try/">Build my template library <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+                    <p class="tool-note">Have several matching versions? Postiqo randomly chooses one. Existing templates keep working without new conditions.</p>
+                </div>
+                <figure class="tool-visual">
+                    <div class="template-example">
+                        <div class="example-topline"><span><i class="bi bi-collection" aria-hidden="true"></i> Your template library</span><span>As many versions as you need</span></div>
+                        <div class="template-rule is-match"><div><strong>Honda arrivals</strong><small>When the make is Honda</small></div><span>Matches</span></div>
+                        <div class="template-rule"><div><strong>BMW collection</strong><small>When the make is BMW</small></div><span>Special</span></div>
+                        <div class="template-rule"><div><strong>AS IS inventory</strong><small>When the title contains AS IS</small></div><span>Special</span></div>
+                        <div class="template-result">
+                            <span class="template-result-label">Your wording + this vehicle's data</span>
+                            <h4>2021 Honda Civic Sport</h4>
+                            <p>Meet your next Honda. This <mark>2021 Civic Sport</mark> has <mark>62,400 km</mark> and is listed at <mark>$24,995</mark>. Contact our team to arrange a viewing.</p>
+                            <div class="template-result-footer"><i class="bi bi-check-circle" aria-hidden="true"></i> Details filled from your inventory</div>
+                        </div>
+                    </div>
+                    <figcaption>Illustrative example. You write the text and set the matching conditions.</figcaption>
+                </figure>
+            </article>
+
+            <article class="inventory-tool inventory-tool--sheets" id="price-sheets" aria-labelledby="price-sheets-feature-title">
+                <figure class="tool-visual">
+                    <div class="sheet-example">
+                        <div class="sheet-example-label"><span><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> From inventory to PDF</span><span>One vehicle. One page.</span></div>
+                        <div class="sheet-paper">
+                            <div class="sheet-brand"><i class="bi bi-car-front" aria-hidden="true"></i> Your dealership</div>
+                            <p class="sheet-kicker">Find your next drive</p>
+                            <div class="sheet-price">$24,995</div>
+                            <div class="sheet-model">2021 Honda Civic</div>
+                            <p class="sheet-trim">Sport</p>
+                            <dl class="sheet-specs">
+                                <div><dt>Mileage</dt><dd>62,400 km</dd></div>
+                                <div><dt>Transmission</dt><dd>Automatic</dd></div>
+                                <div><dt>Exterior</dt><dd>Crystal Black</dd></div>
+                                <div><dt>Stock number</dt><dd>HC-1024</dd></div>
+                            </dl>
+                            <p class="sheet-contact">Your address, phone, and email<br>Your details. Your design.</p>
+                        </div>
+                        <div class="sheet-batch"><span>Up to 200 vehicles per batch</span><span>Preview. Export. Print.</span></div>
+                    </div>
+                    <figcaption>Example of a custom design. Use the included template or import your own.</figcaption>
+                </figure>
+                <div class="tool-copy">
+                    <span class="tool-eyebrow">Custom vehicle price sheets</span>
+                    <h3 id="price-sheets-feature-title">From your stock list<br>to the showroom.</h3>
+                    <p>Stop retyping prices and vehicle specs into separate documents. Choose a design, select your vehicles, and prepare a price sheet for each one from the data already in Postiqo.</p>
+                    <ul class="tool-benefits">
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span><strong>Make it look like your dealership.</strong> Start with the included design or import a DOCX template with your logo, colours, layout, and vehicle photos.</span></li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span><strong>Edit in tools you know.</strong> Customize the template in Word or Google Docs, save it as DOCX, and reuse it in Postiqo.</span></li>
+                        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span><strong>Prepare the batch, not each page.</strong> Select up to 200 vehicles. Preview a sheet, export the selected vehicles to PDF, and print when ready.</span></li>
+                    </ul>
+                    <a class="tool-cta" href="/try/">Create my first price sheet <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+                    <p class="tool-note">PDF generation uses a local document engine. Use an existing LibreOffice installation or download the optional engine from the app.</p>
+                </div>
+            </article>
+        </div>
+    </section>
 
     <section class="calculator-section section" id="savings" aria-labelledby="savings-title">
         <div class="container">
@@ -883,21 +982,20 @@
                 <div class="tab-pane fade" id="features-tab-2" role="tabpanel" aria-labelledby="demo-tab-2" tabindex="0">
                     <div class="row">
                         <div class="col-lg-5 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                            <h3 class="fs-4">Build consistent descriptions from vehicle data</h3>
+                            <h3 class="fs-4">Write it your way. Reuse it across your stock.</h3>
                             <p class="fst-italic">
-                                Create multiple description templates and let Postiqo choose one automatically when
-                                publishing.<br>
-                                Vehicle details like year, make, model, price, and mileage are filled in automatically.
+                                Create unlimited templates and add optional conditions for different vehicles.
+                                Postiqo chooses from the matching descriptions and fills in the vehicle details.
                             </p>
                             <ul>
                                 <li><i class="bi bi-check2-all"></i>
-                                    <span>Create templates for different styles or languages.</span>
+                                    <span>Name and organize unlimited templates for different styles or languages.</span>
                                 </li>
                                 <li><i class="bi bi-check2-all"></i>
                                     <span>Auto-insert vehicle data into every description.</span>
                                 </li>
                                 <li><i class="bi bi-check2-all"></i>
-                                    <span>Rotate approved templates to keep your dealership messaging consistent.</span>
+                                    <span>Match descriptions by make, model, price, or words in the title.</span>
                                 </li>
                                 <li><i class="bi bi-check2-all"></i>
                                     <span>Preview vehicle details and description templates before publishing.</span>
@@ -909,6 +1007,7 @@
                                    class="img-fluid" loop muted playsinline preload="none" poster="assets/img/demo/demo_set_description_templates-poster.webp">
                                 <source src="assets/img/demo/demo_set_description_templates.webm" type="video/webm">
                             </video>
+                            <p class="demo-version-note">This video shows the earlier template editor. <a href="#description-templates">Explore unlimited templates and matching conditions</a> in the current app.</p>
                         </div>
                     </div>
                 </div>
@@ -1227,7 +1326,11 @@
                             </li>
                             <li>
                                 <i class="bi bi-check-circle-fill"></i>
-                                Listing description templates
+                                Unlimited templates with matching conditions
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Custom price sheets with PDF export
                             </li>
                             <li>
                                 <i class="bi bi-check-circle-fill"></i>
@@ -1297,7 +1400,11 @@
                             </li>
                             <li>
                                 <i class="bi bi-check-circle-fill"></i>
-                                Listing description templates
+                                Unlimited templates with matching conditions
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Custom price sheets with PDF export
                             </li>
                             <li>
                                 <i class="bi bi-check-circle-fill"></i>
@@ -1536,6 +1643,24 @@
                             </div>
                         </details><!-- End Faq item-->
 
+                        <details class="faq-item">
+                            <summary><h3>Can I use different descriptions for different vehicles?</h3></summary>
+                            <div class="faq-content">
+                                <div class="faq-inner">
+                                    <p>Yes. Create as many named description templates as you need and add optional CEL conditions for make, model, price, or words in the title. For example, use one message for Honda vehicles, another for BMW, and a separate message for AS IS stock. Postiqo randomly chooses one of the matching templates. If none match, it chooses from your general templates, if configured. You can preview the result with your own inventory before publishing.</p>
+                                </div>
+                            </div>
+                        </details><!-- End Faq item-->
+
+                        <details class="faq-item">
+                            <summary><h3>Can I create branded vehicle price sheets?</h3></summary>
+                            <div class="faq-content">
+                                <div class="faq-inner">
+                                    <p>Yes. Use the included price sheet design or import a DOCX template with your own logo, colours, layout, and optional vehicle photos. Edit templates in Word or Google Docs and save them as DOCX. Select up to 200 vehicles and export a PDF with one page per vehicle, ready to review and print. PDF generation uses a local LibreOffice document engine: use an existing installation or download the optional engine from the app.</p>
+                                </div>
+                            </div>
+                        </details><!-- End Faq item-->
+
                     </div>
                 </div>
 
@@ -1712,6 +1837,8 @@
                         <li><a href="#about">Why Postiqo</a></li>
                         <li><a href="#publisher">Publisher</a></li>
                         <li><a href="#features">Product Demo</a></li>
+                        <li><a href="#description-templates">Description templates</a></li>
+                        <li><a href="#price-sheets">Vehicle price sheets</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#savings">Listing time calculator</a></li>
                         <li><a href="#faq">FAQ</a></li>

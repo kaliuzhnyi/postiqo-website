@@ -383,6 +383,66 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
+.try-inventory-tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-column: 1 / -1;
+  gap: 20px;
+}
+
+.try-tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  border: 1px solid var(--try-border);
+  border-radius: 18px;
+  background: #f5faff;
+}
+
+.try-tool-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background: #e4f0fd;
+  color: var(--try-blue);
+  font-size: 1.25rem;
+}
+
+.try-tool-card h3 {
+  margin: 0 0 12px;
+  color: var(--try-ink);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.try-tool-card p {
+  margin: 0 0 14px;
+  color: var(--try-muted);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.try-tool-card .try-tool-note {
+  font-size: 0.8125rem;
+}
+
+.try-tool-card a {
+  margin-top: auto;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.try-tool-card a i {
+  margin-left: 4px;
+}
+
 .try-app-steps {
   display: grid;
   gap: 14px;
@@ -745,6 +805,10 @@
   .try-step-body {
     grid-template-columns: 1fr;
     gap: 22px;
+  }
+
+  .try-inventory-tools {
+    grid-template-columns: 1fr;
   }
 
   .try-footer nav {
