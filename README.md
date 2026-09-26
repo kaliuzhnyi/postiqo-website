@@ -1,5 +1,12 @@
 # postiqo-website
 
+## Digital vehicle cards
+
+Public QR cards at `cards.postiqo.io/{dealership_id}/{VIN}` are served by a
+separate Cloudflare Worker and read the existing Publisher inventory database.
+See [the cards service guide](cloudflare-workers/cards/README.md) for local
+preview, refresh behavior, testing and deployment.
+
 ## SEO and dealer conversion
 
 The three public pages (`/`, `/try/`, `/download/`) have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards. The download page is now indexable for branded Windows download searches and is included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.

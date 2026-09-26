@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "postiqo-cards",
+  "account_id": "066b40c1b42afc714c1cbae2f6e4440f",
+  "main": "dist/index.js",
+  "compatibility_date": "2026-09-08",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "cards.postiqo.io", "custom_domain": true }],
+  "observability": { "enabled": false },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "postiqo-licenses",
+    "database_id": "6ea78d8b-1c3f-4042-b44a-be433dbf5eff"
+  }]
+}

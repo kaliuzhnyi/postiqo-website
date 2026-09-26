@@ -1,0 +1,7 @@
+node_modules/
+.wrangler/
+cloudflare-workers/cards/dist/
+cloudflare-workers/cards/generated/
+cloudflare-workers/cards/artifacts/
+.dev.vars
+.env
