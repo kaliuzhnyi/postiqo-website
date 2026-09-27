@@ -60,7 +60,7 @@ ${options.path ? `<link rel="canonical" href="https://cards.postiqo.io${escape(o
 ${options.photo ? `<meta property="og:image" content="${escape(options.photo)}">` : ''}
 <link rel="preload" href="${urls.font}" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="${urls.css}"><script src="${urls.js}" defer></script></head>
-<body>${body}<footer class="footer">Powered by <a href="https://postiqo.io/" target="_blank" rel="noopener">Postiqo.io</a></footer></body></html>`;
+<body>${body}<footer class="footer">Powered by <a href="https://postiqo.io/products/postiqo-cards/" target="_blank" rel="noopener">Postiqo Cards</a></footer></body></html>`;
 }
 
 function gallery(v) {

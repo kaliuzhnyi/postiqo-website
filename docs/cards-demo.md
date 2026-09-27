@@ -2,7 +2,7 @@
 
 Public route: `https://postiqo.io/products/postiqo-cards/demo/`.
 
-The Cards product hero, QR, phone preview and dedicated demo section link here. The example is a fictional 2023 Toyota RAV4 XLE AWD at a fictional Postiqo Demo Motors dealership. Price, mileage and other listing details are examples. The page and image captions identify it as a demonstration.
+The Cards product hero, QR, phone preview and dedicated demo section link here. The example is a fictional 2023 Toyota RAV4 XLE AWD at a fictional Postiqo Motors dealership. Price, mileage, VIN, stock number and other listing details are examples. The product page and demo metadata identify it as a demonstration; the visible vehicle page uses exactly the production card layout.
 
 ## Template and behavior
 
@@ -12,9 +12,9 @@ The Cards product hero, QR, phone preview and dedicated demo section link here. 
 - `assets/css/cards-template.css`, copied from the Cards stylesheet with the local font URL
 - `assets/js/cards-template.js`, an unchanged copy of the Cards client
 
-The demo omits the live-card data attribute. The original client initializes the gallery, then returns before registering price-refresh requests. No inventory API, database or Cloudflare service is used. `assets/css/cards-demo.css` adds the demo banner and explanatory text. `assets/js/cards-demo.js` handles the contact examples without opening phone or email applications. Without JavaScript the contact links lead to the same explanation, and the gallery remains horizontally scrollable.
+The demo omits the live-card data attribute. The original client initializes the gallery, then returns before registering price-refresh requests. No inventory API, database or Cloudflare service is used by the demo. There is no additional header, image caption, contact explanation, marketing call to action or custom demo stylesheet/script. The vehicle description contains normal listing copy. The same production renderer adds the footer, `Powered by Postiqo Cards`, linked to the Cards product page.
 
-The visible sample phone uses the fictional 555 range. It is never used in a `tel:` link. The sample email is never used in a `mailto:` link. The page has `noindex, follow`, a self canonical, demo-specific social metadata, no sale schema, and no sitemap entry.
+The call button uses `tel:+14374416585` and the email button uses `mailto:support@postiqo.io`, matching the public website contacts. These open the visitor's phone or email application, just like a live card. They also work without JavaScript. The page has `noindex, follow`, a self canonical, demo-specific social metadata, no sale schema, and no sitemap entry.
 
 Regenerate with `node scripts/generate-cards-demo.mjs`. Verify with `node scripts/generate-cards-demo.mjs --check` and `python scripts/check-seo.py`. The generator fails if the source template no longer matches the deliberate demo substitutions.
 

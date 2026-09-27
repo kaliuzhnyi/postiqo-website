@@ -6,7 +6,7 @@
 - `/products/` compares Publisher and Cards and summarizes pricing.
 - `/products/postiqo-publisher/` contains the full Publisher page, including the existing calculator, demos, templates, price sheets, pricing and FAQ.
 - `/products/postiqo-cards/` explains digital QR vehicle cards and the included access requirement.
-- `/products/postiqo-cards/demo/` opens a fictional vehicle card with exterior/interior photos and interactive gallery and contact examples.
+- `/products/postiqo-cards/demo/` opens a fictional vehicle in the production card layout, with exterior/interior photos and working public Postiqo contacts.
 
 Cards is included for a dealership with at least two active Publisher subscriptions, with no additional Cards fees or commissions. It is not sold separately. Publisher pricing stays C$100 per account/month, or C$90 per account/month with at least five accounts. Two Standard subscriptions cost C$200/month in total.
 
@@ -14,7 +14,7 @@ All six public pages share the Products navigation and footer. Shared styling is
 
 See [product structure and SEO notes](docs/products-and-seo.md) for the route map, verified Cards behavior and publication checks. Marketing changes do not change the Cards Worker, licensing, DNS or Cloudflare configuration.
 
-The demo is static and uses the existing Cards renderer, CSS and gallery script. Run `node scripts/generate-cards-demo.mjs` after changes to the original card template, and `node scripts/generate-cards-demo.mjs --check` before publishing. Its `noindex` page is excluded from the sitemap and makes no inventory API requests. Example contacts explain the real behavior without opening phone or email apps. See [demo assets and generation prompts](docs/cards-demo.md).
+The demo is static and uses the existing Cards renderer, CSS and gallery script without extra banners, captions or marketing blocks. Run `node scripts/generate-cards-demo.mjs` after changes to the original card template, and `node scripts/generate-cards-demo.mjs --check` before publishing. Its `noindex` page is excluded from the sitemap and makes no inventory API requests. The call and email buttons use the public Postiqo phone and support email through standard `tel:` and `mailto:` links. The shared footer links directly to the Cards product page. See [demo assets and generation prompts](docs/cards-demo.md).
 
 ## Digital vehicle cards
 

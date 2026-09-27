@@ -127,13 +127,16 @@ assert demo_meta['og:url'] == ORIGIN + DEMO
 assert 'fictional' in demo_meta['description'].lower()
 assert [attrs.get('href') for tag, attrs in demo.elements if tag == 'link' and attrs.get('rel') == 'canonical'] == [ORIGIN + DEMO]
 assert len(re.findall(r'<h1\b', demo_source)) == 1
-assert not re.search(r'data-vehicle-card|data-endpoint|href="(?:tel:|mailto:)', demo_source)
-assert 'Sample vehicle. Not for sale.' in demo_source
-assert 'data-demo-contact="call"' in demo_source and 'data-demo-contact="email"' in demo_source
-assert len([attrs for tag, attrs in demo.elements if tag == 'img' and 'sample Toyota' in attrs.get('alt', '')]) == 3
+assert not re.search(r'data-vehicle-card|data-endpoint|data-demo-contact|class="demo-|<header|<aside', demo_source)
+demo_contacts = {attrs.get('href') for tag, attrs in demo.elements if tag == 'a' and attrs.get('href', '').startswith(('tel:', 'mailto:'))}
+site_contacts = {attrs.get('href') for tag, attrs in parsed['/'].elements if tag == 'a'}
+assert demo_contacts == {'tel:+14374416585', 'mailto:support@postiqo.io'}
+assert demo_contacts <= site_contacts, 'Demo must use the public website contacts'
+assert re.search(r'<footer class="footer">Powered by <a href="https://postiqo.io/products/postiqo-cards/"[^>]*>Postiqo Cards</a></footer>', demo_source)
+assert len([attrs for tag, attrs in demo.elements if tag == 'img' and attrs.get('alt', '').startswith('2023 Toyota RAV4 XLE AWD - photo')]) == 3
 assert '\u2013' not in demo_source and '\u2014' not in demo_source
 assert any(tag == 'a' and attrs.get('href') == DEMO for tag, attrs in parsed[CARDS].elements)
-print('PASS Cards demo: noindex, self canonical, local gallery, fictional content and isolated contacts')
+print('PASS Cards demo: noindex, self canonical, production layout, local gallery and public dealership contacts')
 
 for route, page in parsed.items():
     for tag, attrs in page.elements:

@@ -12,7 +12,8 @@ test('QR URL returns a complete server-rendered card, without a brand header', a
   const response = await get(`/100/${VIN}`);
   assert.equal(response.status, 200);
   const html = await response.text();
-  for (const value of ['2018 BMW 3 Series', '$12,888', 'CAD', '181,913 km', '4-cylinder', 'Automatic transmission', 'Black', 'Example Motors', VIN, 'Powered by', 'https://postiqo.io/']) assert.ok(html.includes(value), value);
+  for (const value of ['2018 BMW 3 Series', '$12,888', 'CAD', '181,913 km', '4-cylinder', 'Automatic transmission', 'Black', 'Example Motors', VIN, 'Powered by']) assert.ok(html.includes(value), value);
+  assert.match(html, /<footer class="footer">Powered by <a href="https:\/\/postiqo\.io\/products\/postiqo-cards\/"[^>]*>Postiqo Cards<\/a><\/footer>/);
   assert.doesNotMatch(html, /<header|PRIVATE-INVENTORY|private-content-hash|<script[^>]*>[^<]+<\/script>/);
   assert.match(html, /<div class="description">[\s\S]*power sunroof/);
   assert.equal(response.headers.get('cache-control'), 'no-store, max-age=0');

@@ -13,7 +13,8 @@ an inventory copy or a database migration.
   engine cylinder count, fuel type, colours, condition, body style, stock and VIN.
 - Complete source description, optional video link and dealership contacts.
 - Website colours and the existing Nunito font. No navigation or brand header.
-  The footer links to `https://postiqo.io/` as `Powered by Postiqo.io`.
+  The footer links to `https://postiqo.io/products/postiqo-cards/` as
+  `Powered by Postiqo Cards`.
 
 The existing inventory contract has no currency, mileage-unit or engine
 displacement columns. Cards use CAD and kilometres, matching the Canadian
