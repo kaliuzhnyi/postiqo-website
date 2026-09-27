@@ -55,7 +55,7 @@
                 "@id": "https://postiqo.io/#website"
             },
             "about": {
-                "@id": "https://postiqo.io/#product"
+                "@id": "https://postiqo.io/products/postiqo-publisher/#product"
             },
             "breadcrumb": {
                 "@id": "https://postiqo.io/try/#breadcrumb"
@@ -83,22 +83,32 @@
 }
     </script>
     <link rel="stylesheet" href="/assets/css/dealer-value.css?v=2">
+<link rel="stylesheet" href="/assets/css/products.css?v=1">
+<script src="/assets/js/site.js?v=1" defer></script>
 </head>
 
 <body class="try-page">
     <a class="try-skip-link" href="#main">Skip to content</a>
 
-    <header class="header">
-        <div class="header-container try-container">
-            <a class="logo" href="/" aria-label="Postiqo home">
-                <span class="sitename">postiqo</span>
-            </a>
-            <nav class="try-header-nav" aria-label="Main navigation">
-                <a class="try-home-link" href="/">Back to website</a>
-                <a class="try-button try-button-small" href="#download">Download app</a>
-            </nav>
-        </div>
-    </header>
+    <header class="site-header" id="header">
+  <div class="site-header-inner">
+    <a class="site-logo" href="/" aria-label="Postiqo home">postiqo</a>
+    <nav class="site-nav" id="site-navigation" aria-label="Main navigation">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><details class="site-products"><summary>Products</summary><ul>
+          <li><a href="/products/">All products<small>Find the right tools for your dealership</small></a></li>
+          <li><a href="/products/postiqo-publisher/">Postiqo Publisher<small>Automate your vehicle listings</small></a></li>
+          <li><a href="/products/postiqo-cards/">Postiqo Cards<small>Turn a QR scan into a conversation</small></a></li>
+        </ul></details></li>
+        <li><a href="/products/#pricing">Pricing</a></li>
+        <li><a href="/#contact">Book a Demo</a></li>
+      </ul>
+    </nav>
+    <a class="site-button" href="/try/">Try Publisher <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+    <button class="site-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation"><i class="bi bi-list" aria-hidden="true"></i></button>
+  </div>
+</header>
 
     <main id="main" class="try-main try-container">
         <section class="try-intro" aria-labelledby="try-title">
@@ -109,7 +119,7 @@
                 <i class="bi bi-unlock" aria-hidden="true"></i>
                 <p><strong>Importing inventory and previewing listings is free.</strong> You can explore with your own vehicles before signing in to Facebook. Request a trial when you're ready to publish; our team will activate it and confirm by email.</p>
             </div>
-            <nav class="try-benefit-links" aria-label="Plan your trial"><a href="/#savings">Estimate your listing time savings</a><a href="/#pricing">Compare monthly plans</a><a href="/#contact">Book a dealership demo</a></nav>
+            <nav class="try-benefit-links" aria-label="Plan your trial"><a href="/products/postiqo-publisher/#savings">Estimate your listing time savings</a><a href="/products/postiqo-publisher/#pricing">Compare monthly plans</a><a href="/#contact">Book a dealership demo</a></nav>
         </section>
 
         <nav class="try-step-nav" aria-label="Getting started steps">
@@ -178,14 +188,14 @@
                         <h3>A description that fits each vehicle.</h3>
                         <p>Create unlimited named listing templates. Add optional conditions for the make, model, title or price, and keep general templates for the rest of your inventory.</p>
                         <p>Preview the description on a real vehicle before publishing.</p>
-                        <a href="/#description-templates">Explore listing templates <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                        <a href="/products/postiqo-publisher/#description-templates">Explore listing templates <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                     </article>
                     <article class="try-tool-card">
                         <i class="bi bi-file-earmark-text try-tool-icon" aria-hidden="true"></i>
                         <h3>Your brand, ready for the showroom.</h3>
                         <p>Edit a DOCX template in Word or Google Docs, then let Price Sheets fill in your vehicle details. Export or print a branded PDF with one page per vehicle, up to 200 vehicles per batch.</p>
                         <p class="try-tool-note">PDF preview and printing use a local document engine you can set up in the app.</p>
-                        <a href="/#price-sheets">Explore Price Sheets <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                        <a href="/products/postiqo-publisher/#price-sheets">Explore Price Sheets <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                     </article>
                 </div>
             </div>
@@ -303,15 +313,17 @@
         </section>
     </main>
 
-    <footer class="try-footer try-container">
-        <p>&copy; 2026 Postiqo. All rights reserved.</p>
-        <nav aria-label="Footer navigation">
-            <a href="/">Home</a>
-            <a href="/download/">Download</a>
-            <a href="/#contact">Setup help</a>
-            <a href="mailto:support@postiqo.io">Contact support</a>
-        </nav>
-    </footer>
+    <footer class="site-footer">
+  <div class="marketing-container">
+    <div class="site-footer-grid">
+      <div><a class="site-logo" href="/">postiqo</a><p>Less listing work.<br>More ways to connect with car buyers.</p></div>
+      <div><h2>Products</h2><ul><li><a href="/products/">All products</a></li><li><a href="/products/postiqo-publisher/">Postiqo Publisher</a></li><li><a href="/products/postiqo-cards/">Postiqo Cards</a></li><li><a href="/products/#pricing">Plans &amp; pricing</a></li></ul></div>
+      <div><h2>Get started</h2><ul><li><a href="/try/">Try Publisher</a></li><li><a href="/download/">Download for Windows</a></li><li><a href="/products/postiqo-publisher/#savings">Listing time calculator</a></li><li><a href="/#contact">Book a demo</a></li></ul></div>
+      <div><h2>Talk to us</h2><ul><li><a href="tel:+14374416585">+1 437 441 6585</a></li><li><a href="mailto:support@postiqo.io">support@postiqo.io</a></li><li>Barrie, Ontario, Canada</li></ul></div>
+    </div>
+    <div class="site-footer-bottom"><span>&copy; 2026 Postiqo. All rights reserved.</span><p>Postiqo is an independent software provider and is not affiliated with Facebook, Meta, or Craigslist.</p></div>
+  </div>
+</footer>
 </body>
 
 </html>

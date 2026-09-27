@@ -58,7 +58,7 @@ test('removal and sharing each contribute once per vehicle rotation and can be d
 test('the visible inputs and static no-script example match the default calculation', () => {
   const { readFileSync } = require('node:fs');
   const { join } = require('node:path');
-  const page = readFileSync(join(__dirname, '../index.html'), 'utf8');
+  const page = readFileSync(join(__dirname, '../products/postiqo-publisher/index.html'), 'utf8');
   const section = page.match(/<section class="calculator-section section"[\s\S]*?<\/section>/)[0];
   const mainFields = section.match(/<fieldset>[\s\S]*?<\/fieldset>/)[0];
   assert.deepEqual([...mainFields.matchAll(/<input[^>]+name="([^"]+)"/g)].map(match => match[1]), ['inventory', 'hourlyCost']);

@@ -11,7 +11,17 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 ORIGIN = 'https://postiqo.io'
-PAGES = {'/': 'index.html', '/try/': 'try/index.html', '/download/': 'download/index.html'}
+PUBLISHER = '/products/postiqo-publisher/'
+CARDS = '/products/postiqo-cards/'
+DEMO = CARDS + 'demo/'
+PAGES = {
+    '/': 'index.html',
+    '/products/': 'products/index.html',
+    PUBLISHER: 'products/postiqo-publisher/index.html',
+    CARDS: 'products/postiqo-cards/index.html',
+    '/try/': 'try/index.html',
+    '/download/': 'download/index.html',
+}
 
 
 class Page(HTMLParser):
@@ -29,6 +39,8 @@ def text(value):
 
 
 parsed = {}
+all_titles, all_descriptions = [], []
+social_images = set()
 for route, filename in PAGES.items():
     source = (ROOT / filename).read_text(encoding='utf-8')
     page = Page(source)
@@ -37,17 +49,23 @@ for route, filename in PAGES.items():
     assert len(re.findall(r'<h1\b', source)) == 1, f'{filename}: one H1 required'
     titles = re.findall(r'<title>(.*?)</title>', source)
     assert len(titles) == 1 and 15 < len(text(titles[0])) < 75, f'{filename}: title'
+    all_titles.append(text(titles[0]))
     metas = [(attrs.get('name', attrs.get('property')), attrs.get('content', '')) for tag, attrs in page.elements if tag == 'meta']
     keys = [key for key, _ in metas if key]
     assert len(keys) == len(set(keys)), f'{filename}: duplicate metadata'
     meta = dict(metas)
     assert 80 < len(meta['description']) < 180, f'{filename}: description'
+    all_descriptions.append(meta['description'])
     assert meta['robots'].startswith('index, follow'), f'{filename}: indexing disabled'
     assert 'keywords' not in meta
     for key in ('og:title', 'og:description', 'og:image', 'og:image:alt', 'twitter:card', 'twitter:title', 'twitter:description', 'twitter:image', 'twitter:image:alt'):
         assert meta.get(key), f'{filename}: missing {key}'
     assert meta['og:url'] == ORIGIN + route
     assert meta['twitter:card'] == 'summary_large_image'
+    for key in ('og:image', 'twitter:image'):
+        image_url = urlsplit(meta[key])
+        assert image_url.scheme == 'https' and image_url.netloc == 'postiqo.io'
+        social_images.add(ROOT / image_url.path.lstrip('/'))
     assert [attrs.get('href') for tag, attrs in page.elements if tag == 'link' and attrs.get('rel') == 'canonical'] == [ORIGIN + route]
     identifiers = [attrs['id'] for _, attrs in page.elements if 'id' in attrs]
     assert not [key for key, count in Counter(identifiers).items() if count > 1], f'{filename}: duplicate IDs'
@@ -60,11 +78,31 @@ for route, filename in PAGES.items():
             assert attrs['for'] in identifiers, f'{filename}: label target missing'
     schemas = [json.loads(block) for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', source, re.S)]
     assert schemas
-    if route == '/':
-        product = next(item for item in schemas[0]['@graph'] if item.get('@id') == ORIGIN + '/#product')
+    nodes = [node for schema in schemas for node in schema.get('@graph', [schema])]
+    if route.startswith('/products/'):
+        breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
+        trail = breadcrumb['itemListElement']
+        expected = ['/', '/products/'] + ([route] if route != '/products/' else [])
+        assert [item['item'] for item in trail] == [ORIGIN + item for item in expected]
+        assert [item['position'] for item in trail] == list(range(1, len(trail) + 1))
+    if route in ('/', '/products/'):
+        listing = next(node for node in nodes if node.get('@type') == 'ItemList')
+        assert [item['item']['url'] for item in listing['itemListElement']] == [ORIGIN + PUBLISHER, ORIGIN + CARDS]
+    if route == CARDS:
+        product = next(item for item in nodes if item.get('@id') == ORIGIN + CARDS + '#product')
+        assert product['url'] == ORIGIN + CARDS
+        assert 'two active Postiqo Publisher subscriptions' in product['conditionsOfAccess']
+        assert 'not sold separately' in product['conditionsOfAccess']
+        assert 'C$200 per month' in product['conditionsOfAccess']
+        assert 'offers' not in product, 'Cards must not advertise a standalone free offer'
+        assert 'aggregateRating' not in product and 'review' not in product
+    if route == PUBLISHER:
+        product = next(item for item in nodes if item.get('@id') == ORIGIN + PUBLISHER + '#product')
+        assert product['url'] == ORIGIN + PUBLISHER
         assert product['operatingSystem'] == 'Windows'
         assert [item['price'] for item in product['offers']] == ['100.00', '90.00']
         assert all(item['priceCurrency'] == 'CAD' for item in product['offers'])
+        assert all(item['url'] == ORIGIN + PUBLISHER + '#pricing' for item in product['offers'])
         assert product['offers'][1]['eligibleQuantity']['minValue'] == 5
         assert 'aggregateRating' not in product and 'review' not in product
         faq = next(item for item in schemas if item.get('@type') == 'FAQPage')
@@ -75,6 +113,27 @@ for route, filename in PAGES.items():
             answer = ' '.join(text(p) for p in re.findall(r'<p[^>]*>(.*?)</p>', item, re.S))
             assert answer == entry['acceptedAnswer']['text'], entry['name']
     print(f'PASS {route}: unique metadata, headings, social previews, structured data, and controls')
+
+assert len(all_titles) == len(set(all_titles)), 'Repeated titles across pages'
+assert len(all_descriptions) == len(set(all_descriptions)), 'Repeated descriptions across pages'
+
+# The fictional vehicle is a usable demo, not an indexable vehicle for sale.
+demo_source = (ROOT / 'products/postiqo-cards/demo/index.html').read_text(encoding='utf-8')
+demo = Page(demo_source)
+parsed[DEMO] = demo
+demo_meta = {attrs.get('name', attrs.get('property')): attrs.get('content') for tag, attrs in demo.elements if tag == 'meta'}
+assert demo_meta['robots'] == 'noindex, follow'
+assert demo_meta['og:url'] == ORIGIN + DEMO
+assert 'fictional' in demo_meta['description'].lower()
+assert [attrs.get('href') for tag, attrs in demo.elements if tag == 'link' and attrs.get('rel') == 'canonical'] == [ORIGIN + DEMO]
+assert len(re.findall(r'<h1\b', demo_source)) == 1
+assert not re.search(r'data-vehicle-card|data-endpoint|href="(?:tel:|mailto:)', demo_source)
+assert 'Sample vehicle. Not for sale.' in demo_source
+assert 'data-demo-contact="call"' in demo_source and 'data-demo-contact="email"' in demo_source
+assert len([attrs for tag, attrs in demo.elements if tag == 'img' and 'sample Toyota' in attrs.get('alt', '')]) == 3
+assert '\u2013' not in demo_source and '\u2014' not in demo_source
+assert any(tag == 'a' and attrs.get('href') == DEMO for tag, attrs in parsed[CARDS].elements)
+print('PASS Cards demo: noindex, self canonical, local gallery, fictional content and isolated contacts')
 
 for route, page in parsed.items():
     for tag, attrs in page.elements:
@@ -89,6 +148,8 @@ for route, page in parsed.items():
                 continue
             target = unquote(url.path)
             filename = PAGES.get(target, target.lstrip('/'))
+            if filename.endswith('/'):
+                filename += 'index.html'
             assert (ROOT / filename).is_file(), f'{route}: missing local asset or page {value}'
             if url.fragment and target in parsed:
                 ids = {attrs.get('id') for _, attrs in parsed[target].elements}
@@ -100,7 +161,9 @@ assert set(urls) == {ORIGIN + route for route in PAGES} and len(urls) == len(PAG
 assert 'Sitemap: https://postiqo.io/sitemap.xml' in (ROOT / 'robots.txt').read_text()
 for filename in ('starter-page.html', 'service-details.html'):
     assert 'noindex' in (ROOT / filename).read_text(encoding='utf-8')
-with (ROOT / 'public/og.png').open('rb') as image:
-    header = image.read(24)
-assert struct.unpack('>II', header[16:24]) == (1200, 630), 'Social image dimensions do not match metadata'
-print('PASS sitemap, robots, template exclusions, all internal links/assets, and 1200 x 630 social image')
+for image_path in social_images:
+    with image_path.open('rb') as image:
+        header = image.read(24)
+    assert header[:8] == b'\x89PNG\r\n\x1a\n', f'{image_path}: expected PNG social image'
+    assert struct.unpack('>II', header[16:24]) == (1200, 630), f'{image_path}: social image dimensions do not match metadata'
+print('PASS sitemap, robots, template exclusions, all internal links/assets, and all 1200 x 630 social images')

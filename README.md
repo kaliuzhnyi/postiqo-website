@@ -1,5 +1,21 @@
 # postiqo-website
 
+## Product pages
+
+- `/` introduces Postiqo with Publisher as the main starting point.
+- `/products/` compares Publisher and Cards and summarizes pricing.
+- `/products/postiqo-publisher/` contains the full Publisher page, including the existing calculator, demos, templates, price sheets, pricing and FAQ.
+- `/products/postiqo-cards/` explains digital QR vehicle cards and the included access requirement.
+- `/products/postiqo-cards/demo/` opens a fictional vehicle card with exterior/interior photos and interactive gallery and contact examples.
+
+Cards is included for a dealership with at least two active Publisher subscriptions, with no additional Cards fees or commissions. It is not sold separately. Publisher pricing stays C$100 per account/month, or C$90 per account/month with at least five accounts. Two Standard subscriptions cost C$200/month in total.
+
+All six public pages share the Products navigation and footer. Shared styling is in `assets/css/products.css`, and menu behavior is in `assets/js/site.js`. HTML is static and needs no build. When editing shared navigation or footer copy, update all six pages together. The site script forwards old homepage links such as `/#savings` and `/#price-sheets` to the corresponding Publisher section. Current internal links point directly to the new addresses.
+
+See [product structure and SEO notes](docs/products-and-seo.md) for the route map, verified Cards behavior and publication checks. Marketing changes do not change the Cards Worker, licensing, DNS or Cloudflare configuration.
+
+The demo is static and uses the existing Cards renderer, CSS and gallery script. Run `node scripts/generate-cards-demo.mjs` after changes to the original card template, and `node scripts/generate-cards-demo.mjs --check` before publishing. Its `noindex` page is excluded from the sitemap and makes no inventory API requests. Example contacts explain the real behavior without opening phone or email apps. See [demo assets and generation prompts](docs/cards-demo.md).
+
 ## Digital vehicle cards
 
 Public QR cards at `cards.postiqo.io/{dealership_id}/{VIN}` are served by a
@@ -9,9 +25,11 @@ preview, refresh behavior, testing and deployment.
 
 ## SEO and dealer conversion
 
-The three public pages (`/`, `/try/`, `/download/`) have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards. The download page is now indexable for branded Windows download searches and is included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.
+The six public pages have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards and are included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.
 
-The homepage includes Product/SoftwareApplication, Organization, WebSite, WebPage and visible FAQ structured data. Pricing is per account in CAD, and the five-account minimum is explicit. Never invent ratings to satisfy a rich-result validator. When editing FAQ answers, update their JSON-LD equivalents as well.
+The homepage and Products page describe the product family with ItemList, Organization, WebSite and WebPage/CollectionPage data. Individual products have their own entities and breadcrumbs. Publisher contains its pricing and existing FAQ structured data. Pricing is per account in CAD, and the five-account minimum is explicit. Cards describes its access conditions without a standalone free offer. Never invent ratings to satisfy a rich-result validator. When editing Publisher FAQ answers, update their JSON-LD equivalents as well. FAQ rich results are no longer supported by Google; the visible answers remain useful to visitors.
+
+Four distinct 1200 x 630 social previews live at `public/og-home.png`, `public/og-products.png`, `public/og-publisher.png` and `public/og-cards.png`. Regenerate them with `python scripts/generate-product-social-images.py` (requires Pillow). This is an asset maintenance command, not a site build step.
 
 The calculator in `assets/js/savings-calculator.js` shows only vehicle inventory and hourly staff cost by default, starting with 90 vehicles and C$20/hour. The collapsed assumptions contain posting (7 minutes), finding/removing an old ad (1 minute), group sharing (1 minute), a 7-day replacement cycle, and account count. These are editable estimates for a familiar routine using existing vehicle photos and details, not measured customer results. It models an ongoing 30-day month: inventory / cycle days x 30 x total task minutes / 60. The daily average is never rounded before calculating monthly hours. Postiqo costs include only the subscription, with the C$90 rate at five accounts. Account count affects the subscription without multiplying the inventory, and negative results remain visible. It sends no calculator inputs to a server. Pricing changes must be applied to the cards, schema, calculator, examples, and tests together.
 
@@ -21,7 +39,7 @@ See [SEO and marketing handoff](docs/seo-marketing.md) for query intent, factual
 
 ## Inventory templates and price sheets
 
-The homepage sections `#description-templates` and `#price-sheets` explain these tools through dealership use cases, illustrative examples, and calls to try Postiqo. The trial and download pages link back to them. Styling for the homepage examples lives in `assets/css/inventory-tools.css`; they are illustrations, not product screenshots.
+The Publisher page sections `#description-templates` and `#price-sheets` explain these tools through dealership use cases, illustrative examples, and calls to try Postiqo. The trial and download pages link directly to them. Styling for the examples lives in `assets/css/inventory-tools.css`; they are illustrations, not product screenshots.
 
 Keep claims aligned with the app: listing templates have no fixed count limit and optional CEL conditions; matching special templates take precedence, with random selection among matches and general templates as fallback. Price Sheets imports editable DOCX templates and exports PDFs with one page per vehicle, up to 200 selected vehicles per batch. PDF generation needs the optional local document engine. Do not imply that printed sheets update automatically or that template conditions select price sheet designs.
 
@@ -31,7 +49,7 @@ When updating the older description-template demo video, remove its version note
 
 - `/try/` links directly to the stable Windows installer and guides visitors through importing and previewing inventory for free, then requesting a 7-day publishing trial in the app.
 - `/download/` provides the current Windows installer and links back to the setup guide.
-- **Try Postiqo** is the primary action in the homepage header, hero, both pricing cards, and final call to action. Live demos remain optional setup help.
+- **Try Publisher** is the primary action in the shared navigation and homepage hero. The Publisher page also links to the same setup guide from its pricing and final call to action. Live demos remain optional setup help.
 
 The primary trial request lives in Postiqo Publisher. Customers first sign in to Facebook in the app, which includes the account automatically. The dealership website is required and can be edited after being filled from the inventory source settings. Importing and reviewing vehicles needs neither a license nor Facebook sign-in. Publishing still requires an active license.
 
