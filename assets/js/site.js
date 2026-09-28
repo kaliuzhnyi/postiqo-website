@@ -29,8 +29,10 @@
       toggle.focus();
     }
   });
-  header?.addEventListener('focusout', event => {
-    if (!header.contains(event.relatedTarget)) {
+  // A pointer click can blur the summary before the link receives focus.
+  // Close only after focus reaches another element, so the link stays clickable.
+  document.addEventListener('focusin', event => {
+    if (!header?.contains(event.target)) {
       closeMenu();
       if (products) products.open = false;
     }
