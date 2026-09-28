@@ -46,6 +46,7 @@ for route, filename in PAGES.items():
     page = Page(source)
     parsed[route] = page
     assert '\u2014' not in source and '\u2013' not in source, f'{filename}: long dash'
+    assert not re.search(r'C?\$(?:100|90)(?![\d,.])', source), f'{filename}: outdated Publisher pricing'
     assert len(re.findall(r'<h1\b', source)) == 1, f'{filename}: one H1 required'
     titles = re.findall(r'<title>(.*?)</title>', source)
     assert len(titles) == 1 and 15 < len(text(titles[0])) < 75, f'{filename}: title'
@@ -93,17 +94,22 @@ for route, filename in PAGES.items():
         assert product['url'] == ORIGIN + CARDS
         assert 'two active Postiqo Publisher subscriptions' in product['conditionsOfAccess']
         assert 'not sold separately' in product['conditionsOfAccess']
-        assert 'C$200 per month' in product['conditionsOfAccess']
+        assert 'C$298 per month' in product['conditionsOfAccess']
         assert 'offers' not in product, 'Cards must not advertise a standalone free offer'
         assert 'aggregateRating' not in product and 'review' not in product
     if route == PUBLISHER:
         product = next(item for item in nodes if item.get('@id') == ORIGIN + PUBLISHER + '#product')
         assert product['url'] == ORIGIN + PUBLISHER
         assert product['operatingSystem'] == 'Windows'
-        assert [item['price'] for item in product['offers']] == ['100.00', '90.00']
+        assert [item['price'] for item in product['offers']] == ['149.00', '129.00']
         assert all(item['priceCurrency'] == 'CAD' for item in product['offers'])
         assert all(item['url'] == ORIGIN + PUBLISHER + '#pricing' for item in product['offers'])
+        assert product['offers'][0]['eligibleQuantity']['minValue'] == 1
+        assert product['offers'][0]['eligibleQuantity']['maxValue'] == 4
         assert product['offers'][1]['eligibleQuantity']['minValue'] == 5
+        for offer in product['offers']:
+            assert offer['priceSpecification']['price'] == offer['price']
+            assert offer['priceSpecification']['billingDuration'] == 'P1M'
         assert 'aggregateRating' not in product and 'review' not in product
         faq = next(item for item in schemas if item.get('@type') == 'FAQPage')
         visible = re.findall(r'<details class="faq-item">(.*?)</details><!-- End Faq item-->', source, re.S)

@@ -9,7 +9,7 @@
     const minutesPerListing = postingMinutes + removalMinutes + sharingMinutes;
     const manualHours = monthlyListings * minutesPerListing / 60;
     const manualCost = manualHours * hourlyCost;
-    const subscription = accounts * (accounts >= 5 ? 90 : 100);
+    const subscription = accounts * (accounts >= 5 ? 129 : 149);
     return {
       dailyListings,
       monthlyListings,
@@ -50,7 +50,7 @@
     results.classList.toggle("calculator-negative", estimate.netValue < 0);
     write("calculator-manual", money(estimate.manualCost));
     write("calculator-subscription", money(estimate.subscription));
-    write("calculator-plan", values.accounts === 1 ? "1 publishing account" : `${values.accounts} accounts at ${money(values.accounts >= 5 ? 90 : 100)} / month each`);
+    write("calculator-plan", values.accounts === 1 ? "1 publishing account" : `${values.accounts} accounts at ${money(values.accounts >= 5 ? 129 : 149)} / month each`);
     write("calculator-routine", `${number.format(estimate.dailyListings)} posts + ${number.format(estimate.dailyListings)} removals per day${values.sharingMinutes > 0 ? ", with group sharing" : ""}.`);
     write("calculator-cycle", `Based on a ${number.format(values.rotationDays)}-day listing rotation.`);
     write("calculator-formula", `${number.format(values.inventory)} vehicles / ${number.format(values.rotationDays)} days x 30 days x (${number.format(values.postingMinutes)} + ${number.format(values.removalMinutes)} + ${number.format(values.sharingMinutes)} minutes) / 60 = ${number.format(estimate.manualHours)} manual hours per month.`);

@@ -12,16 +12,21 @@ test('90 vehicles rotate over seven days without rounding the daily workload', (
   assert.equal(result.minutesPerListing, 9);
   closeTo(result.manualHours, 57.857142857142854);
   closeTo(result.manualCost, 1157.142857142857);
-  assert.equal(result.subscription, 100);
-  closeTo(result.netValue, 1057.142857142857);
+  assert.equal(result.subscription, 149);
+  closeTo(result.netValue, 1008.142857142857);
 });
 
-test('five-account discount applies to the total subscription without multiplying inventory again', () => {
-  assert.equal(estimateListingWork({ ...example, accounts: 4 }).subscription, 400);
+test('Publisher totals keep the full per-account price for two to four accounts', () => {
+  for (const [accounts, total] of [[1, 149], [2, 298], [3, 447], [4, 596], [5, 645], [6, 774]]) {
+    assert.equal(estimateListingWork({ ...example, accounts }).subscription, total, `${accounts} accounts`);
+  }
+});
+
+test('five-account volume pricing applies to every account without multiplying inventory again', () => {
   const result = estimateListingWork({ ...example, accounts: 5 });
-  assert.equal(result.subscription, 450);
+  assert.equal(result.subscription, 645);
   closeTo(result.manualHours, 57.857142857142854);
-  closeTo(result.netValue, 707.142857142857);
+  closeTo(result.netValue, 512.142857142857);
 });
 
 test('zero inventory retains the subscription and a negative difference', () => {
@@ -29,19 +34,19 @@ test('zero inventory retains the subscription and a negative difference', () => 
   assert.equal(result.dailyListings, 0);
   assert.equal(result.manualHours, 0);
   assert.equal(result.manualCost, 0);
-  assert.equal(result.netValue, -100);
+  assert.equal(result.netValue, -149);
 });
 
 test('a zero hourly cost produces no labour savings', () => {
   const result = estimateListingWork({ ...example, hourlyCost: 0 });
   assert.equal(result.manualCost, 0);
-  assert.equal(result.netValue, -100);
+  assert.equal(result.netValue, -149);
 });
 
 test('a fourteen-day rotation halves the workload without changing the subscription', () => {
   const result = estimateListingWork({ ...example, rotationDays: 14 });
   closeTo(result.manualHours, 28.928571428571427);
-  assert.equal(result.subscription, 100);
+  assert.equal(result.subscription, 149);
 });
 
 test('publishing time can be changed from five to twenty-five minutes', () => {
@@ -52,7 +57,7 @@ test('publishing time can be changed from five to twenty-five minutes', () => {
 test('removal and sharing each contribute once per vehicle rotation and can be disabled', () => {
   closeTo(estimateListingWork({ ...example, sharingMinutes: 0 }).manualHours, 51.42857142857143);
   closeTo(estimateListingWork({ ...example, removalMinutes: 0, sharingMinutes: 0 }).manualHours, 45);
-  assert.equal(estimateListingWork({ ...example, postingMinutes: 0, removalMinutes: 0, sharingMinutes: 0 }).netValue, -100);
+  assert.equal(estimateListingWork({ ...example, postingMinutes: 0, removalMinutes: 0, sharingMinutes: 0 }).netValue, -149);
 });
 
 test('the visible inputs and static no-script example match the default calculation', () => {

@@ -27,7 +27,7 @@ def panel(draw, x, y, name, detail, accent):
 variants = {
     'home': ('SOFTWARE FOR CAR DEALERSHIPS', ['Less admin.', 'More time', 'with buyers.'], 'Vehicle listings. Digital vehicle cards.', BLUE),
     'products': ('MEET THE POSTIQO PRODUCTS', ['Your inventory.', 'Working harder', 'for your team.'], 'Publisher + Cards / Features and pricing', BLUE),
-    'publisher': ('POSTIQO PUBLISHER', ['Automate car', 'listings. Get back', 'to selling.'], 'Facebook Marketplace + Craigslist', BLUE),
+    'publisher': ('POSTIQO PUBLISHER', ['Automate car', 'listings. Get back', 'to selling.'], 'Craigslist + Digital Cards included with 2+ accounts', BLUE),
     'cards': ('POSTIQO CARDS', ['Print once.', 'Keep the', 'price current.'], 'Digital vehicle window stickers with QR codes', TEAL),
 }
 for slug, (eyebrow, lines, caption, accent) in variants.items():
@@ -43,7 +43,7 @@ for slug, (eyebrow, lines, caption, accent) in variants.items():
         panel(draw, 797, 342, 'Included with your team', '2+ active Publisher subscriptions', TEAL)
     elif slug == 'publisher':
         panel(draw, 797, 190, 'Postiqo Publisher', 'Publish, update, renew, remove', BLUE)
-        panel(draw, 797, 342, 'C$100 / account / month', 'C$90 per account with 5+ accounts', BLUE)
+        panel(draw, 797, 342, 'C$149 / account / month', 'C$129 per account with 5+ accounts', BLUE)
     else:
         panel(draw, 797, 190, 'Postiqo Publisher', 'Your listings, automated.', BLUE)
         panel(draw, 797, 342, 'Postiqo Cards', 'Your lot, connected.', TEAL)

@@ -1854,140 +1854,405 @@ section,
 /*--------------------------------------------------------------
 # Pricing Section
 --------------------------------------------------------------*/
+.pricing .section-title {
+  padding-bottom: 32px;
+}
+
+.pricing .section-title h2 {
+  margin-bottom: 12px;
+  padding-bottom: 16px;
+}
+
 .pricing .pricing-card {
-  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "overview growth"
+    "actions growth"
+    "features features"
+    "terms terms";
+  gap: 1.25rem 2.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 2rem;
   background: var(--surface-color);
-  border-radius: 1rem;
-  transition: all 0.3s ease;
-  position: relative;
+  border: 1px solid #dbe8f5;
+  border-radius: 24px;
+  box-shadow: 0 16px 48px rgba(45, 70, 94, 0.06);
 }
 
-.pricing .pricing-card:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.pricing .pricing-card.popular {
-  background: var(--accent-color);
-  color: var(--contrast-color);
-}
-
-.pricing .pricing-card.popular h3,
-.pricing .pricing-card.popular h4 {
-  color: var(--contrast-color);
-}
-
-.pricing .pricing-card.popular .price .currency,
-.pricing .pricing-card.popular .price .amount,
-.pricing .pricing-card.popular .price .period {
-  color: var(--contrast-color);
-}
-
-.pricing .pricing-card.popular .features-list li {
-  color: var(--contrast-color);
-}
-
-.pricing .pricing-card.popular .features-list li i {
-  color: var(--contrast-color);
-}
-
-.pricing .pricing-card.popular .btn-light {
-  background: var(--contrast-color);
-  color: var(--accent-color);
-}
-
-.pricing .pricing-card.popular .btn-light:hover {
-  background: color-mix(in srgb, var(--contrast-color), transparent 10%);
-}
-
-.pricing .pricing-card .popular-badge {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--contrast-color);
-  color: var(--accent-color);
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.08);
+.pricing .pricing-overview {
+  grid-area: overview;
 }
 
 .pricing .pricing-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.85rem;
+  font-weight: 800;
 }
 
-.pricing .pricing-card .price {
-  margin-bottom: 1.5rem;
+.pricing .description {
+  max-width: 350px;
+  margin-bottom: 1.25rem;
+  color: #536579;
+  line-height: 1.5;
 }
 
-.pricing .pricing-card .price .currency {
-  font-size: 1.5rem;
-  font-weight: 600;
-  vertical-align: top;
-  line-height: 1;
+.pricing .price {
+  margin-bottom: 0.5rem;
 }
 
-.pricing .pricing-card .price .amount {
-  font-size: 3.5rem;
+.pricing .price .amount {
+  display: block;
+  color: var(--heading-color);
+  font-family: var(--nav-font);
+  font-size: 3.75rem;
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
 }
 
-.pricing .pricing-card .price .period {
+.pricing .price .period {
+  display: block;
+  margin-top: 0.5rem;
+  color: #536579;
   font-size: 1rem;
-  color: color-mix(in srgb, var(--default-color), transparent 40%);
 }
 
-.pricing .pricing-card .description {
-  margin-bottom: 2rem;
-  font-size: 0.975rem;
+.pricing .pricing-account-range {
+  margin: 0;
+  color: #536579;
+  font-size: 0.85rem;
 }
 
-.pricing .pricing-card h4 {
-  font-size: 1.125rem;
-  margin-bottom: 1rem;
+.pricing .pricing-growth {
+  grid-area: growth;
+  align-self: start;
+  padding: 1.5rem;
+  background: #f3f9ff;
+  border: 1px solid #dbe8f5;
+  border-radius: 18px;
 }
 
-.pricing .pricing-card .features-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 2rem 0;
+.pricing .pricing-growth h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.4;
 }
 
-.pricing .pricing-card .features-list li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+.pricing .account-benefit {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  padding: 0.5rem 0 0;
 }
 
-.pricing .pricing-card .features-list li i {
-  color: var(--accent-color);
-  margin-right: 0.75rem;
-  font-size: 1.25rem;
+.pricing .account-benefit + .account-benefit {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d7e6f5;
 }
 
-.pricing .pricing-card .btn {
-  width: 100%;
-  padding: 0.75rem 1.5rem;
+.pricing .account-count {
+  display: block;
+  color: #096bce;
+  font-family: var(--nav-font);
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.pricing .account-count span {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pricing .account-benefit p {
+  margin: 0.35rem 0 0;
+  color: #536579;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.pricing .account-benefit .benefit-title {
+  margin-top: 0;
+  color: var(--heading-color);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.pricing .account-benefit .benefit-label {
+  margin-top: 0;
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+.pricing .account-benefit .benefit-price {
+  color: var(--heading-color);
+  font-family: var(--nav-font);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.pricing .benefit-price span {
+  display: block;
+  margin: 0.15rem 0 0.45rem;
+  color: #536579;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.pricing .pricing-actions {
+  grid-area: actions;
+  align-self: start;
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+}
+
+.pricing .pricing-actions .btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-weight: 500;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  background: #096bce;
+  border: 1px solid #096bce;
   border-radius: 50px;
-}
-
-.pricing .pricing-card .btn.btn-primary {
-  background: var(--accent-color);
-  border: none;
   color: var(--contrast-color);
+  font-weight: 600;
 }
 
-.pricing .pricing-card .btn.btn-primary:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 15%);
+.pricing .pricing-actions .btn:hover {
+  background: #0756a7;
+  border-color: #0756a7;
+}
+
+.pricing .pricing-demo-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #096bce;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.pricing a:focus-visible,
+.pricing summary:focus-visible {
+  outline: 3px solid #096bce;
+  outline-offset: 4px;
+}
+
+.pricing .pricing-features {
+  grid-area: features;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e5edf5;
+}
+
+.pricing .pricing-features h4 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.pricing .features-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pricing .features-list li {
+  display: flex;
+  align-items: start;
+  gap: 0.6rem;
+  font-size: 0.925rem;
+  line-height: 1.5;
+}
+
+.pricing .features-list i {
+  flex: 0 0 auto;
+  color: #096bce;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.pricing .pricing-terms {
+  grid-area: terms;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+  margin: 0;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid #e5edf5;
+  color: #536579;
+  font-size: 0.85rem;
+  list-style: none;
+}
+
+.pricing .pricing-terms li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pricing .pricing-terms i {
+  color: #096bce;
+}
+
+.pricing .pricing-examples {
+  max-width: 1000px;
+  margin: 1.25rem auto 0;
+  padding: 0 1.5rem;
+  background: var(--surface-color);
+  border: 1px solid #dbe8f5;
+  border-radius: 14px;
+}
+
+.pricing .pricing-examples summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 56px;
+  padding: 0.85rem 0;
+  color: var(--heading-color);
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+
+.pricing .pricing-examples summary::-webkit-details-marker {
+  display: none;
+}
+
+.pricing .pricing-examples[open] summary i {
+  transform: rotate(180deg);
+}
+
+.pricing .pricing-examples table {
+  width: 100%;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pricing .pricing-examples caption {
+  padding: 0 0 0.75rem;
+  caption-side: top;
+  color: #536579;
+  font-size: 0.85rem;
+}
+
+.pricing .pricing-examples th,
+.pricing .pricing-examples td {
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid #e5edf5;
+}
+
+.pricing .pricing-examples thead th {
+  color: #536579;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.pricing .pricing-examples td:last-child,
+.pricing .pricing-examples th:last-child {
+  text-align: right;
+}
+
+.pricing .pricing-examples td:last-child {
+  font-weight: 600;
+}
+
+.pricing .pricing-examples > p,
+.pricing .pricing-currency-note {
+  color: #536579;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.pricing .pricing-currency-note {
+  margin: 1rem auto 0;
+  text-align: center;
+}
+
+@media (max-width: 991px) {
+  .pricing .pricing-card {
+    gap: 1.5rem;
+    padding: 1.75rem;
+  }
+
+  .pricing .pricing-growth {
+    padding: 1.25rem;
+  }
+
+  .pricing .account-benefit {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .pricing .pricing-actions .btn {
+    padding-inline: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .pricing.section {
+    padding-block: 40px;
+  }
+
+  .pricing .pricing-card {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "overview" "growth" "actions" "features" "terms";
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
+
+  .pricing .pricing-actions {
+    justify-items: center;
+  }
+
+  .pricing .pricing-actions .btn {
+    width: 100%;
+  }
+
+  .pricing .features-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pricing .pricing-examples {
+    padding-inline: 1rem;
+  }
+
+  .pricing .pricing-growth h4 {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 374px) {
+  .pricing .pricing-card {
+    padding: 1.1rem;
+  }
+
+  .pricing .pricing-growth {
+    padding: 1rem;
+  }
+
+  .pricing .pricing-examples th,
+  .pricing .pricing-examples td {
+    padding-inline: 0.25rem;
+  }
 }
 
 /*--------------------------------------------------------------
@@ -3020,104 +3285,6 @@ h6 {
   color: var(--accent-color);
 }
 
-.pricing .plan-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 0.8rem;
-  padding: 0.38rem 0.68rem;
-  background: color-mix(in srgb, var(--accent-color), transparent 90%);
-  color: var(--accent-color);
-  border-radius: 50px;
-  font-family: var(--nav-font);
-  font-size: 0.74rem;
-  font-weight: 700;
-}
-
-.pricing .pricing-card.popular .plan-kicker {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-}
-
-.pricing .plan-bonus {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 1.5rem;
-  padding: 0.7rem 0.85rem;
-  background: #f3edfc;
-  color: #65438b;
-  border-radius: 12px;
-  font-size: 0.84rem;
-  font-weight: 700;
-}
-
-.pricing .pricing-card.popular .plan-bonus {
-  background: rgba(255, 255, 255, 0.17);
-  color: #ffffff;
-}
-
-.pricing .craigslist-bonus {
-  display: flex;
-  gap: 1.25rem;
-  margin-top: 0.75rem;
-  padding: 2rem;
-  background: #ffffff;
-  border: 1px solid #dfd3ee;
-  border-radius: 20px;
-  box-shadow: 0 18px 48px rgba(45, 70, 94, 0.11);
-}
-
-.pricing .bonus-icon {
-  display: grid;
-  flex: 0 0 auto;
-  place-items: center;
-  width: 62px;
-  height: 62px;
-  background: #f3edfc;
-  color: #65438b;
-  border-radius: 17px;
-  font-size: 1.65rem;
-}
-
-.pricing .bonus-badge {
-  display: inline-block;
-  margin-bottom: 0.55rem;
-  color: #65438b;
-  font-family: var(--nav-font);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.pricing .bonus-copy h3 {
-  margin-bottom: 0.55rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.pricing .bonus-copy p {
-  margin-bottom: 0;
-  color: color-mix(in srgb, var(--default-color), transparent 28%);
-  font-size: 0.92rem;
-  line-height: 1.6;
-}
-
-.pricing .pricing-currency-note {
-  margin: 1.4rem 0 0;
-  color: color-mix(in srgb, var(--default-color), transparent 42%);
-  font-size: 0.78rem;
-  text-align: center;
-}
-
-.pricing .pricing-trial-note {
-  max-width: 720px;
-  margin: 16px auto 0;
-  color: #526579;
-  font-size: 0.9375rem;
-}
-
 @media (max-width: 1199px) {
   .publisher-flow {
     grid-template-columns: minmax(0, 1fr) 42px minmax(0, 0.9fr) 42px minmax(0, 1.2fr);
@@ -3189,8 +3356,20 @@ h6 {
     grid-template-columns: 1fr;
   }
 
-  .pricing .craigslist-bonus {
-    flex-direction: column;
-    padding: 1.5rem;
+}
+
+/* Compact Publisher pricing on the homepage and product overview. */
+.pricing .pricing-card-summary {
+  grid-template-areas: "overview growth" "actions growth";
+}
+.pricing .pricing-summary-note {
+  margin: 1.25rem auto 0;
+  color: #536579;
+  font-size: 0.9rem;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .pricing .pricing-card-summary {
+    grid-template-areas: "overview" "growth" "actions";
   }
 }
