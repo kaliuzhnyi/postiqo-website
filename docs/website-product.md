@@ -14,7 +14,7 @@ The existing DMS or supported inventory source remains the source of truth. The 
 
 The page reuses the static product shell, navigation, footer, typography, buttons, icons, workflow steps, FAQ and CTA styles. Product-specific layout is in `assets/css/website.css`. Shared catalog additions are in `assets/css/products.css`.
 
-Website appears in the Products menus and footers of all seven public marketing pages, the homepage product grid, the Products grid, the comparison table and the catalog pricing section. Publisher and Cards prices and access requirements are unchanged.
+Website appears in the Products menus and footers of all seven public marketing pages, the homepage hero and product grid, and the Products catalog. The homepage and catalog each use three compact product cards with links to the full pages. The catalog has no repeated comparison or pricing sections; `/products/#pricing` leads to the cards and their prices. Publisher and Cards prices and access requirements are unchanged.
 
 The hero is an illustrative HTML/CSS layout using the existing sample vehicle image at `assets/img/cards-demo/exterior.webp`. It is labelled as an illustration and does not present a customer website or a named integration. No new client assets are required for this version. An approved real Website screenshot can replace the illustration later.
 
@@ -110,9 +110,9 @@ New files:
 
 Updated files:
 
-- `index.html` and `products/index.html`: Website cards, product family copy, metadata, catalog comparison/pricing and contact copy.
+- `index.html` and `products/index.html`: Website hero link and product cards, product family copy, metadata, compact catalog and contact copy.
 - `products/postiqo-publisher/index.html`, `products/postiqo-cards/index.html`, `try/index.html`, `download/index.html`: shared navigation/footer and asset versions.
-- `assets/css/products.css`: three-product catalog and Website pricing summary.
+- `assets/css/products.css`: three-product catalog and homepage hero labels.
 - `assets/js/site.js`, `assets/js/request-form.js`: Website enquiry context in the existing contact flow.
 - `scripts/check-seo.py`, `scripts/generate-product-social-images.py`: new route checks and reproducible social previews.
 - `public/og-home.png`, `public/og-products.png`: three-product previews.

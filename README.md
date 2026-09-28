@@ -3,7 +3,7 @@
 ## Product pages
 
 - `/` introduces Postiqo with Publisher as the main starting point.
-- `/products/` compares Publisher, Digital Cards and Website and summarizes pricing.
+- `/products/` gives Publisher, Digital Cards and Website one compact card each, with pricing and links to the full product pages.
 - `/products/postiqo-publisher/` contains the full Publisher page, including the existing calculator, demos, templates, price sheets, pricing and FAQ.
 - `/products/postiqo-cards/` explains digital QR vehicle cards and the included access requirement.
 - `/products/postiqo-website/` presents custom dealership websites connected to an existing DMS or supported inventory source, starting at C$3,500 setup plus C$299/month.
