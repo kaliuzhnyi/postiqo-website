@@ -1,6 +1,6 @@
 # SEO и подача Postiqo для дилеров
 
-История изменений Publisher. После разделения сайта 26 сентября 2026 года подробная страница, калькулятор и примеры находятся по адресу `/products/postiqo-publisher/`. Актуальная структура из шести страниц и условия Cards описаны в [products-and-seo.md](products-and-seo.md). Упоминания главной и трёх страниц ниже относятся к предыдущей структуре.
+История изменений Publisher. После разделения сайта 26 сентября 2026 года подробная страница, калькулятор и примеры находятся по адресу `/products/postiqo-publisher/`. Актуальная структура из семи страниц и условия Cards описаны в [products-and-seo.md](products-and-seo.md). Упоминания главной и трёх страниц ниже относятся к предыдущей структуре.
 
 Изменения подготовлены 11 сентября 2026 года на основе актуальной ветки сайта `origin/master` и подтверждённых возможностей Postiqo Publisher. Сайт остаётся на английском языке для своей текущей аудитории. Хостинг сохраняется на GitHub Pages с доменом postiqo.io.
 
@@ -70,6 +70,10 @@ Google сам выбирает текст поискового сниппета 
 Meta keywords убраны, потому что Google не использует этот тег для индексации и ранжирования. Ключевые темы встроены в содержательные заголовки и текст. [Поддерживаемые метатеги Google](https://developers.google.com/search/docs/crawling-indexing/special-tags).
 
 Разметка использует фактические сведения о продукте и существующие тарифы. Расширенные результаты зависят от требований Google и не обещаны. [Product snippets](https://developers.google.com/search/docs/appearance/structured-data/product-snippet), [SoftwareApplication](https://developers.google.com/search/docs/appearance/structured-data/software-app), [ограничения FAQ-результатов](https://developers.google.com/search/blog/2023/08/howto-faq-changes).
+
+## Postiqo Website
+
+Для нового продукта подготовлены отдельные SEO-метаданные, social preview и тексты для LinkedIn/Facebook: [Website marketing handoff](website-product.md). Основное сообщение: Keep your DMS. Upgrade your website.
 
 ## Готовые варианты для соцсетей
 

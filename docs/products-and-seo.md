@@ -7,17 +7,21 @@
 | Адрес | Задача страницы | Основные поисковые темы |
 | --- | --- | --- |
 | `/` | Представить Postiqo и привести посетителя к Publisher | car dealer software, vehicle listing automation |
-| `/products/` | Показать два продукта, их назначение и тарифы | Postiqo products, dealership software pricing |
+| `/products/` | Показать три продукта, их назначение и тарифы | Postiqo products, dealership software pricing |
 | `/products/postiqo-publisher/` | Объяснить Publisher, показать демо, калькулятор и тарифы | Facebook Marketplace auto poster for car dealers, Craigslist vehicle listing automation |
 | `/products/postiqo-cards/` | Объяснить цифровой ценник и условия подключения | digital vehicle window stickers, car dealership QR codes, digital vehicle cards |
+| `/products/postiqo-website/` | Представить сайт дилера с подключением к существующей DMS | custom dealership website, dealership inventory website, dealer inventory integration |
 | `/products/postiqo-cards/demo/` | Показать интерактивную карточку примерной машины | Демонстрация с noindex, без включения в sitemap |
 | `/try/` | Провести через установку и пробный запуск | try Postiqo Publisher, vehicle listing software trial |
 | `/download/` | Скачать Windows-приложение | download Postiqo Publisher for Windows |
 
 Старые ссылки на детальные разделы главной перенаправляются на Publisher через `assets/js/site.js`. Это переход по фрагменту URL, без серверных redirect-правил. Все новые внутренние ссылки сразу используют нужную страницу. Корень сайта сохраняется как самостоятельная главная.
 
+Добавление от 28 сентября 2026 года: [Postiqo Website](website-product.md), самостоятельный продукт с сохранением текущей DMS. В инструкции продукта описаны CTA, SEO и готовый текст для соцсетей.
+
 ## Тарифы
 
+- Website: Starting at C$3,500 за setup плюс C$299/месяц. Сложные или индивидуальные DMS-интеграции оцениваются отдельно. Подписка Publisher не требуется.
 - Publisher, 1-4 аккаунта: C$149 за аккаунт в месяц.
 - При 2+ аккаунтах Craigslist Publishing и Digital Cards включены без доплаты. Для 2-4 аккаунтов цена за аккаунт остаётся C$149.
 - Publisher, 5+ аккаунтов: C$129 за аккаунт в месяц при минимум пяти аккаунтах, от C$645 суммарно.
@@ -42,11 +46,11 @@
 
 ## SEO и социальные превью
 
-У всех шести страниц свои title, description, canonical, Open Graph и Twitter Cards. Для главной, каталога и двух продуктов подготовлены отдельные PNG 1200 x 630. Главное содержимое и FAQ присутствуют в HTML. Фотографии ниже первого экрана загружаются отложенно; прежние демовидео Publisher загружаются по действию посетителя.
+У всех семи страниц свои title, description, canonical, Open Graph и Twitter Cards. Для главной, каталога и трёх продуктов подготовлены отдельные PNG 1200 x 630. Главное содержимое и FAQ присутствуют в HTML. Фотографии ниже первого экрана загружаются отложенно; прежние демовидео Publisher загружаются по действию посетителя.
 
-В разметке используются Organization, WebSite, WebPage, CollectionPage, ItemList, BreadcrumbList и сущности двух приложений. Тарифы Publisher сохраняют валюту CAD, месячную периодичность и минимум пяти аккаунтов для скидки. Неподтверждённые рейтинги и отзывы не добавлены.
+В разметке используются Organization, WebSite, WebPage, CollectionPage, ItemList, BreadcrumbList и сущности двух приложений и Service для Website. Тарифы Publisher сохраняют валюту CAD, месячную периодичность и минимум пяти аккаунтов для скидки. Неподтверждённые рейтинги и отзывы не добавлены.
 
-Sitemap содержит шесть канонических адресов. Существующий robots.txt разрешает обход и указывает на sitemap. Продуктовая страница Cards индексируется отдельно от карточек отдельных машин на `cards.postiqo.io`, чей существующий noindex не менялся.
+Sitemap содержит семь канонических адресов. Существующий robots.txt разрешает обход и указывает на sitemap. Продуктовая страница Cards индексируется отдельно от карточек отдельных машин на `cards.postiqo.io`, чей существующий noindex не менялся.
 
 У демонстрационной карточки отдельный title, description, canonical и социальные метаданные. Она имеет `noindex, follow`, исключена из sitemap и не содержит разметки предложения реальной машины.
 
@@ -62,7 +66,7 @@ node scripts/generate-cards-demo.mjs --check
 node --test tests/savings-calculator.test.cjs
 ```
 
-Первый скрипт проверяет шесть страниц, уникальность метаданных, один H1, адреса иерархии, условия Cards, тарифы Publisher, FAQ, внутренние ссылки, ресурсы, sitemap и размеры социальных изображений. Второй проверяет арифметику калькулятора и значения его перенесённой страницы.
+Первый скрипт проверяет семь страниц, наличие Website в меню и каталоге, Service без некорректного Offer, уникальность метаданных, один H1, адреса иерархии, условия Cards, тарифы Publisher, FAQ, внутренние ссылки, ресурсы, sitemap и размеры социальных изображений. Второй проверяет актуальность Cards demo. Третий проверяет арифметику калькулятора и значения его перенесённой страницы.
 
 После публикации нужно отправить обновлённый sitemap в подтверждённом свойстве Google Search Console и проверить новые URL через URL Inspection. Публикация и запрос индексации не выполняются этими локальными проверками. Для превью можно обновить кеш Facebook Sharing Debugger и LinkedIn Post Inspector. Результаты поисковой оптимизации оценивать по показам, кликам и запросам каждой страницы.
 

@@ -13,12 +13,14 @@ ROOT = Path(__file__).resolve().parents[1]
 ORIGIN = 'https://postiqo.io'
 PUBLISHER = '/products/postiqo-publisher/'
 CARDS = '/products/postiqo-cards/'
+WEBSITE = '/products/postiqo-website/'
 DEMO = CARDS + 'demo/'
 PAGES = {
     '/': 'index.html',
     '/products/': 'products/index.html',
     PUBLISHER: 'products/postiqo-publisher/index.html',
     CARDS: 'products/postiqo-cards/index.html',
+    WEBSITE: 'products/postiqo-website/index.html',
     '/try/': 'try/index.html',
     '/download/': 'download/index.html',
 }
@@ -80,6 +82,10 @@ for route, filename in PAGES.items():
     schemas = [json.loads(block) for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', source, re.S)]
     assert schemas
     nodes = [node for schema in schemas for node in schema.get('@graph', [schema])]
+    for landmark in ('header', 'footer'):
+        shared = re.search(r'<' + landmark + r'\b.*?</' + landmark + '>', source, re.S)[0]
+        shared_links = {attrs.get('href') for tag, attrs in Page(shared).elements if tag == 'a'}
+        assert {PUBLISHER, CARDS, WEBSITE} <= shared_links, f'{filename}: incomplete product {landmark}'
     if route.startswith('/products/'):
         breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
         trail = breadcrumb['itemListElement']
@@ -88,7 +94,20 @@ for route, filename in PAGES.items():
         assert [item['position'] for item in trail] == list(range(1, len(trail) + 1))
     if route in ('/', '/products/'):
         listing = next(node for node in nodes if node.get('@type') == 'ItemList')
-        assert [item['item']['url'] for item in listing['itemListElement']] == [ORIGIN + PUBLISHER, ORIGIN + CARDS]
+        assert [item['item']['url'] for item in listing['itemListElement']] == [ORIGIN + PUBLISHER, ORIGIN + CARDS, ORIGIN + WEBSITE]
+    if route == WEBSITE:
+        service = next(item for item in nodes if item.get('@id') == ORIGIN + WEBSITE + '#product')
+        assert service['@type'] == 'Service' and service['url'] == ORIGIN + WEBSITE
+        assert service['provider']['@id'] == ORIGIN + '/#organization'
+        assert 'C$3,500 CAD' in service['description'] and 'C$299 CAD per month' in service['description']
+        assert 'offers' not in service, 'Do not turn setup plus recurring pricing into one fixed Offer'
+        assert 'aggregateRating' not in service and 'review' not in service
+        assert 'Starting at C$3,500' in text(source)
+        assert 'Complex or custom DMS integrations may require additional setup work and will be quoted separately.' in text(source)
+        headings = [int(tag[1]) for tag, _ in page.elements if re.fullmatch(r'h[1-6]', tag)]
+        assert all(next_level <= level + 1 for level, next_level in zip(headings, headings[1:])), 'Website heading hierarchy skips a level'
+        links = {attrs.get('href') for tag, attrs in page.elements if tag == 'a'}
+        assert {'/?product=website&request=quote#contact', '/?product=website&request=demo#contact'} <= links
     if route == CARDS:
         product = next(item for item in nodes if item.get('@id') == ORIGIN + CARDS + '#product')
         assert product['url'] == ORIGIN + CARDS

@@ -164,6 +164,11 @@
       }
 
       const payload = new FormData(form);
+      // Keep the selected product and request intent in the supported message field.
+      // This survives edits to the enquiry text and needs no backend schema change.
+      if (form.dataset.requestContext) {
+        payload.set('message', `${form.dataset.requestContext}\n\n${payload.get('message') || ''}`);
+      }
       if (!isTrial) {
         const details = JSON.stringify(['name', 'dealership', 'website', 'email', 'phone', 'message'].map(key => payload.get(key) || ''));
         if (!demoSubmission || demoSubmission.details !== details) demoSubmission = {details, id: crypto.randomUUID()};
@@ -215,7 +220,9 @@
         const data = await response.json();
         if (data.ok !== true) throw new Error('We could not confirm delivery. Please check with support@postiqo.io before sending again.');
         if (isTrial && data.duplicate) success.textContent = 'A trial request for this Facebook account is already awaiting review. You do not need to submit another request. We will contact you when it is reviewed.';
-        else if (data.duplicate) success.textContent = 'Your demo request is already with our team. We will contact you to arrange a time.';
+        else if (data.duplicate) success.textContent = form.dataset.requestContext
+          ? 'Your Website request is already with our team. We will contact you to discuss the next steps.'
+          : 'Your demo request is already with our team. We will contact you to arrange a time.';
         else success.innerHTML = successMessage;
         demoSubmission = null;
         form.reset();
