@@ -1596,13 +1596,29 @@ section,
 /*--------------------------------------------------------------
 # Clients Section
 --------------------------------------------------------------*/
+.clients .swiper-slide a {
+  display: block;
+}
+
+.clients .client-logo-light {
+  background-color: var(--heading-color);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.clients .swiper-slide a:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+}
+
 .clients .swiper-slide img {
   opacity: 0.5;
   transition: 0.3s;
   filter: grayscale(100);
 }
 
-.clients .swiper-slide img:hover {
+.clients .swiper-slide img:hover,
+.clients .swiper-slide a:focus-visible img {
   filter: none;
   opacity: 1;
 }
