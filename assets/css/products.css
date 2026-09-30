@@ -180,6 +180,8 @@ body { overflow-wrap: break-word; }
 .cards-included .included-price { font-size: 70px; line-height: 1; font-weight: 850; letter-spacing: -3px; color: var(--cards-teal); }
 .cards-included .included-price small { font-size: 15px; letter-spacing: 0; font-weight: 500; }
 .cards-included .price-explanation { font-size: 14px; line-height: 1.7; color: var(--product-muted); margin-top: 20px; }
+/* Match the 1120px marketing content width while retaining Bootstrap's 12px side gutters. */
+:where(.publisher-page) .container { width: min(1144px, calc(100% - 16px)); max-width: 1144px; }
 .publisher-page .publisher-top { padding-top: 145px; }
 .publisher-page .hero { padding-top: 25px; }
 .product-section-nav { display: flex; flex-wrap: wrap; gap: 10px 24px; padding: 0 0 12px; font-size: 13px; }
@@ -253,6 +255,7 @@ body { overflow-wrap: break-word; }
   .site-header .site-logo { font-size: 24px; }
   .site-header .site-button { padding: 10px; font-size: 12px; gap: 7px; }
   .marketing-container { width: calc(100% - 32px); }
+  :where(.publisher-page) .container { width: calc(100% - 8px); }
   .cards-benefits { grid-template-columns: 1fr; }
   .cards-preview { grid-template-columns: 105px minmax(0, 1fr); gap: 10px; }
   .printed-qr { padding: 18px 8px; }
