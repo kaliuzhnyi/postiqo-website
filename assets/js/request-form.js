@@ -142,7 +142,7 @@
           }
           website.value = url.href;
         } catch {
-          website.setCustomValidity("Enter your dealership website, for example https://yourdealership.com.");
+          website.setCustomValidity("Enter a valid website, for example https://yourbusiness.com.");
         }
       }
 

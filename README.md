@@ -3,15 +3,16 @@
 ## Product pages
 
 - `/` introduces Postiqo with Publisher as the main starting point.
-- `/products/` gives Publisher, Digital Cards and Website one compact card each, with pricing and links to the full product pages.
+- `/products/` gives Publisher, Digital Cards, Website and Pages one compact card each, with pricing and links to the full product pages.
 - `/products/postiqo-publisher/` contains the full Publisher page, including the existing calculator, demos, templates, price sheets, pricing and FAQ.
 - `/products/postiqo-cards/` explains digital QR vehicle cards and the included access requirement.
 - `/products/postiqo-website/` presents custom dealership websites connected to an existing DMS or supported inventory source, starting at C$3,500 setup plus C$299/month.
+- `/products/postiqo-pages/` presents landing pages and simple local business websites from C$1,000, with free hosting and domain registration and renewal at cost, without markup or commission.
 - `/products/postiqo-cards/demo/` opens a fictional vehicle in the production card layout, with exterior/interior photos and working public Postiqo contacts.
 
 Cards is included for a dealership with at least two active Publisher subscriptions, with no additional Cards fees or commissions. It is not sold separately. Public Publisher pricing is C$149 per account/month, or C$129 per account/month with at least five accounts. Two Publisher subscriptions cost C$298/month in total. Craigslist publishing is also included with 2+ accounts. Accounts 2-4 remain C$149 each; the C$129 rate applies to every account from 5 accounts. These public prices apply to new customers only. Existing customer billing is managed separately and is not changed by website pricing or the savings calculator.
 
-All seven public pages share the Products navigation and footer. Shared styling is in `assets/css/products.css`, and menu behavior is in `assets/js/site.js`. HTML is static and needs no build. When editing shared navigation or footer copy, update all seven pages together. The site script forwards old homepage links such as `/#savings` and `/#price-sheets` to the corresponding Publisher section. Current internal links point directly to the new addresses.
+All eight public pages share the Products navigation and footer. Shared styling is in `assets/css/products.css`, and menu behavior is in `assets/js/site.js`. HTML is static and needs no build. When editing shared navigation or footer copy, update all eight pages together. The site script forwards old homepage links such as `/#savings` and `/#price-sheets` to the corresponding Publisher section. Current internal links point directly to the new addresses.
 
 See [product structure and SEO notes](docs/products-and-seo.md) for the route map, verified Cards behavior and publication checks. Marketing changes do not change the Cards Worker, licensing, DNS or Cloudflare configuration.
 
@@ -26,17 +27,19 @@ preview, refresh behavior, testing and deployment.
 
 ## SEO and dealer conversion
 
-The seven public pages have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards and are included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.
+The eight public pages have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards and are included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.
 
 The homepage and Products page describe the product family with ItemList, Organization, WebSite and WebPage/CollectionPage data. Individual products have their own entities and breadcrumbs. Publisher contains its pricing and existing FAQ structured data. Pricing is per account in CAD, and the five-account minimum is explicit. Cards describes its access conditions without a standalone free offer. Never invent ratings to satisfy a rich-result validator. When editing Publisher FAQ answers, update their JSON-LD equivalents as well. FAQ rich results are no longer supported by Google; the visible answers remain useful to visitors.
 
-Five distinct 1200 x 630 social previews live at `public/og-home.png`, `public/og-products.png`, `public/og-publisher.png`, `public/og-cards.png` and `public/og-website.png`. Regenerate them with `python scripts/generate-product-social-images.py` (requires Pillow). This is an asset maintenance command, not a site build step.
+Six distinct 1200 x 630 social previews live at `public/og-home.png`, `public/og-products.png`, `public/og-publisher.png`, `public/og-cards.png`, `public/og-website.png` and `public/og-pages.png`. Regenerate them with `python scripts/generate-product-social-images.py` (requires Pillow). This is an asset maintenance command, not a site build step.
 
 The calculator in `assets/js/savings-calculator.js` shows only vehicle inventory and hourly staff cost by default, starting with 90 vehicles and C$20/hour. The collapsed assumptions contain posting (7 minutes), finding/removing an old ad (1 minute), group sharing (1 minute), a 7-day replacement cycle, and account count. These are editable estimates for a familiar routine using existing vehicle photos and details, not measured customer results. It models an ongoing 30-day month: inventory / cycle days x 30 x total task minutes / 60. The daily average is never rounded before calculating monthly hours. Postiqo costs include only the subscription, with the C$129 rate at five accounts. Account count affects the subscription without multiplying the inventory, and negative results remain visible. It sends no calculator inputs to a server. Pricing changes must be applied to the cards, schema, calculator, examples, and tests together.
 
 Run `python scripts/check-seo.py` and `node --test tests/savings-calculator.test.cjs` before publishing. The checks cover metadata, internal links/assets, FAQ/schema consistency, sitemap, and calculator arithmetic. Browser checks should also cover mobile navigation, calculator input/reset/error states, native FAQs, demo tabs, and the trial/download paths. Video posters come from the existing demos; videos load on demand. Marketing content and FAQ answers remain available without animation scripts.
 
 Website is a standalone managed service. Its Service JSON-LD describes the starting setup and recurring pricing without a misleading fixed-price Offer. Quote and demo CTAs reuse the homepage contact form, preserving Website intent in the existing message field. See [Website content, inquiry flow and reusable social copy](docs/website-product.md).
+
+Pages reuses the Website layouts in `assets/css/website.css`, with a scoped lilac and peach palette in `assets/css/pages.css`. Its quote CTA opens `/?product=pages&request=quote#contact`. The shared form asks about the business, pages and domain, and preserves `Postiqo Pages quote request` in the supported message field. Its Service JSON-LD describes starting CAD pricing, free hosting and separate domain costs without a fixed-price Offer. The homepage and catalog use a two-column product grid for all four products.
 
 See [SEO and marketing handoff](docs/seo-marketing.md) for query intent, factual claims, publication checks, and suggested social copy.
 

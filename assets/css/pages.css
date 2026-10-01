@@ -1,0 +1,54 @@
+/* Pages shares Website's layouts, with a warmer palette for local businesses. */
+.pages-page { --product-blue: #7350b5; --product-ink: #302742; --product-muted: #6c6379; --product-line: #e7dfed; }
+.pages-page .marketing-hero { background: radial-gradient(ellipse at 85% 35%, #fbe9df 0, transparent 48%), linear-gradient(135deg, #f2edfc, #fff 80%); }
+.pages-page .marketing-hero h1 span { color: #7350b5; }
+.pages-page .marketing-section.tint { background: #f8f5fc; }
+.pages-page .site-button:hover { background: #5a3897; border-color: #5a3897; }
+.pages-page .site-button-outline:hover { background: #f0e9fb; color: #5a3897; border-color: #7350b5; }
+.pages-page .site-products > ul a:hover { background: #f4effb; }
+.pages-page :is(a, button, input, summary, select, textarea):focus-visible { outline-color: #7350b5; }
+.pages-page .product-icon { color: #7350b5; background: #ebe2fa; }
+.pages-page .website-browser { border-color: #ddd1e9; box-shadow: 0 24px 60px #5b3f7517; }
+.pages-page .website-browser-bar { background: #f8f5fc; }
+.pages-page .website-browser-dots span { background: #cabada; }
+.pages-page .website-browser-content { padding: 24px; }
+.pages-page .website-mock-nav { padding-bottom: 24px; }
+.pages-mock-hero { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 14px; padding: 26px 22px; border-radius: 12px; background: #f4eefb; }
+.pages-mock-eyebrow { display: block; color: #7350b5; font-size: 9px; font-weight: 700; letter-spacing: 1px; margin-bottom: 13px; }
+.pages-page .website-mock-title { font-size: 29px; }
+.pages-page .website-mock-subtitle { font-size: 11px; line-height: 1.6; margin: 11px 0 17px; }
+.pages-mock-button { display: inline-block; padding: 9px 12px; border-radius: 6px; background: #7350b5; color: white; font-size: 10px; font-weight: 600; }
+.pages-mock-art { position: relative; min-height: 190px; align-self: stretch; border-radius: 70px 70px 12px 12px; background: linear-gradient(145deg, #ead6d1, #e2d4f2 70%); overflow: hidden; }
+.pages-mock-art::before { content: ''; position: absolute; width: 64px; height: 64px; top: 23px; right: 19px; border-radius: 50%; background: #fff7e6; }
+.pages-mock-art::after { content: ''; position: absolute; width: 180%; height: 120px; left: -35%; bottom: -56px; border-radius: 50%; background: #c5b0d8; transform: rotate(-16deg); }
+.pages-mock-art i { position: absolute; font-size: 85px; line-height: 1; color: #725880; bottom: 28px; left: 22%; z-index: 1; }
+.pages-mock-sections { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; margin-top: 16px; }
+.pages-mock-sections > div { border: 1px solid var(--product-line); border-radius: 9px; padding: 13px 10px; }
+.pages-mock-sections i { display: block; color: #7350b5; font-size: 19px; margin-bottom: 9px; }
+.pages-mock-sections strong { display: block; font-size: 11px; }
+.pages-mock-sections span { display: block; font-size: 9px; color: var(--product-muted); margin-top: 5px; }
+.pages-mock-contact { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 20px; font-size: 10px; }
+.pages-mock-contact span { color: var(--product-muted); }
+.pages-mock-contact strong { color: #7350b5; }
+.pages-page .website-data-fields li { background: #f8f5fc; }
+.pages-page .website-pricing { border-color: #ddd1e9; }
+.pages-page .website-pricing-offer { display: block; background: linear-gradient(145deg, #efe7fb, #fff1e8); }
+.pages-price-detail { margin: 20px 0 0; font-size: 14px; color: var(--product-muted); line-height: 1.8; }
+.pages-price-detail strong { color: var(--product-ink); }
+.pages-page .website-pricing-inclusions { align-content: center; }
+.pages-domain-note { margin: 0; color: var(--product-muted); font-size: 14px; line-height: 1.75; }
+.pages-domain-note + .pages-domain-note { margin-top: 14px; }
+.pages-page .marketing-cta { background: linear-gradient(115deg, #382949, #60406d); }
+.pages-page .marketing-cta p { color: #eadff2; }
+.pages-page .marketing-cta .site-button { background: white; border-color: white; color: #5a3897; }
+.pages-page .marketing-cta .site-button:hover { background: #f0e9fb; border-color: #f0e9fb; }
+@media (max-width: 575px) {
+  .pages-page .website-browser-content { padding: 16px; }
+  .pages-mock-hero { padding: 22px 16px; gap: 10px; }
+  .pages-page .website-mock-title { font-size: 25px; }
+  .pages-mock-art { min-height: 175px; }
+  .pages-mock-art i { font-size: 65px; left: 12%; }
+  .pages-mock-art::before { width: 45px; height: 45px; right: 10px; }
+  .pages-mock-sections > div { padding: 11px 8px; }
+  .pages-page .website-mock-nav { flex-wrap: wrap; gap: 8px; padding-bottom: 17px; }
+}

@@ -14,6 +14,7 @@ ORIGIN = 'https://postiqo.io'
 PUBLISHER = '/products/postiqo-publisher/'
 CARDS = '/products/postiqo-cards/'
 WEBSITE = '/products/postiqo-website/'
+LOCAL_PAGES = '/products/postiqo-pages/'
 DEMO = CARDS + 'demo/'
 PAGES = {
     '/': 'index.html',
@@ -21,6 +22,7 @@ PAGES = {
     PUBLISHER: 'products/postiqo-publisher/index.html',
     CARDS: 'products/postiqo-cards/index.html',
     WEBSITE: 'products/postiqo-website/index.html',
+    LOCAL_PAGES: 'products/postiqo-pages/index.html',
     '/try/': 'try/index.html',
     '/download/': 'download/index.html',
 }
@@ -85,7 +87,7 @@ for route, filename in PAGES.items():
     for landmark in ('header', 'footer'):
         shared = re.search(r'<' + landmark + r'\b.*?</' + landmark + '>', source, re.S)[0]
         shared_links = {attrs.get('href') for tag, attrs in Page(shared).elements if tag == 'a'}
-        assert {PUBLISHER, CARDS, WEBSITE} <= shared_links, f'{filename}: incomplete product {landmark}'
+        assert {PUBLISHER, CARDS, WEBSITE, LOCAL_PAGES} <= shared_links, f'{filename}: incomplete product {landmark}'
     if route.startswith('/products/'):
         breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
         trail = breadcrumb['itemListElement']
@@ -94,7 +96,24 @@ for route, filename in PAGES.items():
         assert [item['position'] for item in trail] == list(range(1, len(trail) + 1))
     if route in ('/', '/products/'):
         listing = next(node for node in nodes if node.get('@type') == 'ItemList')
-        assert [item['item']['url'] for item in listing['itemListElement']] == [ORIGIN + PUBLISHER, ORIGIN + CARDS, ORIGIN + WEBSITE]
+        assert [item['item']['url'] for item in listing['itemListElement']] == [ORIGIN + PUBLISHER, ORIGIN + CARDS, ORIGIN + WEBSITE, ORIGIN + LOCAL_PAGES]
+        assert [item['position'] for item in listing['itemListElement']] == [1, 2, 3, 4]
+        tiles = re.findall(r'<article class="product-tile [^"]+">(.*?)</article>', source, re.S)
+        assert len(tiles) == 4, f'{filename}: incomplete product catalog'
+        assert f'href="{LOCAL_PAGES}"' in tiles[-1] and 'C$1,000' in text(tiles[-1])
+    if route == LOCAL_PAGES:
+        service = next(item for item in nodes if item.get('@id') == ORIGIN + LOCAL_PAGES + '#product')
+        assert service['@type'] == 'Service' and service['url'] == ORIGIN + LOCAL_PAGES
+        assert service['provider']['@id'] == ORIGIN + '/#organization'
+        assert 'Starting at C$1,000 CAD' in service['description'] and 'Hosting is free.' in service['description']
+        assert 'no Postiqo markup or commission' in service['description']
+        assert not any(key in service for key in ('offers', 'aggregateRating', 'review')), 'Pages uses a starting quote, with no invented offers or ratings'
+        assert 'Starting at C$1,000' in text(source) and 'Free hosting' in text(source)
+        assert 'We add no markup and take no commission.' in text(source)
+        headings = [int(tag[1]) for tag, _ in page.elements if re.fullmatch(r'h[1-6]', tag)]
+        assert all(next_level <= level + 1 for level, next_level in zip(headings, headings[1:])), 'Pages heading hierarchy skips a level'
+        links = {attrs.get('href') for tag, attrs in page.elements if tag == 'a'}
+        assert '/?product=pages&request=quote#contact' in links
     if route == WEBSITE:
         service = next(item for item in nodes if item.get('@id') == ORIGIN + WEBSITE + '#product')
         assert service['@type'] == 'Service' and service['url'] == ORIGIN + WEBSITE
