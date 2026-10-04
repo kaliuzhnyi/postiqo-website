@@ -60,3 +60,8 @@ Use Person for an individually credited author; use Organization only when Posti
 5. Serve the repository root locally. Check the listing and article at desktop and mobile sizes, the shared menu, keyboard navigation, long titles, images, internal links and article readability. Commit only intended files and release using the normal GitHub Pages flow from `master`; verify the public canonical URL and sitemap afterward.
 
 The launch contains five approved partner stories and one product news article. Future implementation stories become public only after real evidence and customer approval are available.
+
+
+## Launch editorial chronology
+
+The six launch articles were all first published on October 4, 2026. Their cards and article headers display explicitly labeled editorial dates, selected by the site owner at weekly intervals from August 30 to October 4, 2026. These dates provide a visual editorial sequence; they are not publication timestamps, onboarding dates or verified dates of customer events. The listing is ordered by these editorial dates, newest first. BlogPosting `datePublished` retains the actual October 4 publication; `dateModified` and sitemap `lastmod` reflect actual changes. Keep card and article editorial dates aligned whenever editing this display sequence.
