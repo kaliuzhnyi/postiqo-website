@@ -12,11 +12,15 @@
 
 Cards is included for a dealership with at least two active Publisher subscriptions, with no additional Cards fees or commissions. It is not sold separately. Public Publisher pricing is C$149 per account/month, or C$129 per account/month with at least five accounts. Two Publisher subscriptions cost C$298/month in total. Craigslist publishing is also included with 2+ accounts. Accounts 2-4 remain C$149 each; the C$129 rate applies to every account from 5 accounts. These public prices apply to new customers only. Existing customer billing is managed separately and is not changed by website pricing or the savings calculator.
 
-All eight public pages share the Products navigation and footer. Shared styling is in `assets/css/products.css`, and menu behavior is in `assets/js/site.js`. HTML is static and needs no build. When editing shared navigation or footer copy, update all eight pages together. The site script forwards old homepage links such as `/#savings` and `/#price-sheets` to the corresponding Publisher section. Current internal links point directly to the new addresses.
+All public marketing pages share the Products navigation and footer. Shared styling is in `assets/css/products.css`, and menu behavior is in `assets/js/site.js`. HTML is static and needs no build. When editing shared navigation or footer copy, update all public pages together. The site script forwards old homepage links such as `/#savings` and `/#price-sheets` to the corresponding Publisher section. Current internal links point directly to the new addresses.
 
 See [product structure and SEO notes](docs/products-and-seo.md) for the route map, verified Cards behavior and publication checks. Marketing changes do not change the Cards Worker, licensing, DNS or Cloudflare configuration.
 
 The demo is static and uses the existing Cards renderer, CSS and gallery script without extra banners, captions or marketing blocks. Run `node scripts/generate-cards-demo.mjs` after changes to the original card template, and `node scripts/generate-cards-demo.mjs --check` before publishing. Its `noindex` page is excluded from the sitemap and makes no inventory API requests. The call and email buttons use the public Postiqo phone and support email through standard `tel:` and `mailto:` links. The shared footer links directly to the Cards product page. See [demo assets and generation prompts](docs/cards-demo.md).
+
+## Blog & News
+
+`/blog/` is a static listing with the shared navigation and footer. Approved articles use `/blog/<slug>.html`; there is no CMS, database or build step. Start with the unpublished [article template and publishing guide](docs/blog/README.md). Keep drafts in `docs/blog/`, which GitHub Pages excludes. Never publish placeholders or unapproved customer stories.
 
 ## Digital vehicle cards
 
@@ -27,7 +31,7 @@ preview, refresh behavior, testing and deployment.
 
 ## SEO and dealer conversion
 
-The eight public pages have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards and are included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.
+The public marketing pages have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards and are included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.
 
 The homepage and Products page describe the product family with ItemList, Organization, WebSite and WebPage/CollectionPage data. Individual products have their own entities and breadcrumbs. Publisher contains its pricing and existing FAQ structured data. Pricing is per account in CAD, and the five-account minimum is explicit. Cards describes its access conditions without a standalone free offer. Never invent ratings to satisfy a rich-result validator. When editing Publisher FAQ answers, update their JSON-LD equivalents as well. FAQ rich results are no longer supported by Google; the visible answers remain useful to visitors.
 

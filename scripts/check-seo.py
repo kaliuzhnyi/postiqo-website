@@ -19,6 +19,7 @@ DEMO = CARDS + 'demo/'
 PAGES = {
     '/': 'index.html',
     '/products/': 'products/index.html',
+    '/blog/': 'blog/index.html',
     PUBLISHER: 'products/postiqo-publisher/index.html',
     CARDS: 'products/postiqo-cards/index.html',
     WEBSITE: 'products/postiqo-website/index.html',
@@ -26,6 +27,12 @@ PAGES = {
     '/try/': 'try/index.html',
     '/download/': 'download/index.html',
 }
+
+
+# Only completed articles belong in the public blog folder; drafts stay in docs/.
+for article in sorted((ROOT / 'blog').glob('*.html')):
+    if article.name != 'index.html':
+        PAGES['/blog/' + article.name] = article.relative_to(ROOT).as_posix()
 
 
 class Page(HTMLParser):
@@ -49,6 +56,7 @@ for route, filename in PAGES.items():
     source = (ROOT / filename).read_text(encoding='utf-8')
     page = Page(source)
     parsed[route] = page
+    assert '{{' not in source, f'{filename}: unpublished placeholder'
     assert '\u2014' not in source and '\u2013' not in source, f'{filename}: long dash'
     assert not re.search(r'C?\$(?:100|90)(?![\d,.])', source), f'{filename}: outdated Publisher pricing'
     assert len(re.findall(r'<h1\b', source)) == 1, f'{filename}: one H1 required'
@@ -87,7 +95,20 @@ for route, filename in PAGES.items():
     for landmark in ('header', 'footer'):
         shared = re.search(r'<' + landmark + r'\b.*?</' + landmark + '>', source, re.S)[0]
         shared_links = {attrs.get('href') for tag, attrs in Page(shared).elements if tag == 'a'}
+        assert '/blog/' in shared_links, f'{filename}: missing Blog & News {landmark}'
         assert {PUBLISHER, CARDS, WEBSITE, LOCAL_PAGES} <= shared_links, f'{filename}: incomplete product {landmark}'
+    if route.startswith('/blog/'):
+        breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
+        expected = ['/', '/blog/'] + ([route] if route != '/blog/' else [])
+        assert [item['item'] for item in breadcrumb['itemListElement']] == [ORIGIN + item for item in expected]
+        if route != '/blog/':
+            article = next(node for node in nodes if node.get('@type') == 'BlogPosting')
+            assert article['url'] == ORIGIN + route
+            assert article['headline'] == text(re.search(r'<h1[^>]*>(.*?)</h1>', source, re.S)[1])
+            assert article.get('author') and article.get('datePublished') and article.get('dateModified')
+            assert article['mainEntityOfPage']['@id'] == ORIGIN + route + '#webpage'
+            assert article['isPartOf']['@id'] == ORIGIN + '/blog/#blog'
+            assert any(tag == 'a' and attrs.get('href') == route for tag, attrs in parsed['/blog/'].elements), f'{filename}: article missing from listing'
     if route.startswith('/products/'):
         breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
         trail = breadcrumb['itemListElement']
@@ -214,3 +235,10 @@ for image_path in social_images:
     assert header[:8] == b'\x89PNG\r\n\x1a\n', f'{image_path}: expected PNG social image'
     assert struct.unpack('>II', header[16:24]) == (1200, 630), f'{image_path}: social image dimensions do not match metadata'
 print('PASS sitemap, robots, template exclusions, all internal links/assets, and all 1200 x 630 social images')
+
+config = (ROOT / '_config.yml').read_text(encoding='utf-8')
+assert re.search(r'^\s*- docs\s*$', config, re.M), 'Draft templates must be excluded from GitHub Pages'
+template = (ROOT / 'docs/blog/article-template.html').read_text(encoding='utf-8')
+assert 'content="noindex, follow"' in template
+assert not any('/docs/' in url or '{{' in url for url in urls)
+print('PASS Blog & News navigation, published articles, and unpublished template protection')

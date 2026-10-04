@@ -1,0 +1,32 @@
+/* Static Blog & News listing and reusable article layouts. */
+.blog-hero { background: linear-gradient(145deg, #f1f7ff, #fff 75%); padding-bottom: 60px; }
+.blog-listing { padding-top: 48px; }
+.blog-listing .marketing-heading-row { align-items: center; }
+.blog-listing .marketing-note { margin: 0; }
+.blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.blog-grid:empty { display: none; }
+.blog-empty { padding: clamp(28px, 5vw, 56px); border: 1px solid var(--product-line); border-radius: 22px; background: linear-gradient(140deg, #f4f8fc, #fff 70%); }
+.blog-empty .product-icon { margin-bottom: 22px; }
+.blog-empty h3 { font-size: clamp(24px, 3vw, 32px); font-weight: 750; letter-spacing: -.6px; }
+.blog-empty p { color: var(--product-muted); line-height: 1.75; max-width: 620px; margin: 16px 0 24px; }
+.blog-card { display: flex; flex-direction: column; min-width: 0; padding: 30px; border: 1px solid var(--product-line); border-radius: 22px; background: white; }
+.blog-card h3 { font-size: 25px; line-height: 1.3; font-weight: 750; }
+.blog-card h3 a { color: var(--product-ink); }
+.blog-card h3 a:hover { color: var(--product-blue); }
+.blog-card p { color: var(--product-muted); line-height: 1.7; }
+.blog-card > .text-link { margin-top: auto; }
+.blog-meta { font-size: 13px; color: var(--product-muted); line-height: 1.7; margin-top: 24px; }
+.blog-reading { max-width: 780px; }
+.blog-prose { padding-block: 48px 80px; font-size: 18px; line-height: 1.85; }
+.blog-prose h2 { font-size: clamp(26px, 3vw, 34px); line-height: 1.25; margin: 40px 0 18px; font-weight: 750; }
+.blog-prose h3 { font-size: 24px; margin: 32px 0 16px; }
+.blog-prose p, .blog-prose ul, .blog-prose ol { margin-bottom: 24px; }
+.blog-prose img { max-width: 100%; height: auto; border-radius: 16px; }
+.blog-prose figure { margin-block: 32px; }
+.blog-prose figcaption { font-size: 13px; color: var(--product-muted); margin-top: 10px; }
+.blog-prose a { text-decoration: underline; text-underline-offset: 4px; }
+.blog-prose blockquote { border-left: 3px solid var(--product-blue); padding-left: 24px; }
+.blog-next { padding: 28px; background: #f4f8fc; border: 1px solid var(--product-line); border-radius: 18px; margin-block: 40px; }
+.blog-next h2 { margin-top: 0; }
+@media (max-width: 991px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .blog-grid { grid-template-columns: 1fr; } .blog-hero { padding-bottom: 40px; } .blog-prose { font-size: 17px; padding-block: 32px 60px; } }
