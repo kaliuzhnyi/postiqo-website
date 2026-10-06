@@ -1,0 +1,16 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url), {build}=require('esbuild');
+const root=new URL('../../../',import.meta.url), folder=new URL('../',import.meta.url);
+const listing=await readFile(new URL('blog/index.html',root),'utf8');
+let head=listing.match(/<head>([\s\S]*?)<\/head>/)[1];
+head=head.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g,'').replace(/<title>[^<]*<\/title>/g,'').replace(/<meta (?:name|property)="(?:description|robots|og:[^"]+|twitter:[^"]+)"[^>]*>/g,'').replace(/<link rel="canonical"[^>]*>/g,'').trim();
+const shell={head,header:listing.match(/<header class="site-header"[\s\S]*?<\/header>/)[0],footer:listing.match(/<footer class="site-footer"[\s\S]*?<\/footer>/)[0],hero:listing.match(/<section class="catalog-hero blog-hero">[\s\S]*?<\/section>/)[0]};
+shell.previewCss=(await Promise.all(['assets/vendor/bootstrap/css/bootstrap.min.css','assets/css/main.css','assets/css/products.css','assets/css/blog.css'].map(file=>readFile(new URL(file,root),'utf8')))).join('\n').replace(/<\/style/gi,'<\\/style');
+const sitemap=await readFile(new URL('sitemap.xml',root),'utf8');
+shell.sitemap=[...sitemap.matchAll(/<url><loc>([^<]+)<\/loc>(?:<lastmod>([^<]+)<\/lastmod>)?<\/url>/g)].filter(m=>!new URL(m[1]).pathname.startsWith('/blog/')).map(m=>({loc:m[1],lastmod:m[2]||null}));
+await mkdir(new URL('generated/',folder),{recursive:true});
+await mkdir(new URL('dist/',folder),{recursive:true});
+await writeFile(new URL('generated/shell.js',folder),'// Generated from the existing static site; no article content.\nexport default '+JSON.stringify(shell)+';\n');
+await build({entryPoints:[new URL('src/index.js',folder).pathname.replace(/^\/([A-Za-z]:)/,'$1')],outfile:new URL('dist/index.js',folder).pathname.replace(/^\/([A-Za-z]:)/,'$1'),bundle:true,format:'esm',platform:'browser',target:'es2022',external:['cloudflare:workers']});
+console.log('Built server-rendered website-content Worker using the current marketing shell.');

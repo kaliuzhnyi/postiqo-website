@@ -1,0 +1,13 @@
+{
+  "name": "postiqo-website-content",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import:static": "node scripts/import-static.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
+    "dev": "node scripts/build.mjs && wrangler dev --local",
+    "deploy": "node scripts/build.mjs && wrangler deploy"
+  },
+  "devDependencies": {"esbuild":"0.28.1","miniflare":"5.20260907.0-alpha","wrangler":"4.129.1"}
+}
