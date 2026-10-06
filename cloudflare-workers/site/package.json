@@ -7,7 +7,8 @@
     "build": "node scripts/build.mjs",
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
     "dev": "node scripts/build.mjs && wrangler dev --local",
-    "deploy": "node scripts/build.mjs && wrangler deploy && wrangler deploy --config wrangler.redirect.jsonc"
+    "deploy": "node scripts/build.mjs && wrangler deploy",
+    "deploy:redirect": "wrangler deploy --config wrangler.redirect.jsonc"
   },
   "devDependencies": {"wrangler": "4.129.1"}
 }

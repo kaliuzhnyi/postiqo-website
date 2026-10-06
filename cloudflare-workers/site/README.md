@@ -19,6 +19,7 @@ Use Node 24 and pnpm 11.19 or later from this directory:
 pnpm install --frozen-lockfile
 pnpm test
 pnpm run deploy
+pnpm run deploy:redirect
 ```
 
 The build copies only the public allowlist to `dist/`. Worker sources, Git files,
@@ -35,7 +36,10 @@ Cloudflare Builds settings for `kaliuzhnyi/postiqo-website`:
 - Deploy command: `pnpm run deploy`
 - Preview branches: disabled
 
-The deploy command updates only the static website and www redirect. It does not
+The www redirect uses a separate Builds connection to the same repository and
+directory, with deploy command `pnpm run deploy:redirect`. Workers Builds validates
+one Worker name per build, so never deploy both Workers in the same build command.
+The deploy commands update only the static website and www redirect. They do not
 apply D1 migrations or deploy the admin, licenses, metrics or Cards services.
 The `website-static.yml` GitHub workflow also checks SEO and the calculator.
 
