@@ -20,7 +20,7 @@ The demo is static and uses the existing Cards renderer, CSS and gallery script 
 
 ## Blog & News
 
-`/blog/` is a static listing with the shared navigation and footer. Approved articles use `/blog/<slug>.html`; there is no CMS, database or build step. Start with the unpublished [article template and publishing guide](docs/blog/README.md). Keep drafts in `docs/blog/`, which GitHub Pages excludes. Never publish placeholders or unapproved customer stories.
+`/blog/` and `/blog/<slug>.html` are rendered by the website-content Worker from Cloudflare D1. Manage drafts, preview and publication in [Blog & News](https://admin.postiqo.io/#blog). The static blog files in this repository are migration snapshots, not the live editorial source. See [the content service guide](cloudflare-workers/content/README.md). Never re-import the original seed over edited articles or publish unapproved customer stories.
 
 ## Digital vehicle cards
 
@@ -77,7 +77,7 @@ Trial activation is manual. After adding the requested account to the license, e
 
 The setup guide opens for new instances, saves progress, and can be reopened from **Welcome > Open setup guide**. The website checklist follows the same path: inventory source, import, listing preview, Facebook sign-in, trial request, activation, first publication.
 
-GitHub Pages publishes the repository root from `master` without a build step. Publish onboarding copy that names new app controls only after the corresponding stable Windows installer is available.
+Cloudflare Workers Static Assets publishes the public website from `master`. The repository remains on GitHub. See [hosting, deployment and analytics](cloudflare-workers/site/README.md). Publish onboarding copy that names new app controls only after the corresponding stable Windows installer is available.
 
 ### Setup video
 

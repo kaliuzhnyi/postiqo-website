@@ -41,9 +41,10 @@ Workers runtime with local D1 and named service RPC. No tests use remote storage
 The initial cutover completed on October 5, 2026 (America/Toronto). The dedicated
 database ID is `289fc5ac-57f9-410b-a8ce-06cd0b56eefa`; both migrations have been
 applied and all six published snapshots match the import manifest. The configured
-blog and sitemap routes are active. The apex CNAME still targets
-`kaliuzhnyi.github.io` with Cloudflare proxy enabled; the remaining website is
-served by GitHub Pages. A full Workers Static Assets migration is a separate step.
+blog and sitemap routes are active. The apex now uses
+the `postiqo-website` Worker Custom Domain. The remaining website is served by
+Workers Static Assets; see [hosting and analytics](../site/README.md). The more
+specific blog and sitemap routes continue to invoke this content Worker first.
 
 The following steps describe initial provisioning. Do not create another database
 or re-import the static seed for routine article changes; use the admin editor.

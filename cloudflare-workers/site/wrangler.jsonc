@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "postiqo-website",
+  "account_id": "066b40c1b42afc714c1cbae2f6e4440f",
+  "compatibility_date": "2026-09-10",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{"pattern": "postiqo.io", "custom_domain": true}],
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
