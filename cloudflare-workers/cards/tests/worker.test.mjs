@@ -41,6 +41,64 @@ test('price updates are read immediately, even without changing the record times
   await db.prepare('UPDATE inventory SET price = 12888 WHERE dealer_id = 100').run();
 });
 
+test('Cards access is checked on HTML, API and HEAD, without disclosing disabled inventory', async () => {
+  await db.prepare('UPDATE dealers SET cards_enabled = 0 WHERE id = 100').run();
+  try {
+    for (const vin of [VIN, '1HGCM82633A999999']) {
+      const response = await get(`/100/${vin}`);
+      assert.equal(response.status, 403);
+      assert.equal(response.headers.get('cache-control'), 'no-store, max-age=0');
+      assert.equal(response.headers.get('cloudflare-cdn-cache-control'), 'no-store');
+      const html = await response.text();
+      assert.match(html, /Postiqo Cards is not enabled/);
+      assert.match(html, /If you represent the dealership/);
+      assert.match(html, /Contact Postiqo support/);
+      const mailto = html.match(/href="(mailto:[^"]+)"/)[1].replaceAll('&amp;', '&');
+      const link = new URL(mailto);
+      assert.equal(link.pathname, 'support@postiqo.io');
+      assert.equal(link.searchParams.get('subject'), 'Postiqo Cards access request');
+      assert.ok(link.searchParams.get('body').includes(`https://cards.postiqo.io/100/${vin}`));
+      assert.doesNotMatch(html, /2018 BMW|12,888|181,913|Example Motors|sales@example.com|PRIVATE|data-vehicle-card|og:image/);
+      const api = await get(`/api/100/${vin}`);
+      assert.equal(api.status, 403);
+      assert.equal(api.headers.get('cache-control'), 'no-store, max-age=0');
+      assert.deepEqual(await api.json(), { error: 'cards_disabled' });
+      for (const path of [`/100/${vin}`, `/api/100/${vin}`]) {
+        const head = await get(path, { method: 'HEAD' });
+        assert.equal(head.status, 403);
+        assert.equal(await head.text(), '');
+      }
+    }
+    assert.equal((await get(`/101/${VIN}`)).status, 200, 'another enabled dealer retains access');
+  } finally { await db.prepare('UPDATE dealers SET cards_enabled = 1 WHERE id = 100').run(); }
+  const restored = await get(`/api/100/${VIN}`);
+  assert.equal(restored.status, 200);
+  const data = await restored.json();
+  assert.equal(data.vehicle.price, 12888);
+  assert.doesNotMatch(JSON.stringify(data), /cards_enabled|vehicle_id|inventory_key/);
+  assert.equal((await get(`/100/${VIN}`)).status, 200);
+});
+
+test('new dealers default to disabled, including before their first inventory upload', async () => {
+  await db.prepare("INSERT INTO dealers(id, name) VALUES (103, 'New Dealer')").run();
+  assert.equal((await get(`/103/${VIN}`)).status, 403);
+  assert.deepEqual(await (await get(`/api/103/${VIN}`)).json(), { error: 'cards_disabled' });
+  await db.prepare('UPDATE dealers SET cards_enabled = 1 WHERE id = 103').run();
+  assert.equal((await get(`/103/${VIN}`)).status, 404);
+});
+
+test('a missing access column fails closed without returning vehicle data', async () => {
+  await db.prepare('ALTER TABLE dealers RENAME COLUMN cards_enabled TO pending_cards_enabled').run();
+  try {
+    const response = await get(`/100/${VIN}`);
+    assert.equal(response.status, 503);
+    assert.doesNotMatch(await response.text(), /2018 BMW|12,888|Example Motors|cards_enabled|SQLITE|SELECT/);
+    const api = await get(`/api/100/${VIN}`);
+    assert.equal(api.status, 503);
+    assert.deepEqual(await api.json(), { error: 'temporarily_unavailable' });
+  } finally { await db.prepare('ALTER TABLE dealers RENAME COLUMN pending_cards_enabled TO cards_enabled').run(); }
+});
+
 test('invalid routes, unsafe IDs and VINs, methods and URL casing are handled', async () => {
   for (const path of ['/', '/100', `/99/${VIN}`, `/9007199254740992/${VIN}`, '/100/IIIIIIIIIIIIIIIII', `/100/${VIN}/extra`, '/api/inventory', '/assets/missing.css']) {
     assert.equal((await get(path)).status, 404, path);

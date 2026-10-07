@@ -1,5 +1,5 @@
 import { assets } from '../generated/assets.js';
-import { renderPage, renderMessage, projectVehicle } from './render.js';
+import { renderPage, renderMessage, renderCardsDisabled, projectVehicle } from './render.js';
 
 const headers = {
   'Cache-Control': 'no-store, max-age=0',
@@ -43,15 +43,20 @@ export default {
           // scopes every read to this dealer, even when another dealer has the VIN.
           // Keep this projection explicit: licensing and inventory keys are private.
           const row = await env.DB.prepare(`SELECT
+            d.cards_enabled, v.id AS vehicle_id,
             v.title, v.vin, v.stockno, v.year, v.make, v.model, v.trim, v.description,
             v.price, v.mileage, v.cylinders, v.drivetrain, v.vehicle_type,
             v.vehicle_condition, v.body_type, v.exterior_color, v.interior_color,
             v.fuel_type, v.transmission, v.location, v.video, v.photos_json, v.is_active,
             d.name AS dealer_name, d.address AS dealer_address, d.phone AS dealer_phone,
             d.email AS dealer_email, d.website AS dealer_website
-            FROM inventory v JOIN dealers d ON d.id = v.dealer_id
-            WHERE v.dealer_id = ? AND v.vehicle_key = ?`).bind(dealerId, `vin:${vin}`).first();
-          if (!row) {
+            FROM dealers d LEFT JOIN inventory v ON v.dealer_id = d.id
+              AND v.vehicle_key = ? AND d.cards_enabled = 1
+            WHERE d.id = ?`).bind(`vin:${vin}`, dealerId).first();
+          if (row && row.cards_enabled !== 1) {
+            result = isApi ? response(JSON.stringify({ error: 'cards_disabled' }), 403, 'application/json')
+              : response(renderCardsDisabled(path), 403);
+          } else if (!row || row.vehicle_id === null) {
             result = isApi ? response(JSON.stringify({ error: 'not_found' }), 404, 'application/json')
               : response(renderMessage('This vehicle is no longer listed', 'The dealership may have removed this vehicle. Please contact them for current availability.'), 404);
           } else {

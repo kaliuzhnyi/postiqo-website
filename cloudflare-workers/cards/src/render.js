@@ -122,3 +122,11 @@ export function renderPage(v, path) {
 export function renderMessage(title, message, retry = false) {
   return shell(title, `<main class="message-page"><div class="message-icon">${icon('car')}</div><h1>${escape(title)}</h1><p>${escape(message)}</p>${retry ? '<button class="button button-primary" data-retry>Try again</button>' : ''}</main>`);
 }
+
+export function renderCardsDisabled(path) {
+  const title = 'Postiqo Cards is not enabled';
+  const message = 'This feature is not enabled for this dealership. If you represent the dealership, please contact Postiqo support to request access.';
+  const subject = encodeURIComponent('Postiqo Cards access request');
+  const body = encodeURIComponent(`Hello Postiqo,\n\nI would like to enable Postiqo Cards for our dealership.\n\nCard link: https://cards.postiqo.io${path}`);
+  return shell(title, `<main class="message-page"><div class="message-icon">${icon('car')}</div><h1>${title}</h1><p>${message}</p><a class="button button-primary" href="mailto:support@postiqo.io?subject=${subject}&amp;body=${body}">${icon('mail')}Contact Postiqo support</a></main>`, { description: message });
+}

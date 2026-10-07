@@ -27,6 +27,10 @@ createInterface({ input: process.stdin }).on('line', async line => {
       await db.prepare('UPDATE inventory SET is_active = ? WHERE dealer_id = 100').bind(value.active).run();
       console.log(`Local preview active: ${value.active}`);
     }
+    if (typeof value.cards_enabled === 'boolean') {
+      await db.prepare('UPDATE dealers SET cards_enabled = ? WHERE id = 100').bind(Number(value.cards_enabled)).run();
+      console.log(`Local preview Cards enabled: ${value.cards_enabled}`);
+    }
   } catch { console.log('Enter JSON such as {"price":11995} to update the local fixture.'); }
 });
 process.on('SIGINT', async () => { await mf.dispose(); process.exit(); });

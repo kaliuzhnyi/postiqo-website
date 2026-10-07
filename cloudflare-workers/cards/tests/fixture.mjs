@@ -2,11 +2,12 @@ import { Miniflare } from 'miniflare';
 import { readFile } from 'node:fs/promises';
 
 export const VIN = 'WBA8E1C5XJA756297';
-// Mirrors the public columns in Publisher licensing migrations 0006-0008.
+// Mirrors the public columns in Publisher licensing migrations 0006-0008 and 0011.
 // Extra private columns prove that the public projection cannot leak them.
 const schema = [
   `CREATE TABLE dealers (id INTEGER PRIMARY KEY, name TEXT NOT NULL, address TEXT, email TEXT,
-    phone TEXT, website TEXT, inventory_key TEXT, updated_at TEXT)`,
+    phone TEXT, website TEXT, inventory_key TEXT, updated_at TEXT,
+    cards_enabled INTEGER NOT NULL DEFAULT 0 CHECK (cards_enabled IN (0, 1)))`,
   `CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, dealer_id INTEGER NOT NULL REFERENCES dealers(id),
     vehicle_key TEXT NOT NULL, title TEXT, vin TEXT, stockno TEXT, year INTEGER, make TEXT, model TEXT, trim TEXT,
     description TEXT, price REAL, mileage INTEGER, cylinders INTEGER, drivetrain TEXT, vehicle_type TEXT,
@@ -43,8 +44,8 @@ export async function createRuntime(options = {}) {
   const db = await mf.getD1Database('DB');
   await db.batch(schema.map(sql => db.prepare(sql)));
   await db.prepare(`INSERT INTO dealers VALUES
-    (100, 'Example Motors', '123 Example Street, Toronto, ON', 'sales@example.com', '+1 (416) 555-0100', 'https://example.com', 'PRIVATE-INVENTORY-KEY', '2026-09-26'),
-    (101, 'Second Dealer', '', '', '', '', 'SECOND-PRIVATE-KEY', '2026-09-26')`).run();
+    (100, 'Example Motors', '123 Example Street, Toronto, ON', 'sales@example.com', '+1 (416) 555-0100', 'https://example.com', 'PRIVATE-INVENTORY-KEY', '2026-09-26', 1),
+    (101, 'Second Dealer', '', '', '', '', 'SECOND-PRIVATE-KEY', '2026-09-26', 1)`).run();
   await insertVehicle(db, 100);
   await insertVehicle(db, 101, { title: 'Another dealer vehicle', price: 25900 });
   return { mf, db };

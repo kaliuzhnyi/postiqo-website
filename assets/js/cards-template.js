@@ -82,7 +82,7 @@
 
   const card = document.querySelector('[data-vehicle-card]');
   if (!card) return;
-  let refreshing = false, lastCheck = Date.now();
+  let refreshing = false, accessDisabled = false, lastCheck = Date.now();
   const note = document.querySelector('[data-refresh-note]');
   const pricePanel = document.querySelector('[data-price-panel]');
   function setAvailability(value) {
@@ -94,11 +94,18 @@
     document.querySelector('[data-inactive-note]').hidden = value !== false;
   }
   async function refresh(force = false) {
-    if (document.hidden || refreshing || (!force && Date.now() - lastCheck < 15000)) return;
+    if (document.hidden || refreshing || accessDisabled || (!force && Date.now() - lastCheck < 15000)) return;
     refreshing = true;
     lastCheck = Date.now();
     try {
       const response = await fetch(card.dataset.endpoint, { cache: 'no-store', signal: AbortSignal.timeout(10000) });
+      if (response.status === 403 && (await response.json()).error === 'cards_disabled') {
+        accessDisabled = true;
+        dialog?.close();
+        card.remove();
+        window.location.reload();
+        return;
+      }
       if (response.status === 404) {
         setAvailability(false);
         note.hidden = true;
