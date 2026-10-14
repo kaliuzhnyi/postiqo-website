@@ -9,7 +9,7 @@ if (relative(project, output) !== 'dist') throw new Error('Unexpected output pat
 
 // Explicit public allowlist. Blog snapshots and sitemap are served by the
 // content Worker; sources, drafts, credentials and legacy PHP never get uploaded.
-export const directories = ['assets', 'public', 'products', 'try', 'download'];
+export const directories = ['assets', 'public', 'products', 'demo', 'try', 'download'];
 export const files = [
   'index.html', '404.html', 'robots.txt', 'site.webmanifest',
   'service-details.html', 'starter-page.html', 'apple-touch-icon.png',

@@ -9,6 +9,9 @@
 - `/products/postiqo-website/` presents custom dealership websites connected to an existing DMS or supported inventory source, starting at C$3,500 setup plus C$299/month.
 - `/products/postiqo-pages/` presents landing pages and simple local business websites from C$1,000, with free hosting and domain registration and renewal at cost, without markup or commission.
 - `/products/postiqo-cards/demo/` opens a fictional vehicle in the production card layout, with exterior/interior photos and working public Postiqo contacts.
+- `/demo/` requests a personalized demonstration of any Postiqo product. Product CTAs use `?product=publisher|cards|website|pages`; Website and Pages quote links add `&request=quote`.
+
+The homepage and `/demo/` use one form template in `scripts/templates/demo-form.html` and the existing `assets/js/request-form.js` submission handler. Run `node scripts/generate-demo-forms.mjs` after editing the template, and use `--check` to verify generated pages. Product and demo/quote intent are written to the existing API's `message` field. No licensing backend, D1 schema, email configuration or admin changes are needed. The `/try/` self-service flow remains separate. See [demo request checks and release notes](docs/demo-requests.md).
 
 Cards is included for a dealership with at least two active Publisher subscriptions, with no additional Cards fees or commissions. It is not sold separately. Public Publisher pricing is C$149 per account/month, or C$129 per account/month with at least five accounts. Two Publisher subscriptions cost C$298/month in total. Craigslist publishing is also included with 2+ accounts. Accounts 2-4 remain C$149 each; the C$129 rate applies to every account from 5 accounts. These public prices apply to new customers only. Existing customer billing is managed separately and is not changed by website pricing or the savings calculator.
 

@@ -1,0 +1,24 @@
+.demo-section { background: #f4f8fc; padding: 76px 0; }
+.demo-page .demo-section { padding-top: 152px; }
+.demo-container { width: min(720px, calc(100% - 40px)); margin-inline: auto; }
+.demo-heading { text-align: center; margin-bottom: 28px; }
+.demo-heading h1, .demo-heading h2 { font-size: clamp(30px, 4vw, 42px); line-height: 1.15; font-weight: 800; letter-spacing: -1px; }
+.demo-heading p { color: var(--product-muted); max-width: 590px; margin: 16px auto 0; }
+.demo-card { background: white; border: 1px solid var(--product-line); border-radius: 20px; padding: 32px; box-shadow: 0 12px 36px #18354d08; }
+.demo-form label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 7px; }
+.demo-form label span { color: var(--product-muted); font-weight: 400; }
+.demo-form .form-control, .demo-form .form-select { min-height: 46px; font-size: 16px; border-color: #bacbd9; border-radius: 8px; }
+.demo-form .demo-field-help, .demo-form .demo-form-note { font-size: 13px; color: var(--product-muted); line-height: 1.6; }
+.demo-form .demo-field-help { margin: 8px 0 0; }
+.demo-website { padding: 16px; border: 1px solid var(--product-line); border-radius: 12px; }
+.demo-website-emphasis { background: #edf5ff; border-color: #a7caed; }
+.demo-form .demo-submit .site-button { width: 100%; min-height: 48px; }
+.demo-submit > .demo-form-note { text-align: center; margin: 12px 0 0; }
+.demo-form .error-message, .demo-form .sent-message { border-radius: 8px; }
+.demo-contact { text-align: center; color: var(--product-muted); font-size: 14px; margin: 22px 0 0; }
+.demo-contact a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 575px) {
+  .demo-container { width: calc(100% - 24px); }
+  .demo-card { padding: 20px 16px; }
+  .demo-page .demo-section { padding-top: 132px; }
+}

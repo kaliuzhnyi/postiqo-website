@@ -24,6 +24,7 @@ PAGES = {
     CARDS: 'products/postiqo-cards/index.html',
     WEBSITE: 'products/postiqo-website/index.html',
     LOCAL_PAGES: 'products/postiqo-pages/index.html',
+    '/demo/': 'demo/index.html',
     '/try/': 'try/index.html',
     '/download/': 'download/index.html',
 }
@@ -134,7 +135,7 @@ for route, filename in PAGES.items():
         headings = [int(tag[1]) for tag, _ in page.elements if re.fullmatch(r'h[1-6]', tag)]
         assert all(next_level <= level + 1 for level, next_level in zip(headings, headings[1:])), 'Pages heading hierarchy skips a level'
         links = {attrs.get('href') for tag, attrs in page.elements if tag == 'a'}
-        assert '/?product=pages&request=quote#contact' in links
+        assert '/demo/?product=pages&request=quote' in links
     if route == WEBSITE:
         service = next(item for item in nodes if item.get('@id') == ORIGIN + WEBSITE + '#product')
         assert service['@type'] == 'Service' and service['url'] == ORIGIN + WEBSITE
@@ -147,7 +148,7 @@ for route, filename in PAGES.items():
         headings = [int(tag[1]) for tag, _ in page.elements if re.fullmatch(r'h[1-6]', tag)]
         assert all(next_level <= level + 1 for level, next_level in zip(headings, headings[1:])), 'Website heading hierarchy skips a level'
         links = {attrs.get('href') for tag, attrs in page.elements if tag == 'a'}
-        assert {'/?product=website&request=quote#contact', '/?product=website&request=demo#contact'} <= links
+        assert {'/demo/?product=website&request=quote', '/demo/?product=website'} <= links
     if route == CARDS:
         product = next(item for item in nodes if item.get('@id') == ORIGIN + CARDS + '#product')
         assert product['url'] == ORIGIN + CARDS

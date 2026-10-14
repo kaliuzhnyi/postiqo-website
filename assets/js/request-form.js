@@ -52,6 +52,46 @@
     const website = form.querySelector('[name="website"]');
     let sending = false;
     const isTrial = form.dataset.postiqoRequest === 'trial';
+    const product = !isTrial && form.querySelector('[name="product"]');
+    const products = {
+      publisher: {name: 'Postiqo Publisher', description: 'See how Publisher handles vehicle listings using your existing inventory.'},
+      cards: {name: 'Postiqo Digital Cards', description: 'See how QR vehicle cards connect buyers with your inventory. Cards is included with two active Publisher subscriptions.'},
+      website: {name: 'Postiqo Website', description: 'Explore a dealership website connected to your existing DMS or inventory source.'},
+      pages: {name: 'Postiqo Pages', description: 'Explore a landing page or simple website built around your local business.'},
+    };
+    const params = new URLSearchParams(location.search);
+    const quoteRequested = params.get('request') === 'quote';
+    const isQuote = () => product && quoteRequested && ['website', 'pages'].includes(product.value);
+    function updateProduct() {
+      if (!product) return;
+      const selected = products[product.value];
+      const quote = isQuote();
+      form.querySelector('[data-product-description]').textContent = selected.description;
+      const personalized = ['publisher', 'cards'].includes(product.value);
+      form.querySelector('[data-website-panel]').classList.toggle('demo-website-emphasis', personalized);
+      form.querySelector('[data-website-help]').textContent = personalized
+        ? 'Share your website so we can prepare a personalized demonstration with your inventory. No website yet? You can still request a demo.'
+        : 'Have an existing website? Share it to help us understand your business. You can leave this blank.';
+      form.querySelector('[data-quote-details]').hidden = !quote;
+      form.querySelector('[name="project_details"]').disabled = !quote;
+      button.textContent = quote ? 'Request a Quote' : 'Request a Demo';
+      const section = form.closest('section');
+      section.querySelector('[data-contact-title]').textContent = quote ? `Request a ${selected.name.replace('Postiqo ', '')} Quote` : location.pathname.startsWith('/demo') ? 'See What Postiqo Can Do for Your Business' : 'Request a Demo';
+      section.querySelector('[data-contact-intro]').textContent = quote
+        ? "Share a few details and we'll contact you to discuss your project and pricing."
+        : "Choose a product, share a few details, and we'll contact you to arrange a personalized demonstration.";
+    }
+    if (product) {
+      const requested = params.get('product');
+      if (Object.hasOwn(products, requested)) product.value = requested;
+      // Reset contact details after success while retaining the chosen product.
+      for (const option of product.options) option.defaultSelected = option.value === product.value;
+      product.addEventListener('change', () => {
+        for (const option of product.options) option.defaultSelected = option.value === product.value;
+        updateProduct();
+      });
+      updateProduct();
+    }
     let demoSubmission = null;
     const unavailableMessage = isTrial
       ? 'Website trial requests are temporarily unavailable. Please request your trial in the Postiqo app.'
@@ -69,6 +109,7 @@
       if (trialReady) return trialReady;
       trialReady = (async () => {
         const response = await fetch(form.dataset.trialConfig, {credentials:'omit', signal:AbortSignal.timeout(10000)});
+        if (response.status === 403) throw new Error(`Verification is unavailable on this address. Please open https://postiqo.io/${isTrial ? 'try' : 'demo'}/ or email support@postiqo.io.`);
         const config = await response.json();
         if (!response.ok || config.ok !== true || typeof config.site_key !== 'string') throw new Error(unavailableMessage);
         if (!window.turnstile) await new Promise((resolve,reject) => {
@@ -90,7 +131,8 @@
         button.before(verificationNote);
         waitingForVerification();
         trialWidget = window.turnstile.render(challenge, {
-          sitekey:config.site_key, action:isTrial ? 'trial_request' : 'demo_request', size:'flexible',
+          sitekey:config.site_key, action:isTrial ? 'trial_request' : 'demo_request',
+          size:!isTrial && challenge.clientWidth < 300 ? 'compact' : 'flexible',
           callback: () => verificationMessage('Verification complete. You can send your request.'),
           'error-callback': code => {
             verificationMessage(`Browser verification could not finish (code ${code}). Reload this page or try another browser. If this continues, contact support@postiqo.io.`);
@@ -152,7 +194,7 @@
       }
 
       const valid = form.checkValidity();
-      form.querySelectorAll("input, textarea").forEach(field => {
+      form.querySelectorAll("input, textarea, select").forEach(field => {
         const invalid = !field.validity.valid;
         field.classList.toggle("is-invalid", invalid);
         if (invalid) field.setAttribute("aria-invalid", "true");
@@ -164,10 +206,16 @@
       }
 
       const payload = new FormData(form);
+      const requestedProduct = product ? products[product.value].name : '';
+      const requestedQuote = isQuote();
       // Keep the selected product and request intent in the supported message field.
       // This survives edits to the enquiry text and needs no backend schema change.
-      if (form.dataset.requestContext) {
-        payload.set('message', `${form.dataset.requestContext}\n\n${payload.get('message') || ''}`);
+      if (product) {
+        const context = `${requestedProduct} - ${requestedQuote ? 'Quote Request' : 'Demo Request'}`;
+        const details = requestedQuote ? String(payload.get('project_details') || '').trim() : '';
+        payload.set('message', context + (details ? `\n\n${details}` : ''));
+        payload.delete('product');
+        payload.delete('project_details');
       }
       if (!isTrial) {
         const details = JSON.stringify(['name', 'dealership', 'website', 'email', 'phone', 'message'].map(key => payload.get(key) || ''));
@@ -210,7 +258,8 @@
             verification_unavailable:"We couldn't verify your browser with Cloudflare. Please wait a moment and try again. Your details are still here.",
             service_unavailable:'Our request service is temporarily unavailable. Your details are still here. Please try again shortly or email support@postiqo.io.',
             rate_limited:'Too many requests. Please wait a minute and try again.',
-            validation_error:isTrial ? 'Check your contact details, website and Facebook account, then try again.' : 'Check your contact details and message, then try again.',
+            validation_error:isTrial ? 'Check your contact details, website and Facebook account, then try again.' : 'Check your contact details and website, then try again.',
+            origin_rejected:'Please open https://postiqo.io/demo/ to send your request, or email support@postiqo.io. Your details are still here.',
             website_trial_disabled:unavailableMessage,
             email_not_configured:unavailableMessage,
             request_conflict:'This request was already received with different details. Please reload the page before starting a new request.',
@@ -220,9 +269,12 @@
         const data = await response.json();
         if (data.ok !== true) throw new Error('We could not confirm delivery. Please check with support@postiqo.io before sending again.');
         if (isTrial && data.duplicate) success.textContent = 'A trial request for this Facebook account is already awaiting review. You do not need to submit another request. We will contact you when it is reviewed.';
-        else if (data.duplicate) success.textContent = form.dataset.requestContext
-          ? 'Your Website request is already with our team. We will contact you to discuss the next steps.'
-          : 'Your demo request is already with our team. We will contact you to arrange a time.';
+        else if (product) success.textContent = data.duplicate
+          ? `Your ${requestedProduct} ${requestedQuote ? 'quote' : 'demo'} request is already with our team. We will contact you to discuss the next steps.`
+          : requestedQuote
+            ? `Your ${requestedProduct} quote request has been received. We'll contact you to discuss your project and pricing.`
+            : `Your ${requestedProduct} demo request has been received. We'll contact you to arrange a personalized demonstration.`;
+        else if (data.duplicate) success.textContent = 'Your demo request is already with our team. We will contact you to arrange a time.';
         else success.innerHTML = successMessage;
         demoSubmission = null;
         form.reset();
