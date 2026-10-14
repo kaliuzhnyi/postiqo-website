@@ -256,6 +256,7 @@ body { overflow-wrap: break-word; }
   .site-header-inner { gap: 8px; padding-inline: 12px; }
   .site-header .site-logo { font-size: 24px; }
   .site-header .site-button { padding: 10px; font-size: 12px; gap: 7px; }
+  .site-header .site-button i { display: none; }
   .marketing-container { width: calc(100% - 32px); }
   :where(.publisher-page) .container { width: calc(100% - 8px); }
   .cards-benefits { grid-template-columns: 1fr; }
