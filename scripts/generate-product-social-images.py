@@ -51,10 +51,10 @@ for slug, (eyebrow, lines, caption, accent) in variants.items():
         panel(draw, 797, 342, 'C$129 / account / month', 'C$119 per account with 5+ accounts', BLUE)
     elif slug == 'website':
         panel(draw, 797, 190, 'Your DMS stays.', 'Your inventory stays connected.', BLUE)
-        panel(draw, 797, 342, 'Starting at C$3,500 setup', '+ C$299/month managed service', BLUE)
+        panel(draw, 797, 342, 'Starting at C$3,499 setup', '+ C$299/month managed service', BLUE)
     elif slug == 'pages':
         panel(draw, 797, 190, 'Built for local business', 'One landing page or a few pages.', PURPLE)
-        panel(draw, 797, 342, 'Starting at C$1,000', 'Free hosting. Domain at cost.', PURPLE)
+        panel(draw, 797, 342, 'Starting at C$899', 'Free hosting. Domain at cost.', PURPLE)
     else:
         panel(draw, 797, 130, 'Postiqo Publisher', 'Your listings, automated.', BLUE, height=90)
         panel(draw, 797, 230, 'Postiqo Digital Cards', 'Your lot, connected.', TEAL, height=90)

@@ -122,15 +122,15 @@ for route, filename in PAGES.items():
         assert [item['position'] for item in listing['itemListElement']] == [1, 2, 3, 4]
         tiles = re.findall(r'<article class="product-tile [^"]+">(.*?)</article>', source, re.S)
         assert len(tiles) == 4, f'{filename}: incomplete product catalog'
-        assert f'href="{LOCAL_PAGES}"' in tiles[-1] and 'C$1,000' in text(tiles[-1])
+        assert f'href="{LOCAL_PAGES}"' in tiles[-1] and 'C$899' in text(tiles[-1])
     if route == LOCAL_PAGES:
         service = next(item for item in nodes if item.get('@id') == ORIGIN + LOCAL_PAGES + '#product')
         assert service['@type'] == 'Service' and service['url'] == ORIGIN + LOCAL_PAGES
         assert service['provider']['@id'] == ORIGIN + '/#organization'
-        assert 'Starting at C$1,000 CAD' in service['description'] and 'Hosting is free.' in service['description']
+        assert 'Starting at C$899 CAD' in service['description'] and 'Hosting is free.' in service['description']
         assert 'no Postiqo markup or commission' in service['description']
         assert not any(key in service for key in ('offers', 'aggregateRating', 'review')), 'Pages uses a starting quote, with no invented offers or ratings'
-        assert 'Starting at C$1,000' in text(source) and 'Free hosting' in text(source)
+        assert 'Starting at C$899' in text(source) and 'Free hosting' in text(source)
         assert 'We add no markup and take no commission.' in text(source)
         headings = [int(tag[1]) for tag, _ in page.elements if re.fullmatch(r'h[1-6]', tag)]
         assert all(next_level <= level + 1 for level, next_level in zip(headings, headings[1:])), 'Pages heading hierarchy skips a level'
@@ -140,10 +140,10 @@ for route, filename in PAGES.items():
         service = next(item for item in nodes if item.get('@id') == ORIGIN + WEBSITE + '#product')
         assert service['@type'] == 'Service' and service['url'] == ORIGIN + WEBSITE
         assert service['provider']['@id'] == ORIGIN + '/#organization'
-        assert 'C$3,500 CAD' in service['description'] and 'C$299 CAD per month' in service['description']
+        assert 'C$3,499 CAD' in service['description'] and 'C$299 CAD per month' in service['description']
         assert 'offers' not in service, 'Do not turn setup plus recurring pricing into one fixed Offer'
         assert 'aggregateRating' not in service and 'review' not in service
-        assert 'Starting at C$3,500' in text(source)
+        assert 'Starting at C$3,499' in text(source)
         assert 'Complex or custom DMS integrations may require additional setup work and will be quoted separately.' in text(source)
         headings = [int(tag[1]) for tag, _ in page.elements if re.fullmatch(r'h[1-6]', tag)]
         assert all(next_level <= level + 1 for level, next_level in zip(headings, headings[1:])), 'Website heading hierarchy skips a level'

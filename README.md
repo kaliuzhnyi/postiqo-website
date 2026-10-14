@@ -6,8 +6,8 @@
 - `/products/` gives Publisher, Digital Cards, Website and Pages one compact card each, with pricing and links to the full product pages.
 - `/products/postiqo-publisher/` contains the full Publisher page, including the existing calculator, demos, templates, price sheets, pricing and FAQ.
 - `/products/postiqo-cards/` explains digital QR vehicle cards and the included access requirement.
-- `/products/postiqo-website/` presents custom dealership websites connected to an existing DMS or supported inventory source, starting at C$3,500 setup plus C$299/month.
-- `/products/postiqo-pages/` presents landing pages and simple local business websites from C$1,000, with free hosting and domain registration and renewal at cost, without markup or commission.
+- `/products/postiqo-website/` presents custom dealership websites connected to an existing DMS or supported inventory source, starting at C$3,499 setup plus C$299/month.
+- `/products/postiqo-pages/` presents landing pages and simple local business websites from C$899, with free hosting and domain registration and renewal at cost, without markup or commission.
 - `/products/postiqo-cards/demo/` opens a fictional vehicle in the production card layout, with exterior/interior photos and working public Postiqo contacts.
 - `/demo/` requests a personalized demonstration of any Postiqo product. Product CTAs use `?product=publisher|cards|website|pages`. All products use the same demo flow; there is no separate quote mode.
 

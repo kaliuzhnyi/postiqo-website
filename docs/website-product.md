@@ -5,7 +5,7 @@
 - Public URL: `https://postiqo.io/products/postiqo-website/`
 - Positioning: Keep your DMS. Upgrade your website.
 - Standalone product: no Publisher subscription requirement or Website bundle.
-- Starting at C$3,500 one-time setup plus C$299/month for the managed service.
+- Starting at C$3,499 one-time setup plus C$299/month for the managed service.
 - Complex or custom DMS integrations may require additional setup work and will be quoted separately.
 
 The existing DMS or supported inventory source remains the source of truth. The website reads its inventory data through an agreed integration. Available fields, synchronization frequency and sold vehicle removal depend on that source. No specific DMS vendor, universal compatibility, lead volume or ranking guarantee is advertised.
@@ -34,7 +34,7 @@ Requests use the existing protected `/v1/public/demo-requests` endpoint and appe
 - Robots: index, follow, with the site's existing preview directives.
 - Open Graph title: Keep Your DMS. Upgrade Your Website. | Postiqo
 - Open Graph description: A custom dealership website connected to the inventory system you already use. Keep your DMS and upgrade the customer experience.
-- Open Graph and Twitter image: `https://postiqo.io/public/og-website.png`, 1200 x 630, with descriptive alt text.
+- Open Graph and Twitter image: `https://postiqo.io/public/og-website.png?v=2`, 1200 x 630, with descriptive alt text.
 - Twitter card: `summary_large_image`, with the same marketing copy.
 - JSON-LD: Organization, WebSite, WebPage, BreadcrumbList and Service. The service description states the starting setup and recurring CAD prices. There is no fixed-price Offer that could misrepresent the two-part pricing, and no ratings or reviews.
 - The homepage and Products ItemList now include Website. The new route is in `sitemap.xml`.
@@ -55,7 +55,7 @@ Inventory synchronization from a supported source.
 Modern SRP and VDP pages.
 Managed hosting and support.
 
-Starting at C$3,500 setup + C$299/month.
+Starting at C$3,499 setup + C$299/month.
 
 Tell us which DMS or inventory source you use. Let's discuss the right connection for your dealership.
 
@@ -71,7 +71,7 @@ Keep your DMS. Upgrade your website.
 
 Meet Postiqo Website: a custom dealership website connected to the inventory system you already use.
 
-Starting at C$3,500 setup + C$299/month. Request a quote:
+Starting at C$3,499 setup + C$299/month. Request a quote:
 https://postiqo.io/products/postiqo-website/
 ```
 
