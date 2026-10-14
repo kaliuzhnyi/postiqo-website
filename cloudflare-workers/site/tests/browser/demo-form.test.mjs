@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile, mkdir} from 'node:fs/promises';
 import {chromium} from 'playwright';
 
-const root = new URL('../../../', import.meta.url);
+const root = new URL('../../../../', import.meta.url);
 const names = {publisher: 'Postiqo Publisher', cards: 'Postiqo Digital Cards', website: 'Postiqo Website', pages: 'Postiqo Pages'};
 
 test('demo forms, product CTAs, quote requests and trial isolation in a browser', async t => {

@@ -19,6 +19,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test
+      - run: pnpm run test:browser
       - run: python ../../scripts/check-seo.py
       - run: node --test ../../tests/*.test.cjs
       - run: node ../../scripts/generate-demo-forms.mjs --check

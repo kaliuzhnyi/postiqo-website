@@ -19,6 +19,7 @@ Use Node 24 and pnpm 11.19 or later from this directory:
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm test
+pnpm run test:browser
 pnpm run deploy
 pnpm run deploy:redirect
 ```
@@ -47,6 +48,8 @@ It installs Chromium and runs browser tests with all requests intercepted, so
 test submissions never reach production. The homepage and dedicated demo page
 are generated from one shared form template; verify it with
 `node ../../scripts/generate-demo-forms.mjs --check` before a release.
+Browser tests run separately from `pnpm test`, keeping the existing Cloudflare
+Builds command independent of a Chromium installation.
 
 The demo experience release also updates the content Worker's generated blog
 navigation and sitemap. A later authorized rollout must deploy both the site and

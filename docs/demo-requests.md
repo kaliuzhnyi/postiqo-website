@@ -70,6 +70,7 @@ cd cloudflare-workers/site
 pnpm install --frozen-lockfile
 pnpm exec playwright install chromium
 pnpm test
+pnpm run test:browser
 cd ../content
 pnpm test
 ```
