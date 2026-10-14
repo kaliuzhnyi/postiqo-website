@@ -23,7 +23,7 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     assert.ok(ready, log);
-    for (const path of ['/', '/products/', '/products/postiqo-publisher/', '/products/postiqo-cards/', '/products/postiqo-website/', '/products/postiqo-pages/', '/products/postiqo-cards/demo/', '/try/', '/download/']) {
+    for (const path of ['/', '/demo/', '/products/', '/products/postiqo-publisher/', '/products/postiqo-cards/', '/products/postiqo-website/', '/products/postiqo-pages/', '/products/postiqo-cards/demo/', '/try/', '/download/']) {
       const r = await get(path);
       assert.equal(r.status, 200, path);
       assert.match(r.headers.get('content-type'), /text\/html/);
@@ -31,7 +31,7 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       const source = await readFile(new URL(path.slice(1) + 'index.html', root), 'utf8');
       assert.equal(await r.text(), source, path);
     }
-    for (const path of ['/products', '/products/index.html', '/try', '/download/index.html']) {
+    for (const path of ['/demo', '/demo/index.html', '/products', '/products/index.html', '/try', '/download/index.html']) {
       const r = await get(path + '?utm_source=check');
       assert.equal(r.status, 301, path);
       assert.match(r.headers.get('location'), /\/?\?utm_source=check$/);

@@ -10,5 +10,8 @@
     "deploy": "node scripts/build.mjs && wrangler deploy",
     "deploy:redirect": "wrangler deploy --config wrangler.redirect.jsonc"
   },
-  "devDependencies": {"wrangler": "4.129.1"}
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "wrangler": "4.129.1"
+  }
 }

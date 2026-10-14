@@ -17,6 +17,7 @@ Use Node 24 and pnpm 11.19 or later from this directory:
 
 ```sh
 pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
 pnpm test
 pnpm run deploy
 pnpm run deploy:redirect
@@ -42,6 +43,15 @@ one Worker name per build, so never deploy both Workers in the same build comman
 The deploy commands update only the static website and www redirect. They do not
 apply D1 migrations or deploy the admin, licenses, metrics or Cards services.
 The `website-static.yml` GitHub workflow also checks SEO and the calculator.
+It installs Chromium and runs browser tests with all requests intercepted, so
+test submissions never reach production. The homepage and dedicated demo page
+are generated from one shared form template; verify it with
+`node ../../scripts/generate-demo-forms.mjs --check` before a release.
+
+The demo experience release also updates the content Worker's generated blog
+navigation and sitemap. A later authorized rollout must deploy both the site and
+content Workers, without running content imports or D1 migrations. See
+`../../docs/demo-requests.md` for the scope and security verification limits.
 
 ## Visitor statistics
 
