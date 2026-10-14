@@ -48,7 +48,7 @@ for slug, (eyebrow, lines, caption, accent) in variants.items():
         panel(draw, 797, 342, 'Included with your team', '2+ active Publisher subscriptions', TEAL)
     elif slug == 'publisher':
         panel(draw, 797, 190, 'Postiqo Publisher', 'Publish, update, renew, remove', BLUE)
-        panel(draw, 797, 342, 'C$149 / account / month', 'C$129 per account with 5+ accounts', BLUE)
+        panel(draw, 797, 342, 'C$129 / account / month', 'C$119 per account with 5+ accounts', BLUE)
     elif slug == 'website':
         panel(draw, 797, 190, 'Your DMS stays.', 'Your inventory stays connected.', BLUE)
         panel(draw, 797, 342, 'Starting at C$3,500 setup', '+ C$299/month managed service', BLUE)

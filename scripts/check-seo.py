@@ -154,14 +154,14 @@ for route, filename in PAGES.items():
         assert product['url'] == ORIGIN + CARDS
         assert 'two active Postiqo Publisher subscriptions' in product['conditionsOfAccess']
         assert 'not sold separately' in product['conditionsOfAccess']
-        assert 'C$298 per month' in product['conditionsOfAccess']
+        assert 'C$258 per month' in product['conditionsOfAccess']
         assert 'offers' not in product, 'Cards must not advertise a standalone free offer'
         assert 'aggregateRating' not in product and 'review' not in product
     if route == PUBLISHER:
         product = next(item for item in nodes if item.get('@id') == ORIGIN + PUBLISHER + '#product')
         assert product['url'] == ORIGIN + PUBLISHER
         assert product['operatingSystem'] == 'Windows'
-        assert [item['price'] for item in product['offers']] == ['149.00', '129.00']
+        assert [item['price'] for item in product['offers']] == ['129.00', '119.00']
         assert all(item['priceCurrency'] == 'CAD' for item in product['offers'])
         assert all(item['url'] == ORIGIN + PUBLISHER + '#pricing' for item in product['offers'])
         assert product['offers'][0]['eligibleQuantity']['minValue'] == 1
