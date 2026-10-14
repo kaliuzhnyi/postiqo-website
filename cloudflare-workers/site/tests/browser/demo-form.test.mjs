@@ -6,7 +6,7 @@ import {chromium} from 'playwright';
 const root = new URL('../../../../', import.meta.url);
 const names = {publisher: 'Postiqo Publisher', cards: 'Postiqo Digital Cards', website: 'Postiqo Website', pages: 'Postiqo Pages'};
 
-test('demo forms, product CTAs, quote requests and trial isolation in a browser', async t => {
+test('demo forms, product CTAs, legacy links and trial isolation in a browser', async t => {
   const browser = await chromium.launch({headless: true});
   t.after(() => browser.close());
   async function open(path, options = {}) {
@@ -50,6 +50,7 @@ test('demo forms, product CTAs, quote requests and trial isolation in a browser'
     await page.locator('[name="name"]').fill('Demo Visitor');
     await page.locator('[name="email"]').fill('visitor@example.test');
     await page.locator('[name="dealership"]').fill('Example Business');
+    await page.locator('[name="website"]').fill('example.test');
   }
   async function submit(page) {
     await page.locator('.demo-form button[type="submit"]').click();
@@ -58,15 +59,21 @@ test('demo forms, product CTAs, quote requests and trial isolation in a browser'
 
   for (const path of ['/', '/demo/']) {
     for (const [product, name] of Object.entries(names)) {
-      await t.test(`${path} submits ${product} without a website or free-text message`, async () => {
+      await t.test(`${path} requires a website and submits ${product} without a free-text message`, async () => {
         const {page, posts, errors} = await open(`${path}?product=${product}`);
         assert.equal(await page.locator('[name="product"]').inputValue(), product);
         assert.equal(await page.locator('textarea:visible').count(), 0);
         await fill(page);
+        await page.locator('[name="website"]').fill('');
+        await submit(page);
+        assert.equal(posts.length, 0, 'An empty website must prevent submission');
+        assert.equal(await page.locator('[name="website"]').getAttribute('aria-invalid'), 'true');
+        await page.locator('[name="website"]').fill('example.test');
         await submit(page);
         assert.equal(posts.length, 1);
         assert.equal(posts[0].message, `${name} - Demo Request`);
-        assert.equal(posts[0].website, '');
+        assert.equal(posts[0].website, 'https://example.test/');
+        assert.equal(posts[0].phone, '');
         assert.equal(posts[0].turnstile_token, 'local-test-token');
         assert.match(posts[0].request_id, /^[a-f0-9-]{36}$/);
         assert.equal(posts[0].facebook_user_id, undefined);
@@ -94,7 +101,7 @@ test('demo forms, product CTAs, quote requests and trial isolation in a browser'
     await submit(page);
     assert.equal(posts.length, 0);
     await fill(page);
-    for (const website of ['not-a-website', 'ftp://example.test', 'https://user:password@example.test']) {
+    for (const website of ['   ', 'not-a-website', 'ftp://example.test', 'https://user:password@example.test']) {
       await page.locator('[name="website"]').fill(website);
       await submit(page);
       assert.equal(posts.length, 0);
@@ -109,14 +116,15 @@ test('demo forms, product CTAs, quote requests and trial isolation in a browser'
     await page.close();
   });
   for (const product of ['website', 'pages']) {
-    for (const path of ['/', '/demo/']) await t.test(`${product} quote works on ${path}, including legacy links`, async () => {
+    for (const path of ['/', '/demo/']) await t.test(`legacy ${product} quote link opens the standard demo form on ${path}`, async () => {
       const {page, posts} = await open(`${path}?product=${product}&request=quote#contact`);
-      assert.equal(await page.locator('.demo-form button[type="submit"]').innerText(), 'Request a Quote');
+      assert.equal(await page.locator('.demo-form button[type="submit"]').innerText(), 'Request a Demo');
+      assert.equal(await page.locator('[name="product"]').inputValue(), product);
+      assert.equal(await page.locator('textarea').count(), 0);
       await fill(page);
-      await page.locator('[name="project_details"]').fill('Please discuss my custom project.');
       await submit(page);
-      assert.equal(posts[0].message, `${names[product]} - Quote Request\n\nPlease discuss my custom project.`);
-      assert.match(await page.locator('.sent-message').innerText(), /quote request/);
+      assert.equal(posts[0].message, `${names[product]} - Demo Request`);
+      assert.match(await page.locator('.sent-message').innerText(), /demo request/);
       await page.locator('[name="product"]').selectOption('publisher');
       assert.equal(await page.locator('textarea:visible').count(), 0);
       assert.equal(await page.locator('.demo-form button[type="submit"]').innerText(), 'Request a Demo');
@@ -166,9 +174,31 @@ test('demo forms, product CTAs, quote requests and trial isolation in a browser'
   });
   for (const product of Object.keys(names)) await t.test(`${product} demo CTA selects the right product`, async () => {
     const {page} = await open(`/products/postiqo-${product}/`);
-    await page.locator(`a[href="/demo/?product=${product}"]`).first().click();
+    assert.equal(await page.locator('.site-header a[href*="/demo/"]').count(), 1);
+    assert.equal(await page.locator('.site-header a[href="/try/"]').count(), 0);
+    assert.equal(await page.locator('a[href*="request=quote"]').count(), 0);
+    if (['website', 'pages'].includes(product)) {
+      for (const group of await page.locator('main .marketing-actions').all()) {
+        assert.equal(await group.locator('a[href*="/demo/"]').count(), 1);
+      }
+    }
+    if (product === 'cards') assert.equal(await page.locator('.marketing-hero .marketing-actions a[href="/products/postiqo-cards/demo/"]').count(), 1);
+    await page.locator(`.site-header .site-button[href="/demo/?product=${product}"]`).click();
     assert.equal(await page.locator('[name="product"]').inputValue(), product);
     await page.close();
+  });
+  await t.test('homepage promotes demos and shared headers have a single highlighted demo CTA', async () => {
+    for (const path of ['/', '/products/', '/demo/', '/try/', '/download/', '/blog/']) {
+      const {page} = await open(path);
+      assert.equal(await page.locator('.site-header a[href*="/demo/"]').count(), 1, path);
+      assert.equal(await page.locator('.site-header a[href="/try/"]').count(), 0, path);
+      assert.equal((await page.locator('.site-header .site-button').innerText()).trim(), 'Request a Demo');
+      if (path === '/') {
+        assert.equal(await page.locator('main a[href="/try/"]').count(), 0);
+        assert.equal(await page.locator('.pricing-actions a').count(), 1);
+      }
+      await page.close();
+    }
   });
   await t.test('Publisher retains self-service and mobile forms fit at 360px', async () => {
     const {page} = await open('/products/postiqo-publisher/');
@@ -180,6 +210,7 @@ test('demo forms, product CTAs, quote requests and trial isolation in a browser'
     for (const width of [320, 360, 1280]) {
       const {page} = await open('/demo/?product=cards', {viewport: {width, height: 1000}});
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+      assert.ok((await page.locator('.site-header').boundingBox()).height < 90, 'Mobile header must stay on one row');
       assert.equal(await page.evaluate(() => window.verificationOptions.size), width < 360 ? 'compact' : 'flexible');
       if (process.env.DEMO_SCREENSHOTS) {
         await mkdir(process.env.DEMO_SCREENSHOTS, {recursive: true});

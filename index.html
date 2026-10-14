@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="/assets/css/main.css?v=1.0.7">
 <link rel="stylesheet" href="/assets/css/products.css?v=4">
 <script src="/assets/js/site.js?v=5" defer></script>
-<script src="/assets/js/request-form.js?v=9" defer></script>
+<script src="/assets/js/request-form.js?v=10" defer></script>
 <link rel="stylesheet" href="/assets/css/demo.css?v=1">
 <script type="application/ld+json">
 {
@@ -163,10 +163,9 @@
         </ul></details></li>
         <li><a href="/products/#pricing">Pricing</a></li>
         <li><a href="/blog/">Blog &amp; News</a></li>
-        <li><a href="/demo/">Request a Demo</a></li>
       </ul>
     </nav>
-    <a class="site-button" href="/try/">Try Publisher <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+    <a class="site-button" href="/demo/">Request a Demo <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
     <button class="site-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation"><i class="bi bi-list" aria-hidden="true"></i></button>
   </div>
 </header>
@@ -176,8 +175,8 @@
     <span class="marketing-eyebrow">Software for car dealerships</span>
     <h1>Less admin.<br>More time<br><span>with buyers.</span></h1>
     <p class="marketing-intro">Automate your listings with Publisher. Connect your lot with Digital Cards. Keep your DMS and upgrade your online showroom with Postiqo Website.</p>
-    <div class="marketing-actions"><a class="site-button" href="/try/">Try Publisher <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a><a class="site-button site-button-outline" href="/products/">Explore our products</a></div>
-    <p class="marketing-note">Start with your own inventory. Free import and preview.<br>Request a 7-day publishing trial when you're ready.</p>
+    <div class="marketing-actions"><a class="site-button" href="/demo/">Request a Demo <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a><a class="site-button site-button-outline" href="/products/">Explore our products</a></div>
+    <p class="marketing-note">See how Postiqo fits your business.<br>We'll prepare a personalized demonstration around your website and inventory.</p>
   </div><div class="home-visual">
     <img src="/assets/img/publisher-multichannel.webp" srcset="/assets/img/publisher-multichannel-768.webp 768w, /assets/img/publisher-multichannel.webp 1536w" sizes="(min-width: 992px) 540px, (min-width: 768px) 45vw, 90vw" width="1536" height="1024" fetchpriority="high" alt="Dealership inventory connected to online vehicle listings">
     <a class="visual-label" href="/products/postiqo-publisher/"><i class="bi bi-send" aria-hidden="true"></i><div><strong>Postiqo Publisher</strong><small>Your listings, working for you.</small></div></a>
@@ -264,8 +263,7 @@
                 </aside>
 
                 <div class="pricing-actions">
-                    <a class="btn btn-primary" href="/try/">Start 7-Day Free Trial <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
-                    <a class="pricing-demo-link" href="/demo/?product=publisher">Request a Demo</a>
+                    <a class="btn btn-primary" href="/demo/?product=publisher">Request a Demo <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                 </div>
 
             </article>
@@ -310,18 +308,14 @@
     </div>
     <div class="col-12">
       <div class="demo-website demo-website-emphasis" data-website-panel>
-        <label for="contact-website">Business Website <span>(optional)</span></label>
-        <input class="form-control" id="contact-website" name="website" placeholder="yourbusiness.com" type="url" maxlength="2048" autocomplete="url" aria-describedby="website-help">
-        <p class="demo-field-help" id="website-help" data-website-help>Share your website so we can prepare a personalized demonstration with your inventory. No website yet? You can still request a demo.</p>
+        <label for="contact-website">Business Website *</label>
+        <input class="form-control" id="contact-website" name="website" placeholder="yourbusiness.com" required type="url" maxlength="2048" autocomplete="url" aria-describedby="website-help">
+        <p class="demo-field-help" id="website-help" data-website-help>Share your website so we can prepare a personalized demonstration with your inventory.</p>
       </div>
     </div>
     <div class="col-12">
       <label for="contact-phone">Phone Number <span>(optional)</span></label>
       <input autocomplete="tel" class="form-control" id="contact-phone" name="phone" type="tel" maxlength="40">
-    </div>
-    <div class="col-12" data-quote-details hidden>
-      <label for="contact-project">Project details <span>(optional)</span></label>
-      <textarea class="form-control" id="contact-project" name="project_details" rows="3" maxlength="4500" disabled placeholder="Tell us about your business, existing website or inventory source, and what you would like to build."></textarea>
     </div>
     <div class="col-12 demo-submit">
       <div aria-live="polite" class="loading" role="status">Sending your request...</div>

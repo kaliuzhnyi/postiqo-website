@@ -60,26 +60,15 @@
       pages: {name: 'Postiqo Pages', description: 'Explore a landing page or simple website built around your local business.'},
     };
     const params = new URLSearchParams(location.search);
-    const quoteRequested = params.get('request') === 'quote';
-    const isQuote = () => product && quoteRequested && ['website', 'pages'].includes(product.value);
     function updateProduct() {
       if (!product) return;
       const selected = products[product.value];
-      const quote = isQuote();
       form.querySelector('[data-product-description]').textContent = selected.description;
       const personalized = ['publisher', 'cards'].includes(product.value);
       form.querySelector('[data-website-panel]').classList.toggle('demo-website-emphasis', personalized);
       form.querySelector('[data-website-help]').textContent = personalized
-        ? 'Share your website so we can prepare a personalized demonstration with your inventory. No website yet? You can still request a demo.'
-        : 'Have an existing website? Share it to help us understand your business. You can leave this blank.';
-      form.querySelector('[data-quote-details]').hidden = !quote;
-      form.querySelector('[name="project_details"]').disabled = !quote;
-      button.textContent = quote ? 'Request a Quote' : 'Request a Demo';
-      const section = form.closest('section');
-      section.querySelector('[data-contact-title]').textContent = quote ? `Request a ${selected.name.replace('Postiqo ', '')} Quote` : location.pathname.startsWith('/demo') ? 'See What Postiqo Can Do for Your Business' : 'Request a Demo';
-      section.querySelector('[data-contact-intro]').textContent = quote
-        ? "Share a few details and we'll contact you to discuss your project and pricing."
-        : "Choose a product, share a few details, and we'll contact you to arrange a personalized demonstration.";
+        ? 'Share your website so we can prepare a personalized demonstration with your inventory.'
+        : 'Share your business website to help us prepare a demonstration around your business and goals.';
     }
     if (product) {
       const requested = params.get('product');
@@ -207,15 +196,10 @@
 
       const payload = new FormData(form);
       const requestedProduct = product ? products[product.value].name : '';
-      const requestedQuote = isQuote();
-      // Keep the selected product and request intent in the supported message field.
-      // This survives edits to the enquiry text and needs no backend schema change.
+      // Keep the selected product in the supported message field without a schema change.
       if (product) {
-        const context = `${requestedProduct} - ${requestedQuote ? 'Quote Request' : 'Demo Request'}`;
-        const details = requestedQuote ? String(payload.get('project_details') || '').trim() : '';
-        payload.set('message', context + (details ? `\n\n${details}` : ''));
+        payload.set('message', `${requestedProduct} - Demo Request`);
         payload.delete('product');
-        payload.delete('project_details');
       }
       if (!isTrial) {
         const details = JSON.stringify(['name', 'dealership', 'website', 'email', 'phone', 'message'].map(key => payload.get(key) || ''));
@@ -270,10 +254,8 @@
         if (data.ok !== true) throw new Error('We could not confirm delivery. Please check with support@postiqo.io before sending again.');
         if (isTrial && data.duplicate) success.textContent = 'A trial request for this Facebook account is already awaiting review. You do not need to submit another request. We will contact you when it is reviewed.';
         else if (product) success.textContent = data.duplicate
-          ? `Your ${requestedProduct} ${requestedQuote ? 'quote' : 'demo'} request is already with our team. We will contact you to discuss the next steps.`
-          : requestedQuote
-            ? `Your ${requestedProduct} quote request has been received. We'll contact you to discuss your project and pricing.`
-            : `Your ${requestedProduct} demo request has been received. We'll contact you to arrange a personalized demonstration.`;
+          ? `Your ${requestedProduct} demo request is already with our team. We will contact you to discuss the next steps.`
+          : `Your ${requestedProduct} demo request has been received. We'll contact you to arrange a personalized demonstration.`;
         else if (data.duplicate) success.textContent = 'Your demo request is already with our team. We will contact you to arrange a time.';
         else success.innerHTML = successMessage;
         demoSubmission = null;

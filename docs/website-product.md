@@ -18,12 +18,11 @@ Website appears in the Products menus and footers of all seven public marketing 
 
 The hero is an illustrative HTML/CSS layout using the existing sample vehicle image at `assets/img/cards-demo/exterior.webp`. It is labelled as an illustration and does not present a customer website or a named integration. No new client assets are required for this version. An approved real Website screenshot can replace the illustration later.
 
-## Quote and demo requests
+## Demo requests
 
-- Quote: `/?product=website&request=quote#contact`
-- Demo: `/?product=website&request=demo#contact`
+- Demo: `/demo/?product=website`
 
-Both links use the existing homepage contact form. `assets/js/site.js` selects fixed Website copy and prompts for the DMS or inventory source. `assets/js/request-form.js` includes the Website product and quote/demo intent in the supported `message` field, even if the visitor replaces the suggested text. The field's maximum length allows space for that context.
+All Website CTAs use the shared demo form. `assets/js/request-form.js` preselects Website and generates `Postiqo Website - Demo Request` in the supported `message` field. Business Website is required. Old quote links retain the selected product but no longer activate a separate form mode.
 
 Requests use the existing protected `/v1/public/demo-requests` endpoint and appear in the existing demo-request queue. No new quote endpoint, meeting scheduler, backend migration or credentials are introduced. The existing Turnstile verification, validation and retry identifier remain in use. Demo requests ask the team to arrange a time. Live submission from localhost requires the backend's allowed Origin and Turnstile settings; local UI checks should not send production enquiries.
 

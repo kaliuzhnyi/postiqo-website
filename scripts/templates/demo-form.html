@@ -26,18 +26,14 @@
     </div>
     <div class="col-12">
       <div class="demo-website demo-website-emphasis" data-website-panel>
-        <label for="contact-website">Business Website <span>(optional)</span></label>
-        <input class="form-control" id="contact-website" name="website" placeholder="yourbusiness.com" type="url" maxlength="2048" autocomplete="url" aria-describedby="website-help">
-        <p class="demo-field-help" id="website-help" data-website-help>Share your website so we can prepare a personalized demonstration with your inventory. No website yet? You can still request a demo.</p>
+        <label for="contact-website">Business Website *</label>
+        <input class="form-control" id="contact-website" name="website" placeholder="yourbusiness.com" required type="url" maxlength="2048" autocomplete="url" aria-describedby="website-help">
+        <p class="demo-field-help" id="website-help" data-website-help>Share your website so we can prepare a personalized demonstration with your inventory.</p>
       </div>
     </div>
     <div class="col-12">
       <label for="contact-phone">Phone Number <span>(optional)</span></label>
       <input autocomplete="tel" class="form-control" id="contact-phone" name="phone" type="tel" maxlength="40">
-    </div>
-    <div class="col-12" data-quote-details hidden>
-      <label for="contact-project">Project details <span>(optional)</span></label>
-      <textarea class="form-control" id="contact-project" name="project_details" rows="3" maxlength="4500" disabled placeholder="Tell us about your business, existing website or inventory source, and what you would like to build."></textarea>
     </div>
     <div class="col-12 demo-submit">
       <div aria-live="polite" class="loading" role="status">Sending your request...</div>

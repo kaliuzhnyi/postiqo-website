@@ -11,20 +11,23 @@ Supported links:
 - `/demo/?product=cards`
 - `/demo/?product=website`
 - `/demo/?product=pages`
-- `/demo/?product=website&request=quote`
-- `/demo/?product=pages&request=quote`
 
-Existing homepage `?product=...&request=...#contact` links continue to work.
+Existing homepage `?product=...#contact` links continue to work.
 Direct or unknown-product visits default to Publisher. Visitors can change the
-product. Quote intent applies only to Website and Pages and shows an optional
-project-details field; changing to Publisher or Cards switches to a demo.
+product. Old links with `request=quote` open the same demo form and retain the
+product; the extra request parameter is ignored. There is no separate quote mode.
+
+Shared headers have one highlighted Request a Demo button. Website and Pages
+use the same CTA throughout their pages. Cards retains its interactive View the
+demo link, and Publisher retains Try It Yourself within its product page.
 
 ## Existing API contract
 
-The form sends `name`, `dealership`, `email`, optional `website` and `phone`, plus
-an automatic message such as `Postiqo Digital Cards - Demo Request`. Quote
-messages use `Quote Request` and append optional project details. There is no
-new database field. The current admin interface and notification emails already
+The form requires product, `name`, `dealership`, `email` and `website`; `phone`
+is optional. Website validation accepts bare domains and normalizes them to an
+HTTPS URL. It sends an automatic message such as
+`Postiqo Digital Cards - Demo Request`. There is no new database field or API
+schema change. The current admin interface and notification emails already
 display `message`.
 
 The client retains `request_id` across retries of unchanged details, including
@@ -76,7 +79,7 @@ pnpm test
 ```
 
 The browser suite intercepts every network request, covering product CTAs,
-homepage and demo submissions, validation, optional websites, quote context,
+homepage and demo submissions, required website validation, legacy quote links,
 missing verification, failures, retries, duplicate receipts and mobile layout.
 Set `DEMO_SCREENSHOTS` to a local directory to save desktop and mobile previews.
 
@@ -87,8 +90,8 @@ It requires no licensing, admin, email or D1 changes. The site's deployment
 allowlist includes `/demo/`; the content Worker build picks up blog navigation
 and sitemap changes from the existing static shell.
 
-Production is not deployed as part of this release. Pushing `master` triggers
-Cloudflare Builds, so the release is published from a separate branch and tag.
-After an authorized merge and site rollout, deploy the content Worker using its
-existing deployment command to update the live blog navigation and sitemap.
-Do not run static article imports or migrations for this release.
+Release 1.0.4 was published to production on 2026-10-14 after approval.
+Pushing `master` triggers Cloudflare Builds for the static site. Header changes
+also require deploying the content Worker with its existing deployment command
+to update live blog navigation. Do not run static article imports or migrations
+for these frontend changes.
