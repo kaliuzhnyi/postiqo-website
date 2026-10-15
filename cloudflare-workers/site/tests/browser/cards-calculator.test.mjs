@@ -26,7 +26,7 @@ test('Cards payment calculator works in the demo and follows live inventory', as
       if (url.hostname !== 'cards.test') return route.abort();
       if (url.pathname.startsWith('/api/')) {
         return route.fulfill({ status: state.status, json: state.status === 403 ? { error: 'cards_disabled' }
-          : { vehicle: { price: state.price, is_active: state.active } } });
+          : { vehicle: { price: state.price, is_active: state.active, spec_groups: state.spec_groups } } });
       }
       if (url.pathname === '/100/TEST') {
         return route.fulfill({ contentType: 'text/html', body: renderPage(projectVehicle({
@@ -114,7 +114,12 @@ test('Cards payment calculator works in the demo and follows live inventory', as
     await page.locator('#payment-term').selectOption('72');
     await page.getByText('Bi-weekly', { exact: true }).click();
     state.price = 30000;
+    state.spec_groups = [{ title: 'Engine & transmission', rows: [['Engine', '2.5 L / 4-cylinder']] },
+      { title: 'Body & cabin', rows: [['Exterior colour', 'Silver'], ['Interior colour', '<img src=x onerror=alert(1)>'], ['Seating', '5 seats / 2 rows']] }];
     await refresh(page);
+    assert.equal(await page.locator('.spec-group h3').allTextContents().then(values => values.join(', ')), 'Engine & transmission, Body & cabin');
+    assert.equal(await page.locator('[data-spec-groups] img').count(), 0);
+    assert.match(await page.locator('[data-spec-groups]').innerText(), /2.5 L \/ 4-cylinder/);
     assert.equal(await page.locator('#payment-down').inputValue(), '5000');
     assert.equal(await page.locator('#payment-rate').inputValue(), '6.25');
     assert.equal(await page.locator('#payment-term').inputValue(), '72');

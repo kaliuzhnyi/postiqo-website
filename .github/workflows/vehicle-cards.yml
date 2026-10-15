@@ -31,3 +31,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm exec wrangler deploy --dry-run
+      - run: pnpm exec wrangler deploy --config wrangler.vin.jsonc --dry-run

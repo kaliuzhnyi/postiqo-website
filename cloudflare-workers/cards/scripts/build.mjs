@@ -22,4 +22,6 @@ await mkdir(`${root}generated`, { recursive: true });
 await writeFile(`${root}generated/assets.js`, `export const assets = ${JSON.stringify(assets)};\nexport const urls = ${JSON.stringify(urls)};\n`);
 await build({ absWorkingDir: root, entryPoints: ['src/index.js'], outfile: 'dist/index.js',
   bundle: true, format: 'esm', platform: 'browser', target: 'es2022', minify: false });
+await build({ absWorkingDir: root, entryPoints: ['src/vin-worker.js'], outfile: 'dist/vin.js',
+  bundle: true, format: 'esm', platform: 'browser', target: 'es2022', minify: false });
 console.log('Built cards Worker with versioned CSS, JavaScript and the website Nunito font.');

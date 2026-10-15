@@ -33,6 +33,9 @@ const vehicle = projectVehicle({
   body_type: 'SUV', vehicle_condition: 'Pre-owned',
   drivetrain: 'All-wheel drive', transmission: 'Automatic', fuel_type: 'Gasoline',
   exterior_color: 'Silver', interior_color: 'Black cloth',
+  // Illustrative specifications for this fictional demo, not a live VIN lookup.
+  engine_displacement_l: 2.5, engine_configuration: 'In-Line', transmission_speeds: 8,
+  doors: 5, seats: 5, seat_rows: 2, plant_country: 'CANADA',
   description: 'An everyday SUV with room for the commute, weekend trips and everything in between. This silver Toyota RAV4 XLE AWD pairs a comfortable black cloth interior with a practical five-seat layout.\n\nWith 38,450 km, automatic transmission and all-wheel drive, it is ready for your next chapter. The cabin brings the controls within easy reach, with space for passengers and the things you take along.\n\nBrowse the exterior and interior photos for a closer look. Contact our team to ask about availability, arrange a viewing or book a test drive.',
   dealer_name: 'Postiqo Motors',
   dealer_address: 'Barrie, Ontario, Canada',

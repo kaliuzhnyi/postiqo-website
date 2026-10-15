@@ -20,14 +20,17 @@ export function projectVehicle(row) {
   const vehicle = {};
   for (const key of ['title', 'vin', 'stockno', 'make', 'model', 'trim', 'description', 'drivetrain',
     'vehicle_type', 'vehicle_condition', 'body_type', 'exterior_color', 'interior_color', 'fuel_type',
-    'transmission', 'location', 'dealer_name', 'dealer_address', 'dealer_phone', 'dealer_email']) vehicle[key] = text(row[key]);
-  for (const key of ['year', 'price', 'mileage', 'cylinders']) vehicle[key] = number(row[key]);
+    'transmission', 'location', 'dealer_name', 'dealer_address', 'dealer_phone', 'dealer_email',
+    'engine_model', 'engine_configuration', 'electrification_level', 'fuel_type_secondary', 'plant_country']) vehicle[key] = text(row[key]);
+  for (const key of ['year', 'price', 'mileage', 'cylinders', 'engine_displacement_l',
+    'transmission_speeds', 'doors', 'seats', 'seat_rows']) vehicle[key] = number(row[key]);
   vehicle.is_active = row.is_active === 1 ? true : row.is_active === 0 ? false : null;
   vehicle.video = safeUrl(row.video);
   vehicle.dealer_website = safeUrl(row.dealer_website);
   let photos = [];
   try { photos = JSON.parse(row.photos_json); } catch { /* Keep an honest empty gallery. */ }
   vehicle.photos = Array.isArray(photos) ? [...new Set(photos.filter(p => typeof p === 'string').map(p => safeUrl(p, true)).filter(Boolean))].slice(0, 100) : [];
+  vehicle.spec_groups = specificationGroups(vehicle);
   return vehicle;
 }
 
@@ -76,13 +79,28 @@ function gallery(v) {
   </section>`;
 }
 
+function specificationGroups(v) {
+  const engine = [v.engine_displacement_l ? `${v.engine_displacement_l.toFixed(1)} L` : '',
+    v.cylinders ? `${v.cylinders}-cylinder` : ''].filter(Boolean).join(' / ');
+  const seating = [v.seats ? `${v.seats} seats` : '', v.seat_rows ? `${v.seat_rows} rows` : ''].filter(Boolean).join(' / ');
+  return [
+    { title: 'Vehicle', rows: [['Year', v.year], ['Make', v.make], ['Model', v.model], ['Trim', v.trim],
+      ['Mileage', v.mileage === null ? '' : `${integer(v.mileage)} km`], ['Condition', v.vehicle_condition], ['Stock number', v.stockno]] },
+    { title: 'Engine & transmission', rows: [['Engine', engine], ['Drivetrain', v.drivetrain],
+      ['Transmission', v.transmission], ['Gears', v.transmission_speeds ? `${v.transmission_speeds}-speed` : ''],
+      ['Fuel type', v.fuel_type], ['Secondary fuel', v.fuel_type_secondary], ['Electrification', v.electrification_level],
+      ['Engine layout', v.engine_configuration], ['Engine model', v.engine_model]] },
+    { title: 'Body & cabin', rows: [['Exterior colour', v.exterior_color], ['Interior colour', v.interior_color],
+      ['Body style', v.body_type || v.vehicle_type], ['Doors', v.doors], ['Seating', seating],
+      ['Built in', v.plant_country.replace(/\b[A-Z]{3,}\b/g, word => word === 'USA' ? word : word[0] + word.slice(1).toLowerCase())]] },
+  ].map(group => ({ ...group, rows: group.rows.filter(([, value]) => value !== '' && value !== null && value !== undefined)
+    .map(([label, value]) => [label, String(value)]) })).filter(group => group.rows.length);
+}
+
 function specs(v) {
-  const rows = [['Year', v.year], ['Make', v.make], ['Model', v.model], ['Trim', v.trim],
-    ['Body style', v.body_type || v.vehicle_type], ['Condition', v.vehicle_condition],
-    ['Mileage', v.mileage === null ? '' : `${integer(v.mileage)} km`], ['Transmission', v.transmission],
-    ['Drivetrain', v.drivetrain], ['Engine', v.cylinders ? `${v.cylinders}-cylinder` : ''], ['Fuel type', v.fuel_type],
-    ['Exterior colour', v.exterior_color], ['Interior colour', v.interior_color], ['Stock number', v.stockno]];
-  return `<section class="details-section"><h2>At a glance</h2><dl class="specifications">${rows.filter(([, value]) => value !== '' && value !== null).map(([label, value]) => `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl><div class="vin"><span>VIN</span><span>${escape(v.vin)}</span></div></section>`;
+  return `<section class="details-section"><h2>At a glance</h2><div data-spec-groups>${v.spec_groups.map(group =>
+    `<section class="spec-group"><h3>${escape(group.title)}</h3><dl class="specifications">${group.rows.map(([label, value]) =>
+      `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl></section>`).join('')}</div><div class="vin"><span>VIN</span><span>${escape(v.vin)}</span></div></section>`;
 }
 
 function dealer(v) {

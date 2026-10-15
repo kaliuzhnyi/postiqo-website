@@ -226,6 +226,30 @@ function calculateVehiclePayment({ price, downPayment, annualRate, termMonths, f
   let refreshing = false, accessDisabled = false, lastCheck = Date.now();
   const note = document.querySelector('[data-refresh-note]');
   const pricePanel = document.querySelector('[data-price-panel]');
+  function updateSpecifications(groups) {
+    const target = document.querySelector('[data-spec-groups]');
+    if (!target || !Array.isArray(groups) || groups.length > 3) return;
+    if (!groups.every(group => typeof group.title === 'string' && Array.isArray(group.rows) && group.rows.length <= 20
+      && group.rows.every(row => Array.isArray(row) && row.length === 2 && row.every(value => typeof value === 'string')))) return;
+    const sections = groups.map(group => {
+      const section = document.createElement('section');
+      section.className = 'spec-group';
+      const heading = document.createElement('h3');
+      heading.textContent = group.title;
+      const list = document.createElement('dl');
+      list.className = 'specifications';
+      for (const [label, value] of group.rows) {
+        const row = document.createElement('div'), term = document.createElement('dt'), detail = document.createElement('dd');
+        term.textContent = label;
+        detail.textContent = value;
+        row.append(term, detail);
+        list.append(row);
+      }
+      section.append(heading, list);
+      return section;
+    });
+    target.replaceChildren(...sections);
+  }
   function setAvailability(value) {
     const badge = document.querySelector('[data-availability]');
     badge.textContent = value === false ? 'No longer listed' : value === true ? 'Available' : 'Check availability';
@@ -258,6 +282,7 @@ function calculateVehiclePayment({ price, downPayment, annualRate, termMonths, f
       if (!vehicle || ![true, false, null].includes(vehicle.is_active)
         || (vehicle.price !== null && (typeof vehicle.price !== 'number' || !Number.isFinite(vehicle.price)))) throw new Error('invalid_response');
       setAvailability(vehicle.is_active);
+      updateSpecifications(vehicle.spec_groups);
       updatePaymentVehicle(vehicle.price, vehicle.is_active);
       document.querySelector('[data-price]').textContent = vehicle.price === null || vehicle.price <= 0 ? 'Contact for price'
         : new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: Number.isInteger(vehicle.price) ? 0 : 2 }).format(vehicle.price);

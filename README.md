@@ -32,6 +32,9 @@ separate Cloudflare Worker and read the existing Publisher inventory database.
 See [the cards service guide](cloudflare-workers/cards/README.md) for local
 preview, refresh behavior, testing and deployment.
 
+See [VIN enrichment](docs/inventory-vin-enrichment.md) for server-side NHTSA decoding,
+active inventory backfill, additional website fields and bounded resource usage.
+
 ## SEO and dealer conversion
 
 The public marketing pages have unique titles, descriptions, canonical URLs, Open Graph and Twitter cards and are included in `sitemap.xml`. Keep unused template pages excluded with `noindex`; do not block them in robots.txt, because crawlers need to read that directive.

@@ -754,13 +754,27 @@ h1 {
   row-gap: 0;
   margin: 0;
 }
+.spec-group + .spec-group {
+  margin-top: 22px;
+}
+.spec-group h3 {
+  margin: 0;
+  padding: 8px 11px;
+  border-left: 3px solid #83bcf8;
+  border-radius: 0 6px 6px 0;
+  background: var(--pale);
+  font-family: var(--heading);
+  font-size: 13px;
+  font-weight: 750;
+  color: var(--ink);
+}
 .specifications > div {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   align-items: baseline;
   border-bottom: 1px solid #eaf0f5;
-  padding: 13px 0;
+  padding: 10px 0;
   font-size: 13px;
   line-height: 1.45;
 }

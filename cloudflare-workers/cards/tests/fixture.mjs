@@ -43,6 +43,9 @@ export async function createRuntime(options = {}) {
   });
   const db = await mf.getD1Database('DB');
   await db.batch(schema.map(sql => db.prepare(sql)));
+  // Exact fixture copy of Publisher licensing migration 0013.
+  const enrichment = await readFile(new URL('./enrichment-schema.sql', import.meta.url), 'utf8');
+  await db.batch(enrichment.split(';').filter(sql => sql.trim()).map(sql => db.prepare(sql)));
   await db.prepare(`INSERT INTO dealers VALUES
     (100, 'Example Motors', '123 Example Street, Toronto, ON', 'sales@example.com', '+1 (416) 555-0100', 'https://example.com', 'PRIVATE-INVENTORY-KEY', '2026-09-26', 1),
     (101, 'Second Dealer', '', '', '', '', 'SECOND-PRIVATE-KEY', '2026-09-26', 1)`).run();

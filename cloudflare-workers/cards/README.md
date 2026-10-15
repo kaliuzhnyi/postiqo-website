@@ -19,11 +19,14 @@ licensing migration `0011_dealer_cards.sql`.
   The footer links to `https://postiqo.io/products/postiqo-cards/` as
   `Powered by Postiqo Cards`.
 
-The existing inventory contract has no currency, mileage-unit or engine
+The Publisher inventory contract has no currency, mileage-unit or engine
 displacement columns. Cards use CAD and kilometres, matching the Canadian
-catalogue. The engine field uses the supplied cylinder count; further engine
-information stays in the full description. No missing specifications are
-inferred. Marketing suffixes separated by ` * ` or ` | ` are omitted only from
+catalogue. Website-only VIN enrichment supplies missing specifications and
+additional engine, transmission and seating details. Populated dealer fields
+always win. Specifications are grouped into Vehicle, Engine & transmission,
+and Body & cabin; exterior and interior colours stay together. Empty groups
+and unknown specifications are omitted. See [VIN processing and resource limits](../../docs/inventory-vin-enrichment.md).
+Marketing suffixes separated by ` * ` or ` | ` are omitted only from
 the heading; the original model and listing title remain visible below.
 
 ## Payment calculator
@@ -97,9 +100,10 @@ This flag is set manually and does not count Publisher subscriptions.
 
 HTML includes all content before JavaScript runs. HTML and JSON send
 `Cache-Control: no-store` and `Cloudflare-CDN-Cache-Control: no-store`. The open
-page refreshes price and availability every 60 seconds while visible, on return
-to the tab, and when restored from the browser back/forward cache. Other fields
-refresh when the page is opened again. A failed refresh displays a notice;
+page refreshes price, availability and grouped specifications every 60 seconds
+while visible, on return to the tab, and when restored from the browser back/forward
+cache. Specifications update without resetting financing inputs. Headings, photos
+and descriptions refresh when the page is opened again. A failed refresh displays a notice;
 an initial database failure returns 503 with a retry button. If access is
 disabled while a card is open, its next refresh removes the vehicle content,
 closes the photo viewer and reloads the disabled message. Changes take effect
@@ -181,5 +185,26 @@ Worker. Apply the shared migration from the Publisher project only.
 
 Cloudflare creates the DNS record and certificate when a Worker Custom Domain
 is added. See the [Custom Domains documentation](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
-The production binding remains the shared inventory database; the Worker code
+The production binding remains the shared inventory database; the Cards Worker
 uses SELECT only. Keep the explicit field projection when adding new fields.
+
+## VIN enrichment Worker
+
+Apply Publisher licensing migration `0013_inventory_enrichment.sql` before
+deploying this Cards version. It creates the separate enrichment and runner
+tables without changing inventory rows or the desktop upload/read contract.
+Deploy `wrangler.vin.jsonc` to run `postiqo-vin-enrichment` every 15 minutes:
+
+```powershell
+pnpm exec wrangler deploy --config wrangler.vin.jsonc
+```
+
+The job scans at most 20 active rows and attempts at most three VINs per run.
+It gradually includes existing active inventory, uses one NHTSA batch request,
+and allows at most three attempts per VIN/year context. The saved scan cursor,
+indexed queue, slot lock, leases and provider cooldown bound work and recover
+interrupted runs. It has no public HTTP job endpoint, no Queue/KV subscription,
+and no new secret. Set `VIN_ENRICHMENT_ENABLED` to `false` to pause processing.
+Completed enrichment remains readable. Review the resource calculations and
+operational queries in the linked VIN guide. The SQL fixture in
+`tests/enrichment-schema.sql` must match the owning Publisher migration exactly.

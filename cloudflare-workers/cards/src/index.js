@@ -1,5 +1,6 @@
 import { assets } from '../generated/assets.js';
 import { renderPage, renderMessage, renderCardsDisabled, projectVehicle } from './render.js';
+import { mergeEnrichment } from './vin.js';
 
 const headers = {
   'Cache-Control': 'no-store, max-age=0',
@@ -49,9 +50,11 @@ export default {
             v.vehicle_condition, v.body_type, v.exterior_color, v.interior_color,
             v.fuel_type, v.transmission, v.location, v.video, v.photos_json, v.is_active,
             d.name AS dealer_name, d.address AS dealer_address, d.phone AS dealer_phone,
-            d.email AS dealer_email, d.website AS dealer_website
+            d.email AS dealer_email, d.website AS dealer_website,
+            e.vin AS enrichment_vin, e.status AS enrichment_status, e.decoded_json AS enrichment_json
             FROM dealers d LEFT JOIN inventory v ON v.dealer_id = d.id
               AND v.vehicle_key = ? AND d.cards_enabled = 1
+            LEFT JOIN inventory_enrichment e ON e.inventory_id = v.id
             WHERE d.id = ?`).bind(`vin:${vin}`, dealerId).first();
           if (row && row.cards_enabled !== 1) {
             result = isApi ? response(JSON.stringify({ error: 'cards_disabled' }), 403, 'application/json')
@@ -60,7 +63,7 @@ export default {
             result = isApi ? response(JSON.stringify({ error: 'not_found' }), 404, 'application/json')
               : response(renderMessage('This vehicle is no longer listed', 'The dealership may have removed this vehicle. Please contact them for current availability.'), 404);
           } else {
-            const vehicle = projectVehicle(row);
+            const vehicle = projectVehicle(mergeEnrichment(row));
             result = isApi ? response(JSON.stringify({ vehicle }), 200, 'application/json; charset=utf-8')
               : response(renderPage(vehicle, path));
           }

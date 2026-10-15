@@ -160,6 +160,30 @@ test('versioned assets are complete and cached; unknown assets never return HTML
   assert.match(await (await get('/robots.txt')).text(), /Disallow: \//);
 });
 
+test('VIN enrichment fills website blanks, preserves dealer fields and stays scoped to its inventory row', async () => {
+  const row = await db.prepare('SELECT id FROM inventory WHERE dealer_id = 100 AND vin = ?').bind(VIN).first();
+  await db.prepare(`INSERT INTO inventory_enrichment(inventory_id, vin, model_year, status, decoded_json, raw_json, updated_at)
+    VALUES (?, ?, 2018, 'partial', ?, ?, '2026-10-15')`).bind(row.id, VIN, JSON.stringify({
+      year: 2018, make: 'BMW', model: '330e', series: '3-Series', trim: 'Decoder trim',
+      cylinders: 4, engine_displacement_l: 2, doors: 4, seats: 5, transmission_speeds: 8,
+      price: 99999, exterior_color: 'Decoder colour',
+    }), JSON.stringify({ privateDiagnostic: 'DO-NOT-EXPOSE' })).run();
+  const getVehicle = async dealer => (await (await get(`/api/${dealer}/${VIN}`)).json()).vehicle;
+  let vehicle = await getVehicle(100);
+  assert.equal(vehicle.trim, '330e iPerformance'); assert.equal(vehicle.price, 12888);
+  assert.equal(vehicle.engine_displacement_l, 2); assert.equal(vehicle.transmission_speeds, 8);
+  assert.equal((await getVehicle(101)).engine_displacement_l, null);
+  assert.doesNotMatch(JSON.stringify(vehicle), /DO-NOT-EXPOSE|raw_json|enrichment_|lease_token/);
+  assert.deepEqual(vehicle.spec_groups.map(group => group.title), ['Vehicle', 'Engine & transmission', 'Body & cabin']);
+  assert.deepEqual(vehicle.spec_groups[2].rows.slice(0, 2).map(([label]) => label), ['Exterior colour', 'Interior colour']);
+  await db.prepare('UPDATE inventory SET trim = NULL, price = 13995 WHERE id = ?').bind(row.id).run();
+  vehicle = await getVehicle(100);
+  assert.equal(vehicle.trim, 'Decoder trim'); assert.equal(vehicle.price, 13995);
+  await db.prepare('UPDATE inventory SET year = 2019 WHERE id = ?').bind(row.id).run();
+  assert.equal((await getVehicle(100)).engine_displacement_l, null);
+  await db.prepare("UPDATE inventory SET trim = '330e iPerformance', price = 12888, year = 2018 WHERE id = ?").bind(row.id).run();
+});
+
 test('deleting a vehicle returns 404, while a database outage returns 503 without internals', async () => {
   await db.prepare('DELETE FROM inventory WHERE dealer_id = 101').run();
   assert.equal((await get(`/api/101/${VIN}`)).status, 404);
