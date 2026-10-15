@@ -50,7 +50,7 @@ const description = 'Explore a sample Postiqo vehicle card with exterior and int
 html = html.replace(/<meta name="description" content="[^"]*"\/>/, `<meta name="description" content="${description}">`);
 html = html.replaceAll(`https://cards.postiqo.io${route}`, origin + route);
 replaceOnce('content="noindex,nofollow"', 'content="noindex, follow"');
-// Removing the live-card hook makes the unmodified client return after gallery setup.
+// The gallery and calculator work locally; removing this hook skips inventory polling.
 replaceOnce(` data-vehicle-card data-endpoint="/api${route}"`, '');
 replaceOnce('</head>', `<meta property="og:description" content="${description}">
 <meta property="og:site_name" content="Postiqo">
@@ -81,4 +81,4 @@ for (const [path, content] of files) {
     await writeFile(filename, content);
   }
 }
-console.log(`${process.argv.includes('--check') ? 'Verified' : 'Generated'} static Cards demo, production template CSS and gallery script.`);
+console.log(`${process.argv.includes('--check') ? 'Verified' : 'Generated'} static Cards demo, production template CSS and card script.`);

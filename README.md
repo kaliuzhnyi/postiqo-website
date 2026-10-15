@@ -19,7 +19,7 @@ All public marketing pages share the Products navigation and footer. Shared styl
 
 See [product structure and SEO notes](docs/products-and-seo.md) for the route map, verified Cards behavior and publication checks. Marketing changes do not change the Cards Worker, licensing, DNS or Cloudflare configuration.
 
-The demo is static and uses the existing Cards renderer, CSS and gallery script without extra banners, captions or marketing blocks. Run `node scripts/generate-cards-demo.mjs` after changes to the original card template, and `node scripts/generate-cards-demo.mjs --check` before publishing. Its `noindex` page is excluded from the sitemap and makes no inventory API requests. The call and email buttons use the public Postiqo phone and support email through standard `tel:` and `mailto:` links. The shared footer links directly to the Cards product page. See [demo assets and generation prompts](docs/cards-demo.md).
+The demo is static and uses the existing Cards renderer, CSS, gallery and payment calculator without extra banners, captions or marketing blocks. Run `node scripts/generate-cards-demo.mjs` after changes to the original card template, and `node scripts/generate-cards-demo.mjs --check` before publishing. Its `noindex` page is excluded from the sitemap and makes no inventory API requests. The call and email buttons use the public Postiqo phone and support email through standard `tel:` and `mailto:` links. The shared footer links directly to the Cards product page. See [demo assets and generation prompts](docs/cards-demo.md).
 
 ## Blog & News
 

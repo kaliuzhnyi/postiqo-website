@@ -44,6 +44,7 @@ const shapes = {
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',
   link: '<path d="M14 3h7v7m0-7L10 14m-1-9H4v15h15v-5"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
+  calculator: '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 10h1m6 0h1m-8 4h1m6 0h1m-8 4h1m6 0h1"/>',
 };
 function icon(name) { return `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${shapes[name]}</svg>`; }
 const integer = value => new Intl.NumberFormat('en-CA').format(value);
@@ -96,6 +97,38 @@ function dealer(v) {
   </section>`;
 }
 
+function paymentCalculator(v) {
+  // Standard combined GST/HST/PST/QST presets, checked against CRA on 2026-10-14.
+  // B.C. is explicitly a base rate because vehicle-specific rates can be higher.
+  const provinces = [['ON', 'Ontario', 13], ['AB', 'Alberta', 5], ['BC', 'British Columbia (base)', 12],
+    ['MB', 'Manitoba', 12], ['NB', 'New Brunswick', 15], ['NL', 'Newfoundland and Labrador', 15],
+    ['NT', 'Northwest Territories', 5], ['NS', 'Nova Scotia', 14], ['NU', 'Nunavut', 5],
+    ['PE', 'Prince Edward Island', 15], ['QC', 'Quebec', 14.975], ['SK', 'Saskatchewan', 11], ['YT', 'Yukon', 5]];
+  return `<section class="payment-calculator" data-payment-calculator data-vehicle-price="${escape(v.price ?? '')}" data-vehicle-active="${v.is_active !== false}" aria-labelledby="payment-title" hidden>
+    <div class="payment-heading"><h2 id="payment-title">${icon('calculator')}Payment calculator</h2><button type="button" class="payment-reset" data-payment-reset>Reset</button></div>
+    <p class="payment-intro">Make the numbers work for you.</p>
+    <form data-payment-form novalidate>
+      <div class="payment-fields">
+        <div class="payment-field payment-down"><label for="payment-down">Down payment <span data-down-percent></span></label><div class="payment-input payment-input-prefix"><span aria-hidden="true">$</span><input id="payment-down" name="downPayment" type="number" inputmode="decimal" min="0" step="0.01" required aria-describedby="payment-error"></div></div>
+        <div class="payment-field"><label for="payment-rate">Interest rate</label><div class="payment-input"><input id="payment-rate" name="annualRate" type="number" inputmode="decimal" min="0" max="100" step="0.01" value="7.99" required aria-describedby="payment-error payment-disclaimer"><span aria-hidden="true">%</span></div></div>
+        <div class="payment-field"><label for="payment-term">Loan term</label><div class="payment-select"><select id="payment-term" name="termPreset" aria-describedby="payment-error">${[12, 24, 36, 48, 60, 72, 84, 96].map(months => `<option value="${months}"${months === 60 ? ' selected' : ''}>${months} months</option>`).join('')}<option value="custom">Custom term</option></select></div></div>
+        <div class="payment-field payment-custom-term" data-custom-term hidden><label for="payment-months">Loan term in months</label><input id="payment-months" name="termMonths" type="number" inputmode="numeric" min="1" max="120" step="1" value="60" required aria-describedby="payment-error"></div>
+      </div>
+      <fieldset class="payment-frequency"><legend>Payment frequency</legend><div class="payment-options">${[['monthly', 'Monthly'], ['biweekly', 'Bi-weekly'], ['weekly', 'Weekly']].map(([value, label]) => `<label><input type="radio" name="frequency" value="${value}"${value === 'monthly' ? ' checked' : ''}><span>${label}</span></label>`).join('')}</div></fieldset>
+    <p class="payment-error" id="payment-error" role="status" hidden></p>
+    <div class="payment-estimate" data-payment-result role="status" aria-atomic="true"><span class="eyebrow">Estimated payment</span><p><strong data-payment-amount></strong><span data-payment-unit> / month</span></p><span class="payment-tax-included" data-payment-tax-included></span><span class="payment-schedule" data-payment-schedule></span><span class="payment-schedule" data-payment-final hidden></span></div>
+    <div class="payment-tax-fields">
+      <div class="payment-field"><label for="payment-province">Tax preset</label><div class="payment-select"><select id="payment-province" name="province" aria-describedby="payment-tax-help">${provinces.map(([code, name, tax]) => `<option value="${code}" data-tax-rate="${tax}"${code === 'ON' ? ' selected' : ''}>${name}</option>`).join('')}<option value="custom">Custom rate</option></select></div></div>
+      <div class="payment-field"><label for="payment-tax-rate">Sales tax</label><div class="payment-input"><input id="payment-tax-rate" name="taxRate" type="number" inputmode="decimal" min="0" max="100" step="0.001" value="13" required aria-describedby="payment-error payment-tax-help"><span aria-hidden="true">%</span></div></div>
+    </div>
+    <p class="payment-tax-help" id="payment-tax-help">Tax is added to the price before your down payment.</p>
+    <p class="payment-tax-help" data-tax-note hidden>B.C. vehicle rates can exceed the 12% base rate. Adjust the rate for this vehicle.</p>
+    </form>
+    <dl class="payment-breakdown" data-payment-breakdown><div><dt data-payment-tax-label>Sales tax</dt><dd data-payment-tax></dd></div><div><dt>Amount financed</dt><dd data-payment-principal></dd></div><div><dt>Total interest</dt><dd data-payment-interest></dd></div><div><dt>Total loan payments</dt><dd data-payment-total></dd></div></dl>
+    <p class="payment-disclaimer" id="payment-disclaimer">Estimate in CAD with sales tax financed. Fees, luxury tax and exemptions are not included. Your dealer confirms the taxes, rate and terms.</p>
+  </section>`;
+}
+
 export function renderPage(v, path) {
   // Some feeds append selling points to the model. Keep the complete source
   // value in the specifications and description, with a shorter page heading.
@@ -111,7 +144,7 @@ export function renderPage(v, path) {
     <p class="inactive-note" data-inactive-note ${v.is_active === false ? '' : 'hidden'}>This vehicle is no longer listed. Contact the dealership for current availability.</p>
     <p class="refresh-note" data-refresh-note role="status" hidden></p>
     ${highlights.length ? `<dl class="highlights">${highlights.map(([value, label, symbol]) => `<div>${icon(symbol)}<dt>${label}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>` : ''}
-    </section>${dealer(v)}</div>
+    </section>${paymentCalculator(v)}${dealer(v)}</div>
     <div class="details-column">${specs(v)}
     ${v.description || v.title !== title ? `<section class="details-section description-section"><h2>About this vehicle</h2>${v.title !== title ? `<p class="listing-title">${escape(v.title)}</p>` : ''}${v.description ? `<div class="description">${escape(v.description)}</div>` : ''}</section>` : ''}
     ${v.video ? `<a class="video-link" href="${escape(v.video)}" target="_blank" rel="noopener noreferrer">Watch vehicle video ${icon('link')}</a>` : ''}</div></div>

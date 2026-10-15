@@ -12,9 +12,11 @@ The Cards product hero, QR, phone preview and dedicated demo section link here. 
 - `assets/css/cards-template.css`, copied from the Cards stylesheet with the local font URL
 - `assets/js/cards-template.js`, an unchanged copy of the Cards client
 
-The demo omits the live-card data attribute. The original client initializes the gallery, then returns before registering price-refresh requests. No inventory API, database or Cloudflare service is used by the demo. There is no additional header, image caption, contact explanation, marketing call to action or custom demo stylesheet/script. The vehicle description contains normal listing copy. The same production renderer adds the footer, `Powered by Postiqo Cards`, linked to the Cards product page.
+The demo omits the live-card data attribute. The original client initializes the gallery and payment calculator, then returns before registering price-refresh requests. No inventory API, database or Cloudflare service is used by the demo. The calculator uses the example asking price and supports editable down payment, annual interest rate, loan term and monthly, bi-weekly or weekly payments. There is no additional header, image caption, contact explanation, marketing call to action or custom demo stylesheet/script. The vehicle description contains normal listing copy. The same production renderer adds the footer, `Powered by Postiqo Cards`, linked to the Cards product page.
 
 The call button uses `tel:+14374416585` and the email button uses `mailto:support@postiqo.io`, matching the public website contacts. These open the visitor's phone or email application, just like a live card. They also work without JavaScript. The page has `noindex, follow`, a self canonical, demo-specific social metadata, no sale schema, and no sitemap entry.
+
+The payment calculator starts with Ontario's 13% tax included in the financed amount. Province presets and the tax percentage are editable. Loan terms retain common choices and allow custom whole month counts from 1-120. For terms ending between regular payment dates, the estimate shows the smaller final payment. See the Cards service README for tax assumptions and sources.
 
 Regenerate with `node scripts/generate-cards-demo.mjs`. Verify with `node scripts/generate-cards-demo.mjs --check` and `python scripts/check-seo.py`. The generator fails if the source template no longer matches the deliberate demo substitutions.
 

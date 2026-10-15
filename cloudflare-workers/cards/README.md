@@ -13,6 +13,8 @@ licensing migration `0011_dealer_cards.sql`.
 - Current price, mileage, make, model, year, trim, transmission, drivetrain,
   engine cylinder count, fuel type, colours, condition, body style, stock and VIN.
 - Complete source description, optional video link and dealership contacts.
+- Editable payment calculator using the current vehicle price, with monthly,
+  bi-weekly and weekly payments, amount financed and total interest.
 - Website colours and the existing Nunito font. No navigation or brand header.
   The footer links to `https://postiqo.io/products/postiqo-cards/` as
   `Powered by Postiqo Cards`.
@@ -23,6 +25,60 @@ catalogue. The engine field uses the supplied cylinder count; further engine
 information stays in the full description. No missing specifications are
 inferred. Marketing suffixes separated by ` * ` or ` | ` are omitted only from
 the heading; the original model and listing title remain visible below.
+
+## Payment calculator
+
+The calculator starts with a 10% down payment, a 7.99% annual interest rate,
+60 months, monthly payments and Ontario's 13% HST preset. Financing inputs are
+editable illustration defaults,
+not a quoted dealer rate or a claimed industry average. Visitors can enter a
+down payment in CAD, change the annual rate, choose a common term from 12-96
+months or select **Custom term** to enter any whole number of months from 1-120.
+Monthly, bi-weekly and weekly payments are supported. Reset restores the
+defaults using the current price, including the Ontario tax preset.
+
+Amount financed is the asking price plus sales tax minus the down payment.
+Cash down payments do not reduce the taxable price. Tax is rounded to cents,
+then included in the loan balance. The estimate uses
+equal amortizing payments, a nominal annual rate divided by 12, 26 or 52, and
+the matching number of payments over the selected term. Bi-weekly means every
+two weeks, with 26 regular payments per year; it is not accelerated repayment.
+Zero interest divides principal evenly. A down payment covering both the price
+and tax produces zero payments. For terms that end between weekly or bi-weekly
+payment dates, the remaining balance is repaid at the end of the term, with a
+shorter final interest period. The UI shows an integer payment count and the
+estimated smaller final payment. Payment calculations retain full precision
+until display; lender rounding and actual payment dates can differ.
+
+**Estimated payment includes financed sales tax.** The controls beneath it
+offer all 13 provinces and territories and a manually editable tax percentage.
+Changing that percentage selects **Custom rate**. The breakdown shows the tax
+on the full asking price separately from the amount financed and loan interest.
+Fees, federal luxury tax, exemptions, trade-ins and vehicle-specific valuation
+rules are outside this simple estimate and are not calculated automatically.
+
+Presets were checked against the
+[CRA rate table](https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-which-rate/calculator.html)
+on October 14, 2026: Alberta and the territories 5%; Saskatchewan 11%; Manitoba
+and the B.C. base preset 12%; Ontario 13%; Nova Scotia 14%; Quebec 14.975%;
+New Brunswick, Newfoundland and Labrador, and Prince Edward Island 15%.
+B.C. is explicitly labelled **base** and displays an adjustment note because
+[vehicle-specific PST rates](https://www.bclaws.gov.bc.ca/civix/document/id/consol41/consol41/12035_03)
+can exceed the standard rate. Do not describe these presets as a complete tax
+assessment for every vehicle; the dealer confirms applicable taxes.
+
+The calculator uses the same loan inputs described by the
+[RBC car loan calculator](https://www.rbcroyalbank.com/car-loans/car-loan-payment-calculator.html),
+which explains that offered rates depend on the vehicle, credit history and
+loan structure. The 7.99% starting value is a product assumption, not an RBC
+offer or a live rate feed.
+
+All inputs remain in the browser. Live price refresh recalculates the estimate,
+retains visitor edits, and updates the 10% down payment only while it is still
+untouched. A price-with-tax total below an edited down payment asks for a valid amount.
+The calculator is hidden for missing/zero prices, inactive or missing vehicles,
+and without JavaScript. The static demo uses the same calculator without
+requesting live inventory.
 
 ## Data and refresh
 
@@ -89,6 +145,12 @@ immediate price changes, missing/inactive records, unknown availability, empty
 photos, unsafe input, canonical URLs, caching, assets and database failures.
 They also cover disabled/default access, the support link, dealer isolation,
 immediate re-enabling and removal of an open card after access is disabled.
+Payment arithmetic tests cover all three frequencies, zero interest, full
+down payments, precision and invalid inputs. Browser checks live in the existing
+site test suite: from `../site`, run
+`node --test tests/browser/cards-calculator.test.mjs`. They cover the shared
+demo, live price changes, input validation, keyboard controls, no-JavaScript
+behavior and layouts from 320px to desktop. Browser requests are intercepted.
 
 ## Deployment
 

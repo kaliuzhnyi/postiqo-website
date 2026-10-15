@@ -387,6 +387,268 @@ h1 {
   color: #8a651b;
   margin: -10px 0 20px;
 }
+.payment-calculator {
+  margin-top: 25px;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid #dce8f2;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px #2d465e05;
+}
+.payment-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.payment-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+.payment-heading svg {
+  width: 19px;
+  height: 19px;
+  color: var(--blue);
+}
+.payment-reset {
+  border: 0;
+  padding: 8px 0 8px 8px;
+  background: transparent;
+  color: #456581;
+  font-size: 12px;
+  min-height: 36px;
+}
+.payment-reset:hover {
+  color: var(--blue);
+}
+.payment-intro {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 2px 0 18px;
+}
+.payment-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.payment-field {
+  min-width: 0;
+}
+.payment-down,
+.payment-custom-term {
+  grid-column: 1 / -1;
+}
+.payment-field label,
+.payment-frequency legend {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 7px;
+}
+.payment-field label span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.payment-input {
+  position: relative;
+}
+.payment-input > span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--muted);
+  font-size: 14px;
+}
+.payment-input-prefix > span {
+  left: 12px;
+  right: auto;
+}
+.payment-field input,
+.payment-field select {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid #d7e2ec;
+  border-radius: 9px;
+  background: #fff;
+  padding: 0 12px;
+}
+.payment-input input {
+  padding-right: 32px;
+}
+.payment-input-prefix input {
+  padding: 0 12px 0 30px;
+}
+.payment-field input[aria-invalid=true] {
+  border-color: #b33a34;
+}
+.payment-select {
+  position: relative;
+}
+.payment-select::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 17px;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+.payment-field select {
+  appearance: none;
+  padding-right: 36px;
+  font-size: 14px;
+}
+.payment-frequency {
+  border: 0;
+  padding: 0;
+  margin: 16px 0 0;
+  min-width: 0;
+}
+.payment-frequency legend {
+  padding: 0;
+}
+.payment-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  padding: 4px;
+  background: #eef3f8;
+  border-radius: 11px;
+}
+.payment-options label {
+  position: relative;
+  min-width: 0;
+  cursor: pointer;
+}
+.payment-options input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.payment-options span {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  padding: 6px 3px;
+  border-radius: 8px;
+  color: #526b81;
+  font-size: 12px;
+  font-weight: 600;
+}
+.payment-options input:checked + span {
+  background: #fff;
+  color: #0869c7;
+  box-shadow: 0 1px 5px #203c5b12;
+}
+.payment-options input:focus-visible + span {
+  outline: auto;
+  outline-offset: 1px;
+}
+.payment-estimate {
+  margin-top: 18px;
+  padding: 17px;
+  border-radius: 12px;
+  background: var(--pale);
+}
+.payment-estimate > p {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: 7px;
+  color: #476682;
+  font-size: 12px;
+  margin: 3px 0 5px;
+}
+.payment-estimate strong {
+  font-family: var(--heading);
+  font-size: 36px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.payment-schedule,
+.payment-tax-included,
+.payment-tax-help {
+  display: block;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #526b81;
+}
+.payment-tax-included {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+.payment-tax-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 116px;
+  align-items: end;
+  gap: 12px;
+  margin-top: 18px;
+}
+.payment-tax-help {
+  margin-top: 8px;
+}
+.payment-breakdown {
+  margin: 16px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.payment-breakdown > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 7px;
+}
+.payment-breakdown dt {
+  color: var(--muted);
+}
+.payment-breakdown dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.payment-disclaimer {
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  color: #687d90;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.payment-error {
+  color: #a3302a;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 16px;
+}
 .dealer {
   margin-top: 26px;
 }
@@ -675,7 +937,7 @@ body:has(.lightbox[open]) {
   margin: 20px 0 26px;
 }
 @media (min-width: 1200px) {
-  .summary-column {
+  .summary-column:not(:has(.payment-calculator:not([hidden]))) {
     position: sticky;
     top: 28px;
   }
@@ -698,6 +960,12 @@ body:has(.lightbox[open]) {
   .price-panel {
     padding: 18px;
     margin-top: 22px;
+  }
+  .payment-calculator {
+    padding: 18px;
+  }
+  .payment-heading h2 {
+    font-size: 16px;
   }
   h1 {
     font-size: 34px;
@@ -828,6 +1096,12 @@ body:has(.lightbox[open]) {
     padding-bottom: 28px;
   }
 }
+@media (max-width: 380px) {
+  .payment-fields,
+  .payment-tax-fields {
+    grid-template-columns: 1fr;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;
@@ -846,13 +1120,22 @@ body:has(.lightbox[open]) {
     width: 100%;
   }
   .details-column {
-    order: 2;
+    order: 3;
     margin-top: 24px;
   }
   .dealer {
-    order: 3;
+    order: 4;
     width: 100%;
     border-top: 1px solid var(--line);
     padding-top: 25px;
+  }
+  .payment-calculator {
+    order: 2;
+    width: 100%;
+    margin-top: 24px;
+    padding: 21px;
+  }
+  .payment-heading h2 {
+    font-size: 18px;
   }
 }
