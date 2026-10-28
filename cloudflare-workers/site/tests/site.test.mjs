@@ -41,7 +41,7 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       assert.equal(r.status, 404, path);
       assert.match(await r.text(), /name="robots" content="noindex"/);
     }
-    for (const path of ['/robots.txt', '/site.webmanifest', '/assets/js/site.js', '/assets/css/blog.css', '/assets/css/publisher-docs.css', '/public/og-home.png', '/products/postiqo-publisher/docs/postiqo-facebook-login-en.pdf']) {
+    for (const path of ['/robots.txt', '/site.webmanifest', '/assets/js/site.js', '/assets/css/blog.css', '/assets/css/publisher-docs.css', '/public/og-home.png', '/products/postiqo-publisher/docs/postiqo-facebook-login-en.pdf', '/products/postiqo-publisher/docs/postiqo-rustdesk-support-en.pdf']) {
       const r = await get(path);
       assert.equal(r.status, 200, path);
       if (path.endsWith('.pdf')) assert.match(r.headers.get('content-type'), /application\/pdf/);
