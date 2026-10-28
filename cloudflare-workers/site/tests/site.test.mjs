@@ -23,7 +23,7 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     assert.ok(ready, log);
-    for (const path of ['/', '/demo/', '/products/', '/products/postiqo-publisher/', '/products/postiqo-cards/', '/products/postiqo-website/', '/products/postiqo-pages/', '/products/postiqo-cards/demo/', '/try/', '/download/']) {
+    for (const path of ['/', '/demo/', '/products/', '/products/postiqo-publisher/', '/products/postiqo-publisher/docs/', '/products/postiqo-cards/', '/products/postiqo-website/', '/products/postiqo-pages/', '/products/postiqo-cards/demo/', '/try/', '/download/']) {
       const r = await get(path);
       assert.equal(r.status, 200, path);
       assert.match(r.headers.get('content-type'), /text\/html/);
@@ -41,9 +41,10 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       assert.equal(r.status, 404, path);
       assert.match(await r.text(), /name="robots" content="noindex"/);
     }
-    for (const path of ['/robots.txt', '/site.webmanifest', '/assets/js/site.js', '/assets/css/blog.css', '/public/og-home.png']) {
+    for (const path of ['/robots.txt', '/site.webmanifest', '/assets/js/site.js', '/assets/css/blog.css', '/assets/css/publisher-docs.css', '/public/og-home.png', '/products/postiqo-publisher/docs/postiqo-facebook-login-en.pdf']) {
       const r = await get(path);
       assert.equal(r.status, 200, path);
+      if (path.endsWith('.pdf')) assert.match(r.headers.get('content-type'), /application\/pdf/);
       assert.deepEqual(Buffer.from(await r.arrayBuffer()), await readFile(new URL(path.slice(1), root)), path);
     }
     assert.equal((await fetch(origin + '/', {method: 'HEAD'})).status, 200);

@@ -12,7 +12,8 @@ test('dedicated database import preserves six bodies, images, URLs and both date
  const e=env(),articles=await publishedArticles(e);assert.equal(articles.length,6);
  for(const original of seed){const a=await publishedArticle(e,original.slug);for(const field of ['slug','title','summary','author','description','image_url','image_alt','body_html','editorial_date','date_published','date_modified'])assert.equal(a[field],original[field],field);const html=renderArticle(a);assert.ok(html.includes(a.body_html));assert.ok(html.includes('https://postiqo.io/blog/'+a.slug+'.html'));assert.ok(html.includes('"datePublished":"2026-10-04"'));}
  const listing=renderListing(articles);assert.equal((listing.match(/class="blog-card"/g)||[]).length,6);assert.equal(articles[0].slug,'vehicle-price-sheets-digital-qr-cards');
- assert.equal((renderSitemap(articles).match(/<loc>/g)||[]).length,16);
+ assert.equal((renderSitemap(articles).match(/<loc>/g)||[]).length,17);
+ assert.ok(renderSitemap(articles).includes('<loc>https://postiqo.io/products/postiqo-publisher/docs/</loc>'));
  assert.ok(renderSitemap(articles).includes('<loc>https://postiqo.io/demo/</loc>'));
  const before=JSON.stringify(articles);e.CONTENT_DB.sqlite.exec(readFileSync(new URL('../migrations/0002_import_articles.sql',import.meta.url),'utf8'));assert.equal(JSON.stringify(await publishedArticles(e)),before);
  assert.deepEqual(e.CONTENT_DB.sqlite.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all().map(r=>r.name).sort(),['blog_articles','blog_events','blog_slugs']);

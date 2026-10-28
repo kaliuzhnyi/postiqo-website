@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 ORIGIN = 'https://postiqo.io'
 PUBLISHER = '/products/postiqo-publisher/'
+PUBLISHER_DOCS = PUBLISHER + 'docs/'
 CARDS = '/products/postiqo-cards/'
 WEBSITE = '/products/postiqo-website/'
 LOCAL_PAGES = '/products/postiqo-pages/'
@@ -21,6 +22,7 @@ PAGES = {
     '/products/': 'products/index.html',
     '/blog/': 'blog/index.html',
     PUBLISHER: 'products/postiqo-publisher/index.html',
+    PUBLISHER_DOCS: 'products/postiqo-publisher/docs/index.html',
     CARDS: 'products/postiqo-cards/index.html',
     WEBSITE: 'products/postiqo-website/index.html',
     LOCAL_PAGES: 'products/postiqo-pages/index.html',
@@ -114,6 +116,8 @@ for route, filename in PAGES.items():
         breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
         trail = breadcrumb['itemListElement']
         expected = ['/', '/products/'] + ([route] if route != '/products/' else [])
+        if route == PUBLISHER_DOCS:
+            expected = ['/', '/products/', PUBLISHER, PUBLISHER_DOCS]
         assert [item['item'] for item in trail] == [ORIGIN + item for item in expected]
         assert [item['position'] for item in trail] == list(range(1, len(trail) + 1))
     if route in ('/', '/products/'):
@@ -241,5 +245,5 @@ config = (ROOT / '_config.yml').read_text(encoding='utf-8')
 assert re.search(r'^\s*- docs\s*$', config, re.M), 'Draft templates must be excluded from GitHub Pages'
 template = (ROOT / 'docs/blog/article-template.html').read_text(encoding='utf-8')
 assert 'content="noindex, follow"' in template
-assert not any('/docs/' in url or '{{' in url for url in urls)
+assert not any(urlsplit(url).path.startswith('/docs/') or '{{' in url for url in urls)
 print('PASS Blog & News navigation, published articles, and unpublished template protection')
