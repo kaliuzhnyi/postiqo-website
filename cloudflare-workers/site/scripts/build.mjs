@@ -9,7 +9,7 @@ if (relative(project, output) !== 'dist') throw new Error('Unexpected output pat
 
 // Explicit public allowlist. Blog snapshots and sitemap are served by the
 // content Worker; sources, drafts, credentials and legacy PHP never get uploaded.
-export const directories = ['assets', 'public', 'products', 'demo', 'try', 'download'];
+export const directories = ['assets', 'public', 'products', 'demo', 'try', 'download', 'support'];
 export const files = [
   'index.html', '404.html', 'robots.txt', 'site.webmanifest',
   'service-details.html', 'starter-page.html', 'apple-touch-icon.png',
@@ -51,5 +51,5 @@ await findIndexes(output);
 await writeFile(resolve(output, '_redirects'), indexes.sort().flatMap(path => {
   const canonical = path.slice(0, -'index.html'.length);
   return [path + ' ' + canonical + ' 301', ...(canonical === '/' ? [] : [canonical.slice(0, -1) + ' ' + canonical + ' 301'])];
-}).join('\n') + '\n');
+}).join('\n') + '\n/products/postiqo-publisher/docs/postiqo-rustdesk-support-en.pdf /support/dwservice-windows.pdf 301\n');
 console.log(`Built public website in ${output}. Blog and sitemap stay on the content Worker.`);

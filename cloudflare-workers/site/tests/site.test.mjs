@@ -41,12 +41,18 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       assert.equal(r.status, 404, path);
       assert.match(await r.text(), /name="robots" content="noindex"/);
     }
-    for (const path of ['/robots.txt', '/site.webmanifest', '/assets/js/site.js', '/assets/css/blog.css', '/assets/css/publisher-docs.css', '/public/og-home.png', '/products/postiqo-publisher/docs/postiqo-facebook-login-en.pdf', '/products/postiqo-publisher/docs/postiqo-rustdesk-support-en.pdf']) {
+    for (const path of ['/robots.txt', '/site.webmanifest', '/assets/js/site.js', '/assets/css/blog.css', '/assets/css/publisher-docs.css', '/public/og-home.png', '/products/postiqo-publisher/docs/postiqo-facebook-login-en.pdf', '/support/dwservice-windows.pdf']) {
       const r = await get(path);
       assert.equal(r.status, 200, path);
       if (path.endsWith('.pdf')) assert.match(r.headers.get('content-type'), /application\/pdf/);
       assert.deepEqual(Buffer.from(await r.arrayBuffer()), await readFile(new URL(path.slice(1), root)), path);
     }
+    const oldGuide = await get('/products/postiqo-publisher/docs/postiqo-rustdesk-support-en.pdf');
+    assert.equal(oldGuide.status, 301);
+    assert.equal(new URL(oldGuide.headers.get('location'), origin).pathname, '/support/dwservice-windows.pdf');
+    const docs = await (await get('/products/postiqo-publisher/docs/')).text();
+    assert.match(docs, /href="\/support\/dwservice-windows\.pdf#page=1"/);
+    assert.doesNotMatch(docs, /RustDesk|rustdesk/);
     assert.equal((await fetch(origin + '/', {method: 'HEAD'})).status, 200);
     assert.equal((await fetch(origin + '/', {method: 'POST'})).status, 405);
     assert.ok(!(await readdir(new URL('../dist/', import.meta.url))).includes('blog'));
