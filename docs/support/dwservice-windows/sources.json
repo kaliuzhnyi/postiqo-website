@@ -1,0 +1,110 @@
+{
+  "capture_date": "2026-10-29",
+  "screenshots": [
+    {
+      "file": "01.png",
+      "original_file": "1.png",
+      "sha256": "b7b04f8837181fa4e319ff54dc4f0f3d27c9403f1a3fd46154683d1e809dd3e1",
+      "width": 2317,
+      "height": 1384
+    },
+    {
+      "file": "02.png",
+      "original_file": "2.png",
+      "sha256": "6047bb96181d677b55551011825448d102d14e6e4d3b7aaf69f60da71be511f8",
+      "width": 2317,
+      "height": 1384
+    },
+    {
+      "file": "03.png",
+      "original_file": "3.png",
+      "sha256": "3df81c1387e72e3a520a78722234e8c6bc66dc47e1d078fb4d4ddbbd918d6a85",
+      "width": 2317,
+      "height": 1384
+    },
+    {
+      "file": "04.png",
+      "original_file": "4.png",
+      "sha256": "37682b8ec01e28e27f73d5d9ed3056e0c191a32c9be85d31a4a56359bdba40b2",
+      "width": 1309,
+      "height": 713
+    },
+    {
+      "file": "05.png",
+      "original_file": "5.png",
+      "sha256": "e99f82b13ded9cdea3211cceb65ea9746efbbb7ee66798d109c6ecc1a30663ef",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "06.png",
+      "original_file": "6.png",
+      "sha256": "aadcecf106165d68c7b0f57617e4fe7d7bdadfe668dc33c832a0194a295c28a0",
+      "width": 456,
+      "height": 395
+    },
+    {
+      "file": "07.png",
+      "original_file": "7.png",
+      "sha256": "891ae897e908b13697e0c0888e3b14ec4d50957d16ade1bbb289f3be37151dc9",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "08.png",
+      "original_file": "8.png",
+      "sha256": "08491f8c7a62afc977d0be2216de47685b8c90d9ebe5ccb20900f89af1d9b04e",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "09.png",
+      "original_file": "9.png",
+      "sha256": "650e1c93bc2a7a386a37db504acf92a6004302ce753df12db16e2f8a183efdfb",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "10.png",
+      "original_file": "10.png",
+      "sha256": "4930174550362301a71fd087bb7f8d4518813d0bdf218f91f8d821164cb440cf",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "11.png",
+      "original_file": "11.png",
+      "sha256": "d9036daf753eb0dba5187f8424d6c60ad75967e995d914ee85e62998d181dd67",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "12.png",
+      "original_file": "12.png",
+      "sha256": "1bab2b5097b86c33c107fc3493ccce6442be7b6ca3acba63b609aae41d49a2d5",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "13.png",
+      "original_file": "13.png",
+      "sha256": "a41485d94c0021a752f7b4ec07255d55801eb5c0307e4fb2b71fa9bc2a372e5e",
+      "width": 782,
+      "height": 562
+    },
+    {
+      "file": "14.png",
+      "original_file": "14.png",
+      "sha256": "8b33764ab900150275848adec344d71673943c68b7c6ccb9611e7d87e4514d44",
+      "width": 387,
+      "height": 242
+    },
+    {
+      "file": "15.png",
+      "original_file": "15.png",
+      "sha256": "d3fe93795b2efa3eae1754b9753fcccf97ced838423cfcd2026910da57f65ce6",
+      "width": 552,
+      "height": 332
+    }
+  ]
+}
