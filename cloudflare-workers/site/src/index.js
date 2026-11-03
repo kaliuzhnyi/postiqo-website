@@ -59,16 +59,18 @@ export async function decodeVin(request, env, ctx, { upstream = fetch, cache = c
     let decoded;
     try {
       const response = await upstream(ENDPOINT, {
-        method: 'POST', redirect: 'error', signal: AbortSignal.timeout(8000),
+        method: 'POST', redirect: 'manual', signal: AbortSignal.timeout(8000),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
         body: new URLSearchParams({ format: 'json', data: year ? `${vin},${year}` : vin }).toString(),
       });
-      if (!response.ok) { await response.body?.cancel(); throw new Error('provider_error'); }
+      if (!response.ok) { await response.body?.cancel(); throw new Error(`provider_http_${response.status}`); }
       const body = await boundedJson(response.body, 64 * 1024);
       if (!Array.isArray(body.Results) || body.Results.length !== 1) throw new Error('invalid_response');
       decoded = normalizeDecode(body.Results[0], vin, year);
       for (const value of Object.values(decoded.data)) if (typeof value === 'string' && value.length > 200) throw new Error('invalid_response');
-    } catch {
+    } catch (error) {
+      // Operational errors only: never log VINs, request bodies or provider data.
+      console.warn('public_vin_provider_error', /^provider_http_\d+$/.test(error.message) || ['too_large', 'invalid_response'].includes(error.message) ? error.message : 'network_or_response');
       ctx.waitUntil(cache.put(cooldownKey, new Response('busy', { headers: { 'Cache-Control': 'public, max-age=60' } })).catch(() => {}));
       return busy();
     }
@@ -76,7 +78,7 @@ export async function decodeVin(request, env, ctx, { upstream = fetch, cache = c
     const ttl = ['complete', 'partial'].includes(decoded.status) ? 604800 : 3600;
     ctx.waitUntil(cache.put(key, json(body, 200, { 'Cache-Control': `public, max-age=${ttl}` })).catch(() => {}));
     return json(body);
-  } catch { return busy(); }
+  } catch { console.warn('public_vin_runtime_error'); return busy(); }
 }
 
 export default {
