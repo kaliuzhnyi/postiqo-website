@@ -28,7 +28,8 @@ test('loan and lease calculator interaction, explanations, graphs and exports', 
     await button.click(); assert.equal(await button.getAttribute('aria-expanded'),'true');
     await page.keyboard.press('Escape'); await tip.waitFor({ state:'hidden' });
     await page.locator('#loan-price').click(); await button.focus(); await tip.waitFor({ state:'visible' });
-    await page.keyboard.press('Enter'); await page.locator('#loan-down').click(); await tip.waitFor({ state:'hidden' });
+    await page.keyboard.press('Enter'); await page.locator('#finance-result-label').click(); await tip.waitFor({ state:'hidden' });
+    await button.focus(); await page.keyboard.press('Enter'); await page.keyboard.press('Tab'); await tip.waitFor({ state:'hidden' });
     await page.locator('#tab-loan').focus(); await page.keyboard.press('ArrowRight');
     assert.equal(await page.locator('#tab-lease').getAttribute('aria-selected'),'true');
     await page.keyboard.press('Home'); assert.equal(await page.locator('#tab-loan').getAttribute('aria-selected'),'true');

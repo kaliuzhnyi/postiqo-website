@@ -77,7 +77,7 @@ for (const page of pages) {
 <meta property="og:title" content="${e(page.title)}"><meta property="og:description" content="${e(page.description)}">
 <meta property="og:image" content="${image}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${e(page.name)} - free tools from Postiqo">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${e(page.title)}"><meta name="twitter:description" content="${e(page.description)}"><meta name="twitter:image" content="${image}"><meta name="twitter:image:alt" content="${e(page.name)} - free tools from Postiqo">
-${resources}<link rel="stylesheet" href="/assets/css/tools.css?v=1"><link rel="stylesheet" href="/assets/css/tool-help.css?v=2"><script src="/assets/js/tool-help.js?v=2" defer></script>${page.styles || ''}${page.scripts || ''}
+${resources}<link rel="stylesheet" href="/assets/css/tools.css?v=1"><link rel="stylesheet" href="/assets/css/tool-help.css?v=2"><script src="/assets/js/tool-help.js?v=3" defer></script>${page.styles || ''}${page.scripts || ''}
 <script type="application/ld+json">${JSON.stringify(schemas, null, 2)}</script>
 </head><body class="marketing-page tools-page${page.slug === 'vin-decoder/' ? ' vin-page' : page.slug.startsWith('car-') ? ' finance-page' : ''}"><a class="site-skip" href="#main">Skip to content</a>
 ${header}

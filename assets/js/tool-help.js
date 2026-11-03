@@ -14,7 +14,7 @@
     tip.style.width = Math.min(340, innerWidth - 32) + 'px';
     tip.style.left = Math.max(16, Math.min(box.left - 15, innerWidth - tip.offsetWidth - 16)) + 'px';
     const height = tip.offsetHeight;
-    tip.style.top = (box.bottom + height + 12 > innerHeight && box.top > height + 12 ? box.top - height - 8 : Math.min(box.bottom + 8, Math.max(8, innerHeight - height - 8))) + 'px';
+    tip.style.top = (box.top > height + 12 ? box.top - height - 8 : Math.min(box.bottom + 8, Math.max(8, innerHeight - height - 8))) + 'px';
   }
   function show(wrapper) {
     clearTimeout(closing);
@@ -33,6 +33,7 @@
     button.addEventListener('click', () => { if (active === wrapper && pinned) close(); else { show(wrapper); pinned = true; } });
   });
   document.addEventListener('pointerdown', event => { if (active && !active.contains(event.target)) close(); });
+  document.addEventListener('focusin', event => { if (active && !active.contains(event.target)) close(); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
   document.addEventListener('tool-help-close', close);
   addEventListener('resize', position);
