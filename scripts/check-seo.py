@@ -20,6 +20,9 @@ DEMO = CARDS + 'demo/'
 PAGES = {
     '/': 'index.html',
     '/products/': 'products/index.html',
+    '/tools/': 'tools/index.html',
+    '/tools/car-payment-calculator/': 'tools/car-payment-calculator/index.html',
+    '/tools/vin-decoder/': 'tools/vin-decoder/index.html',
     '/blog/': 'blog/index.html',
     PUBLISHER: 'products/postiqo-publisher/index.html',
     PUBLISHER_DOCS: 'products/postiqo-publisher/docs/index.html',
@@ -99,6 +102,7 @@ for route, filename in PAGES.items():
         shared = re.search(r'<' + landmark + r'\b.*?</' + landmark + '>', source, re.S)[0]
         shared_links = {attrs.get('href') for tag, attrs in Page(shared).elements if tag == 'a'}
         assert '/blog/' in shared_links, f'{filename}: missing Blog & News {landmark}'
+        assert '/tools/' in shared_links, f'{filename}: missing Free Tools {landmark}'
         assert {PUBLISHER, CARDS, WEBSITE, LOCAL_PAGES} <= shared_links, f'{filename}: incomplete product {landmark}'
     if route.startswith('/blog/'):
         breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
@@ -112,6 +116,15 @@ for route, filename in PAGES.items():
             assert article['mainEntityOfPage']['@id'] == ORIGIN + route + '#webpage'
             assert article['isPartOf']['@id'] == ORIGIN + '/blog/#blog'
             assert any(tag == 'a' and attrs.get('href') == route for tag, attrs in parsed['/blog/'].elements), f'{filename}: article missing from listing'
+    if route.startswith('/tools/'):
+        breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
+        expected = ['/', '/tools/'] + ([route] if route != '/tools/' else [])
+        assert [item['item'] for item in breadcrumb['itemListElement']] == [ORIGIN + item for item in expected]
+        if route != '/tools/':
+            app = next(node for node in nodes if node.get('@type') == 'WebApplication')
+            assert app['url'] == ORIGIN + route and app['isAccessibleForFree'] is True
+            assert app['offers']['price'] == '0'
+            assert not any(key in app for key in ('aggregateRating', 'review'))
     if route.startswith('/products/'):
         breadcrumb = next(node for node in nodes if node.get('@type') == 'BreadcrumbList')
         trail = breadcrumb['itemListElement']

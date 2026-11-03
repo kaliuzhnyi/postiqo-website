@@ -27,7 +27,10 @@ pnpm run deploy:redirect
 The build copies only the public allowlist to `dist/`. Worker sources, Git files,
 credentials, documentation, drafts and legacy PHP are excluded. It does not
 change page contents or publish uncommitted work from a different checkout.
-Assets are served directly without invoking a Worker script. Directory addresses
+Marketing assets are served directly without invoking a Worker script. The
+`/api/*` path runs a small Worker for the public VIN decoder; it has no database
+or inventory binding. See [public tool contracts and checks](../../docs/public-tools.md).
+Directory addresses
 and index aliases have permanent canonical redirects; missing pages return 404.
 
 Cloudflare Builds settings for `kaliuzhnyi/postiqo-website`:

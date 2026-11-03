@@ -1,0 +1,15 @@
+# Simulation scaffold. Add fault-injection scenarios under each mock, e.g.:
+#   scenarios:
+#     - overrides:
+#         conditions:
+#           latency: { delay_ms: 500 }
+# Then serve it with: postman simulation run <this file>
+
+simulation: public-tools
+routing: path
+mocks:
+  - name: nhtsa-vpic
+    routeKey: nhtsa
+    origin:
+      - vpic.nhtsa.dot.gov
+    path: postman/mocks/nhtsa-vpic

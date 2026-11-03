@@ -1,0 +1,82 @@
+# Simulation context - public-tools
+#
+# Generated 2026-11-03.
+#
+# What is believed to be true about the services this simulation stands in for,
+# and what each belief rests on. A `null` is something nobody has established
+# yet.
+#
+# Written from a fixed template and never recreated. How to read it, and how to
+# write a run back into it, is in the api-simulation skill
+# (skills/api-simulation/reference/context_file.md).
+
+simulation: "public-tools"
+generated: "2026-11-03"
+
+# What this simulation stands in for and what work it unblocks. Both need
+# hindsight, so they are the last thing to write. The members it serves, their
+# route keys and the hosts they answer for are in the .sim.yaml beside this file.
+purpose:
+  stands_in_for: NHTSA vPIC single-VIN batch decoding
+  unblocks: Local verification of HTTP serialization, outages, rate limiting and timeout recovery.
+
+# What the code relies on about a dependency's behaviour - one claim per entry,
+# each { id, status, claim, reason, verification, source, updated_at }.
+#
+#   status        supported     evidence supports it, within a stated scope
+#                 contradicted  evidence gives a counterexample
+#                 unknown       available evidence cannot establish or reject it
+#                 conflicting   applicable sources disagree
+#
+#   reason        why the evidence adds up to that status
+#   verification  what was checked and what it showed - a contract read, a
+#                 request made and its response, a handler inspected. Name what
+#                 is still planned or blocked, and what has gone stale and why.
+#   source        where to go to re-check it: a file and line range, a run, a
+#                 published contract. A claim with nothing to point at is
+#                 `unknown`.
+#   updated_at    the day this entry was last written, YYYY-MM-DD. Set it when
+#                 you add a claim and again whenever you change one, so a claim
+#                 nobody has touched in months is visible as such.
+#
+# A claim is about the dependency, not about the simulation - what the caller
+# is taken to be, which plan or permission is assumed, the order calls go in,
+# what gets retried, the shape of the data.
+#
+#   - id: charges-idempotent-for-24h
+#     status: supported
+#     claim: Payments treats a repeated Idempotency-Key as the same charge for
+#       24 hours. Beyond that it is a new charge.
+#     reason: The contract guarantees it for that window, and a run inside the
+#       window agreed. The 24-hour boundary itself is untested.
+#     verification: Read the provider's API reference for POST /charges, then
+#       sent the same key twice 10 minutes apart and got the first charge id
+#       back both times.
+#     source: the provider's API reference for POST /charges; runs/idempotency-001
+#     updated_at: "2026-11-03"
+assumptions:
+  - id: vpic-single-vin-batch
+    status: supported
+    claim: The NHTSA batch endpoint accepts one VIN and optional model year as form-urlencoded data and returns a Results array with VIN and ErrorCode.
+    reason: Official API documentation, Orbit integration guidance and one live response agree for this example.
+    verification: On 2026-11-02, the live 1HGCM82633A004352,2003 request returned ErrorCode 0 and a 2003 HONDA Accord. The local real-HTTP test returned the same normalized identity. This does not establish coverage for all VINs.
+    source: https://vpic.nhtsa.dot.gov/api/; scripts/test-tools-http.mjs; postman/mocks/nhtsa-vpic/default.js
+    updated_at: "2026-11-02"
+  - id: upstream-failures
+    status: supported
+    claim: The public endpoint returns a retryable 503 when its provider sends HTTP 503 or 429 or takes longer than eight seconds.
+    reason: The real handler sent HTTP requests to the local fixture and handled the injected failures without exposing provider bodies.
+    verification: scripts/test-tools-http.mjs passed success, HTML 503, 429 and a nine-second delay. The timeout returned at 8004 ms. These are simulated failures, not a measurement of NHTSA availability.
+    source: scripts/test-tools-http.mjs; cloudflare-workers/site/src/index.js
+    updated_at: "2026-11-02"
+
+# What the claims above were written against: { id, date, commit, cli }, from
+# `git rev-parse HEAD` and `postman --version`. Append an entry when either
+# differs, and say so when the tree is dirty - a sha alone reads as a clean
+# checkout. A claim carried over from an older fingerprint is one nothing has
+# re-checked since.
+fingerprints:
+  - id: public-tools-development
+    date: "2026-11-02"
+    commit: "375617d plus uncommitted public-tools implementation"
+    cli: "Postman 1.83.1"

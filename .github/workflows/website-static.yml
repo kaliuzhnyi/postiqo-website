@@ -23,3 +23,4 @@ jobs:
       - run: python ../../scripts/check-seo.py
       - run: node --test ../../tests/*.test.cjs
       - run: node ../../scripts/generate-demo-forms.mjs --check
+      - run: node ../../scripts/generate-tools-pages.mjs --check

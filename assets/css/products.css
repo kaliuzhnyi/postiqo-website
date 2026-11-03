@@ -199,8 +199,11 @@ body { overflow-wrap: break-word; }
 @media (min-width: 992px) { .site-nav li > a { padding-block: 16px; } }
 @media (max-width: 991px) {
   .site-header { top: 10px; }
-  .site-header-inner { gap: 13px; flex-wrap: wrap; padding: 11px 15px 11px 20px; min-height: 64px; }
+  .site-header-inner { gap: 10px; flex-wrap: wrap; padding: 11px 12px; min-height: 64px; }
   .site-header .site-button { margin-left: auto; }
+  .site-header .site-logo { font-size: 25px; }
+  .site-header .site-button { padding: 10px 12px; font-size: 12px; }
+  .site-menu-toggle { flex-shrink: 0; width: 36px; height: 36px; }
   .site-enhanced .site-menu-toggle { display: flex; }
   .site-nav { order: 4; width: 100%; margin: 0; padding: 12px 5px; }
   .site-enhanced .site-nav { display: none; }

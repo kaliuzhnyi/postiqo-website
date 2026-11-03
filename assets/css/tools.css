@@ -1,0 +1,106 @@
+.tools-hero { padding-bottom: 40px; background: linear-gradient(150deg,#edf5ff,#fff 78%); }
+.tools-hero h1 { max-width: 850px; }
+.tools-hero .marketing-intro { margin-top: 24px; max-width: 650px; }
+@media(max-width: 380px) { .tools-page .site-header-inner { gap: 6px; }.tools-page .site-header .site-button { padding-inline: 9px; font-size: 11px; }.tools-page .site-header .site-logo { font-size: 23px; } }
+.tools-content { padding-bottom: 80px; }
+.tool-catalog { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+.tool-card { position: relative; padding: 34px; border: 1px solid var(--product-line); border-radius: 24px; background: linear-gradient(145deg,#f1f7ff,#fff); transition: border-color .2s,transform .2s; }
+.tool-card:hover { transform: translateY(-3px); border-color: #91b6da; }
+.tool-card .tool-free { float: right; margin-top: 13px; }
+.tool-free { font-size: 12px; color: var(--product-muted); font-weight: 600; }
+.tool-card h2 { font-size: 28px; font-weight: 800; margin: 25px 0 14px; }
+.tool-card h2 a { color: var(--product-ink); }
+.tool-card h2 a::after { position: absolute; content: ''; inset: 0; border-radius: 24px; }
+.tool-card:focus-within { outline: 3px solid var(--product-blue); outline-offset: 4px; }
+.tool-card p { color: var(--product-muted); line-height: 1.75; margin-bottom: 30px; }
+.tool-card-link { display: flex; justify-content: space-between; color: var(--product-blue); font-weight: 650; border-top: 1px solid var(--product-line); padding-top: 23px; }
+.tool-card-vin { background: linear-gradient(145deg,#edf9f5,#fff); }
+.tool-card-vin .product-icon { background: #d6efe6; color: #08756b; }
+.tool-card-vin .tool-card-link { color: #08756b; }
+.tool-catalog-note { margin: 25px 0; color: var(--product-muted); font-size: 14px; }
+.tool-catalog-note a,.tool-faq a { text-decoration: underline; text-underline-offset: 3px; }
+.loan-tool { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); border: 1px solid var(--product-line); border-radius: 24px; background: white; box-shadow: 0 12px 45px #18354d09; overflow: hidden; }
+.loan-form { padding: 32px; }
+.tool-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 25px; }
+.tool-panel-heading h2 { font-size: 23px; font-weight: 750; margin: 0; }
+.tool-text-button { border: 0; background: transparent; color: var(--product-blue); text-decoration: underline; text-underline-offset: 4px; font-weight: 600; font-size: 13px; padding: 8px 0; }
+.tool-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 19px 20px; }
+.tool-field { min-width: 0; }
+.tool-field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.tool-field label span { font-weight: 400; color: var(--product-muted); }
+.tool-field input,.tool-field select { width: 100%; min-width: 0; border: 1px solid #becfdd; border-radius: 9px; background: white; height: 48px; padding: 11px 13px; color: var(--product-ink); font-size: 16px; }
+.tool-field input[aria-invalid=true] { border-color: #b23236; background: #fff9f9; }
+.tool-input-wrap { position: relative; }
+.tool-input-wrap input { padding-right: 61px; }
+.tool-input-wrap > span { position: absolute; right: 14px; top: 14px; font-size: 12px; color: var(--product-muted); pointer-events: none; }
+.tool-input-wrap input::-webkit-inner-spin-button { appearance: none; }
+.tool-frequency { margin: 26px 0; }
+.tool-frequency legend { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+.tool-frequency > div { display: flex; padding: 4px; border-radius: 11px; background: #edf3f8; gap: 3px; }
+.tool-frequency label { flex: 1; position: relative; cursor: pointer; }
+.tool-frequency input { position: absolute; opacity: 0; }
+.tool-frequency span { display: block; padding: 11px 5px; font-size: 13px; font-weight: 600; text-align: center; border-radius: 8px; }
+.tool-frequency input:checked + span { background: white; color: var(--product-blue); box-shadow: 0 2px 7px #18354d12; }
+.tool-frequency input:focus-visible + span { outline: 3px solid var(--product-blue); outline-offset: 1px; }
+.tool-help { font-size: 12px; color: var(--product-muted); line-height: 1.7; margin: 18px 0 0; }
+.tool-error { color: #912b32; background: #fff1f1; padding: 13px 16px; border-radius: 9px; font-size: 14px; line-height: 1.6; margin: 20px 0 0; }
+.loan-result { padding: 38px 34px; background: #edf5ff; display: flex; flex-direction: column; }
+.loan-result .marketing-eyebrow { margin-bottom: 16px; }
+.loan-payment { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; }
+.loan-payment strong { font: 850 clamp(34px,4vw,52px)/1.1 var(--heading-font); letter-spacing: -1.5px; overflow-wrap: anywhere; }
+.loan-payment span { font-size: 14px; color: var(--product-muted); }
+#loan-schedule,#loan-final { font-size: 13px; line-height: 1.6; color: var(--product-muted); margin-top: 17px; }
+.loan-breakdown { margin: 26px 0; border-top: 1px solid #cbddef; }
+.loan-breakdown > div { display: flex; justify-content: space-between; gap: 18px; padding: 15px 0; }
+.loan-breakdown dt { font-size: 13px; font-weight: 500; }
+.loan-breakdown dd { margin: 0; font-size: 15px; font-weight: 700; text-align: right; }
+.loan-breakdown .loan-total { border-top: 1px solid #cbddef; padding-top: 20px; }
+.loan-total dt { font-weight: 700; }
+.loan-disclaimer { font-size: 12px; line-height: 1.75; color: var(--product-muted); margin-top: auto; padding-top: 12px; }
+.tool-private { display: flex; gap: 8px; align-items: center; margin-top: 8px; font-size: 12px; color: var(--product-muted); }
+.tool-private i { color: #08756b; font-size: 17px; }
+.tool-explainer { display: grid; grid-template-columns: 1fr 1fr; gap: 55px; margin: 64px 0; }
+.tool-explainer h2,.tool-faq h2 { font-size: 25px; font-weight: 750; letter-spacing: -.5px; margin-bottom: 20px; }
+.tool-explainer p,.tool-explainer li { font-size: 14px; line-height: 1.85; color: var(--product-muted); }
+.tool-explainer ol { padding-left: 20px; }
+.tool-explainer li { padding-left: 6px; margin-bottom: 12px; }
+.tool-faq { max-width: 850px; }
+.tool-faq details { border-bottom: 1px solid var(--product-line); padding: 19px 0; }
+.tool-faq summary { cursor: pointer; font-size: 15px; font-weight: 650; padding-right: 10px; }
+.tool-faq details p { font-size: 14px; line-height: 1.8; color: var(--product-muted); margin: 15px 0 0; }
+.tool-publisher { display: flex; align-items: center; justify-content: space-between; gap: 35px; background: #18354d; color: white; border-radius: 24px; padding: 36px; margin-top: 65px; }
+.tool-publisher > div { max-width: 620px; }
+.tool-publisher .marketing-eyebrow { color: #a5cfff; margin-bottom: 12px; }
+.tool-publisher h2 { font-size: 29px; color: white; font-weight: 800; margin-bottom: 13px; }
+.tool-publisher p { font-size: 14px; line-height: 1.8; color: #d2dfec; margin: 0; }
+.tool-publisher > a { flex-shrink: 0; background: white; color: #18354d; border-color: white; }
+.vin-page .tools-hero { background: linear-gradient(150deg,#edf9f5,#fff 78%); }
+.vin-page .tools-hero .marketing-eyebrow { color: #08756b; }
+.vin-tool { border: 1px solid var(--product-line); padding: 32px; border-radius: 24px; background: white; box-shadow: 0 12px 45px #18354d09; }
+.vin-inputs { display: grid; grid-template-columns: minmax(0,1fr) 180px auto; align-items: end; gap: 18px; }
+#vin-input { text-transform: uppercase; letter-spacing: 1.5px; font-family: ui-monospace,Consolas,monospace; }
+#vin-input::placeholder { text-transform: none; letter-spacing: 0; font-family: var(--default-font); font-size: 14px; }
+.vin-inputs .site-button { height: 48px; background: #08756b; border-color: #08756b; }
+.vin-inputs .site-button:disabled { opacity: .7; cursor: wait; }
+.vin-actions { display: flex; align-items: center; gap: 22px; margin-top: 12px; }
+#vin-count { font-size: 12px; color: var(--product-muted); margin-left: auto; }
+.vin-privacy { margin-top: 12px; }
+.vin-result { margin-top: 30px; border: 1px solid #c6e4dc; border-radius: 24px; padding: 32px; background: #f8fcfa; }
+.vin-result-heading { display: flex; justify-content: space-between; gap: 20px; align-items: start; }
+.vin-result-heading .marketing-eyebrow { color: #08756b; margin-bottom: 10px; }
+.vin-result-heading h2 { font-size: 30px; font-weight: 800; }
+#vin-result-code { font-family: ui-monospace,Consolas,monospace; font-size: 14px; color: var(--product-muted); }
+.vin-source { font-size: 12px; border-radius: 30px; padding: 8px 12px; background: #e0f2e9; color: #08756b; white-space: nowrap; }
+#vin-result-note { font-size: 13px; color: var(--product-muted); }
+.vin-specs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 25px; margin-top: 25px; }
+.vin-specs h3 { font-size: 17px; font-weight: 750; padding-bottom: 12px; border-bottom: 1px solid #d5e8df; }
+.vin-specs dl > div { padding: 9px 0; }
+.vin-specs dt { font-size: 12px; color: var(--product-muted); font-weight: 400; }
+.vin-specs dd { font-size: 14px; font-weight: 600; margin: 3px 0 0; overflow-wrap: anywhere; }
+.tools-page [hidden] { display: none !important; }
+.loan-tool,.tool-explainer,.tool-faq,.vin-specs > section { padding-block: 0; }
+.vin-specs > section { background: transparent; }
+@media(max-width: 900px) { .loan-tool { grid-template-columns: 1.15fr 1fr; }.loan-form,.loan-result { padding: 26px; }.tool-publisher { flex-direction: column; align-items: start; }.vin-inputs { grid-template-columns: 1fr 165px; }.vin-inputs .site-button { grid-column: 1/-1; }.vin-specs { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media(max-width: 700px) { .tool-catalog,.loan-tool,.tool-explainer { grid-template-columns: 1fr; }.tool-card { padding: 26px; }.tool-explainer { gap: 25px; margin: 42px 0; }.loan-payment strong { font-size: 46px; }.tool-publisher { padding: 26px; margin-top: 45px; }.vin-tool,.vin-result { padding: 24px; }.vin-result-heading { flex-direction: column; gap: 8px; }.vin-inputs { grid-template-columns: 1fr; }.vin-year { max-width: 220px; }.tools-hero { padding-bottom: 25px; }.vin-actions { flex-wrap: wrap; gap: 12px 22px; }.tool-panel-heading { flex-wrap: wrap; } }
+@media(max-width: 380px) { .tool-fields { grid-template-columns: 1fr; }.loan-form,.loan-result,.vin-tool,.vin-result { padding: 21px; }.vin-specs { grid-template-columns: 1fr; }.tool-card .tool-free { float: none; display: block; }.tool-publisher > a { width: 100%; }.loan-payment strong { font-size: 39px; } }
+@media(prefers-reduced-motion: reduce) { .tool-card { transition: none; }.tool-card:hover { transform: none; } }

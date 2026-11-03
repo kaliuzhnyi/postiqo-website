@@ -1,0 +1,12 @@
+version: 1
+id: 6b351e83-aa6d-4b03-a214-04681591c5e6
+name: nhtsa-vpic
+slug: nhtsa-vpic
+protocol: http
+origin: vpic.nhtsa.dot.gov
+interceptRequests: true
+port: 4500
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

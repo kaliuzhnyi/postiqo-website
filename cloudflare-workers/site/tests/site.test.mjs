@@ -23,7 +23,7 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     assert.ok(ready, log);
-    for (const path of ['/', '/demo/', '/products/', '/products/postiqo-publisher/', '/products/postiqo-publisher/docs/', '/products/postiqo-cards/', '/products/postiqo-website/', '/products/postiqo-pages/', '/products/postiqo-cards/demo/', '/try/', '/download/']) {
+    for (const path of ['/', '/tools/', '/tools/car-payment-calculator/', '/tools/vin-decoder/', '/demo/', '/products/', '/products/postiqo-publisher/', '/products/postiqo-publisher/docs/', '/products/postiqo-cards/', '/products/postiqo-website/', '/products/postiqo-pages/', '/products/postiqo-cards/demo/', '/try/', '/download/']) {
       const r = await get(path);
       assert.equal(r.status, 200, path);
       assert.match(r.headers.get('content-type'), /text\/html/);
@@ -31,7 +31,7 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
       const source = await readFile(new URL(path.slice(1) + 'index.html', root), 'utf8');
       assert.equal(await r.text(), source, path);
     }
-    for (const path of ['/demo', '/demo/index.html', '/products', '/products/index.html', '/try', '/download/index.html']) {
+    for (const path of ['/tools', '/tools/index.html', '/tools/car-payment-calculator', '/tools/vin-decoder/index.html', '/demo', '/demo/index.html', '/products', '/products/index.html', '/try', '/download/index.html']) {
       const r = await get(path + '?utm_source=check');
       assert.equal(r.status, 301, path);
       assert.match(r.headers.get('location'), /\/?\?utm_source=check$/);
@@ -55,6 +55,11 @@ test('Cloudflare serves public routes and assets without exposing sources or sta
     assert.doesNotMatch(docs, /RustDesk|rustdesk/);
     assert.equal((await fetch(origin + '/', {method: 'HEAD'})).status, 200);
     assert.equal((await fetch(origin + '/', {method: 'POST'})).status, 405);
+    assert.equal((await get('/api/tools/vin')).status, 405);
+    const invalidVin = await fetch(origin + '/api/tools/vin', {method: 'POST', headers: {Origin: origin, 'Content-Type': 'application/json'}, body: JSON.stringify({vin: 'invalid'})});
+    assert.equal(invalidVin.status, 400);
+    assert.equal(invalidVin.headers.get('x-robots-tag'), 'noindex');
+    assert.equal((await get('/api/unknown')).status, 404);
     assert.ok(!(await readdir(new URL('../dist/', import.meta.url))).includes('blog'));
   } finally {
     child.kill();
