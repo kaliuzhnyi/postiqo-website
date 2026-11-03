@@ -1,0 +1,7 @@
+.field-help { display: inline-flex; vertical-align: middle; flex: 0 0 auto; }
+.help-toggle { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: #edf3f8; color: #43617b; font: 800 14px Nunito, sans-serif; cursor: help; }
+.help-toggle:hover, .help-toggle[aria-expanded="true"] { color: #0868cb; background: #deedfc; }
+.help-popover { position: fixed; z-index: 10000; box-sizing: border-box; padding: 16px 18px; background: #18354d; color: white; border: 1px solid #314d64; box-shadow: 0 8px 30px #09223630; border-radius: 12px; font: 400 13px/1.65 Roboto, sans-serif; text-align: left; white-space: normal; max-height: calc(100dvh - 16px); overflow-y: auto; }
+.tools-page .help-toggle:focus-visible { outline: 3px solid #408cda; outline-offset: 3px; }
+.tool-label-help { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.tool-label-help label { margin: 0; }

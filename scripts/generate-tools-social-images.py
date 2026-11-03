@@ -13,7 +13,7 @@ def font(size, weight=800):
 
 for slug, label, lines, items, accent in [
     ('tools', 'FREE TOOLS FROM POSTIQO', ['Small tools.', 'A little less', 'guesswork.'], ['Car payment calculator', 'VIN decoder'], '#0868cb'),
-    ('car-payment-calculator', 'FREE CAR PAYMENT CALCULATOR', ['Your next car.', 'Run the', 'numbers.'], ['Monthly / Bi-weekly / Weekly', 'Canadian tax presets'], '#0868cb'),
+    ('car-payment-calculator', 'FREE CAR PAYMENT CALCULATOR', ['Loan or lease.', 'See the', 'whole picture.'], ['Loan & lease payments', 'Breakdown & schedule'], '#0868cb'),
     ('vin-decoder', 'FREE VIN DECODER', ['17 characters.', 'A clearer', 'picture.'], ['Vehicle identity & specs', 'Powered by NHTSA data'], '#08756b'),
 ]:
     img = Image.new('RGB', (1200, 630), '#eff8f3' if slug == 'vin-decoder' else '#f2f7fc')

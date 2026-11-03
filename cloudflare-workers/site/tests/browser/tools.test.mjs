@@ -24,33 +24,34 @@ test('public tools work on desktop and mobile, with accessible results and recov
     const path = url.pathname.endsWith('/') ? url.pathname + 'index.html' : url.pathname;
     try {
       const body = await readFile(new URL('.' + path, root));
-      return route.fulfill({ body, contentType: { html: 'text/html', js: 'application/javascript', css: 'text/css', png: 'image/png', woff2: 'font/woff2', ttf: 'font/ttf' }[path.split('.').at(-1)] || 'application/octet-stream' });
+      return route.fulfill({ body, contentType: { html: 'text/html', js: 'application/javascript', mjs: 'application/javascript', css: 'text/css', png: 'image/png', woff2: 'font/woff2', ttf: 'font/ttf' }[path.split('.').at(-1)] || 'application/octet-stream' });
     } catch { return route.fulfill({ status: 404, body: 'Not found' }); }
   });
   await mkdir(artifacts, { recursive: true });
-  await t.test('catalog links and payment calculations use the existing Cards formula', async () => {
+  await t.test('catalog links and loan inputs calculate and recover from errors', async () => {
     await page.goto('https://postiqo.io/tools/');
     assert.equal(await page.locator('.tool-card').count(), 2);
     await page.getByRole('link', { name: 'Car payment calculator', exact: true }).click();
-    await page.waitForFunction(() => document.querySelector('#loan-amount').textContent.length > 0);
+    await page.waitForFunction(() => document.querySelector('#finance-payment').textContent.length > 0);
+    await page.locator('#loan-form .finance-options summary').click();
     await page.locator('#loan-down').fill('5000'); await page.locator('#loan-trade').fill('10000'); await page.locator('#loan-rate').fill('0');
-    await page.waitForFunction(() => document.querySelector('#loan-amount').textContent === '$293.33');
-    assert.equal(await page.locator('#loan-sales-tax').innerText(), '$2,600.00');
-    assert.equal(await page.locator('#loan-principal').innerText(), '$17,600.00');
-    assert.equal(await page.locator('#loan-interest').innerText(), '$0.00');
-    await page.locator('#loan-tax').fill('0'); await page.locator('#loan-down').fill('0'); await page.locator('#loan-term').selectOption('custom'); await page.locator('#loan-months').fill('23');
+    await page.waitForFunction(() => document.querySelector('#finance-payment').textContent === '$293.33');
+    assert.match(await page.locator('#finance-legend').innerText(), /2,600.00/);
+    assert.equal(await page.locator('#finance-principal').innerText(), '$17,600.00');
+    assert.equal(await page.locator('#finance-interest').innerText(), '$0.00');
+    await page.locator('#loan-tax').fill('0'); await page.locator('#loan-down').fill('0'); await page.locator('#loan-months').fill('23');
     await page.locator('[name=frequency][value=biweekly]').check();
-    assert.equal(await page.locator('#loan-final').isVisible(), true);
+    assert.equal(await page.locator('#finance-final').isVisible(), true);
     await page.locator('#loan-trade').fill('30001');
     await page.waitForFunction(() => !document.querySelector('#loan-error').hidden);
-    assert.equal(await page.locator('#loan-result').isVisible(), false);
-    await page.getByRole('button', { name: 'Reset', exact: true }).click();
+    assert.equal(await page.locator('#finance-summary').isVisible(), false);
+    await page.getByRole('button', { name: 'Reset loan', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#loan-error').hidden);
     await page.locator('#loan-province').selectOption('QC'); assert.equal(await page.locator('#loan-tax').inputValue(), '14.975');
     await page.locator('#loan-province').selectOption('NS'); assert.equal(await page.locator('#loan-tax').inputValue(), '14');
     await page.locator('#loan-down').fill('');
     await page.waitForFunction(() => document.querySelector('#loan-down').getAttribute('aria-invalid') === 'true');
-    await page.getByRole('button', { name: 'Reset', exact: true }).click();
+    await page.getByRole('button', { name: 'Reset loan', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#loan-error').hidden);
     assert.equal(calls.length, 0, 'payment inputs never leave the browser');
   });

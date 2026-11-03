@@ -1,0 +1,2 @@
+const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
+export const help = (id, label, text) => `<span class="field-help"><button type="button" class="help-toggle" aria-label="About ${escape(label)}" aria-expanded="false" aria-controls="${id}">?</button><span class="help-popover" id="${id}" role="tooltip" hidden>${escape(text)}</span></span>`;

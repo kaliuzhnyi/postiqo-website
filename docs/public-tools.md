@@ -3,16 +3,60 @@
 The public, English-language tools are available without an account:
 
 - `/tools/`: catalog linked from the shared header and footer.
-- `/tools/car-payment-calculator/`: CAD auto loan estimate, using the existing
-  `calculateVehiclePayment` function in `assets/js/cards-template.js`.
+- `/tools/car-payment-calculator/`: CAD loan and lease estimates, interactive
+  balance graph, cost breakdown, payment/year schedule and CSV download.
 - `/tools/vin-decoder/`: a vehicle specification lookup using the existing
   Cards VIN normalizer and NHTSA vPIC data source.
 
-The calculator passes the price after a personal, lien-free trade-in to the
-shared calculation. It supports zero interest, fully covered purchases,
-monthly/bi-weekly/weekly payments and custom whole-month terms. It sends no
-inputs to a server. Tax presets come from the Cards renderer; confirm
-vehicle-specific tax rules rather than presenting presets as a tax quote.
+The calculator uses the pure, cent-based ledger in
+`assets/js/vehicle-finance.mjs`. Loan regular payments are regression-checked
+against the existing Cards formula. It sends no inputs to a server and stores
+no financial values in URLs or local storage. `#lease` opens the lease tab.
+Tax presets come from the Cards renderer and remain editable. They are general
+dealer-transaction estimates, not a complete vehicle tax quote.
+
+Every calculator input, select, frequency group and graph slider has a detailed
+explanation through `tool-help.js`; the two VIN inputs use the same component.
+Help supports mouse hover, click/touch, keyboard focus, Escape and outside-click
+dismissal. Loan and lease forms preserve independent values while switching tabs.
+On small screens, a floating estimate appears while editing above the result.
+
+## Financial model
+
+All displayed monetary values and schedule rows use integer cents. Total cash,
+the doughnut, table totals and CSV use the same ledger. The final payment clears
+the loan or reaches the lease residual exactly; it may differ from a regular
+payment. Prices/fees accept two decimal places, tax rates three, and money
+factors six. The maximum agreement term is 120 months.
+
+Loan principal is price minus eligible personal trade-in, plus trade-in loan
+payoff, minus cash down, plus any financed taxes and fees. Tax applies to price
+minus trade-in plus taxable fees, without reducing the base by cash down or
+adding the trade-in payoff. Taxes/fees may instead be paid upfront. Periodic
+rate is nominal annual rate divided by 12, 26 or 52. Fractional final periods
+use `(1 + periodicRate)^fraction - 1`. Extra payments reduce principal and the
+term; interest savings compare two rounded ledgers with otherwise equal inputs.
+
+Leases use monthly payments, a residual in dollars from the quote, and a paid-off
+personal trade-in. Negative-equity lease tax treatment is not modeled. Adjusted
+lease amount is price plus financed pre-tax fees minus cash down and trade-in.
+Residual cannot exceed that amount. There are two explicit rate methods:
+
+- Annual interest: discounted monthly cash flows with a residual balloon.
+  End-of-month payment is `PMT(capital, annualRate / 1200, months, residual)`;
+  beginning-of-month payment divides it by `1 + annualRate / 1200`.
+  Each beginning-of-month row deducts the payment then accrues that month's
+  interest. Its balance is the value at the end of the month.
+- Money factor: monthly depreciation `(capital - residual) / months`, plus
+  rent `(capital + residual) * quotedFactor`. Timing affects cash at signing,
+  not the money-factor payment. A factor is never silently converted into an APR.
+
+Lease tax applies to periodic payments and cash down. Upfront fees are entered
+with tax already included. The first payment is part of cash due at signing
+when payments are in advance, but is counted only once in total cash. Optional
+buyout including estimated tax is separate. Refundable deposits, excess mileage,
+wear, disposition/purchase-option fees and special tax rules are excluded. The
+unpaid-value schedule is not a market-value or early-termination quote.
 
 Run `node scripts/generate-tools-pages.mjs` after changing the page content,
 shared Products shell or Cards tax presets. `--check` verifies generated files.
@@ -79,8 +123,12 @@ node scripts/generate-cards-demo.mjs --check
 Run `pnpm test` and `pnpm run test:browser` in `cloudflare-workers/site`, and
 `pnpm test` in `cloudflare-workers/content`. Browser tests intercept all network
 traffic, exercise input/errors/reset, stale VIN responses, safe text rendering,
-mobile navigation and layouts from 320 to 1280 pixels. Screenshots are written to
-the ignored `cloudflare-workers/site/tests/artifacts/tools/` directory.
+mobile navigation and layouts from 320 to 1280 pixels. Finance tests independently
+discount payments and residuals to the original capital, reconcile every row and
+cost component, cover zero rates/extra payments/negative equity, and check CSV,
+tab state, all field explanations and mobile popover bounds. Screenshots are
+written to ignored `cloudflare-workers/site/tests/artifacts/tools/` and
+`cloudflare-workers/site/tests/artifacts/finance/` directories.
 
 The local Postman simulation checks the actual HTTP serialization and timeout:
 
@@ -109,4 +157,10 @@ search ranking remain up to the search engines.
 - [Google SEO starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
 - [NHTSA vPIC API](https://vpic.nhtsa.dot.gov/api/)
 - [CRA sales tax reference](https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-which-rate.html)
+- [CRA motor vehicle tax treatment](https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-specific-situations/motor-vehicles.html)
+- [Federal Reserve money-factor calculation](https://www.federalreserve.gov/pubs/leasing/resource/consider/ongoing_info6.htm)
+- [Federal Reserve lease rate comparison](https://www.federalreserve.gov/Pubs/leasing/resource/faq.htm)
+- [Ontario cost of borrowing regulation](https://www.ontario.ca/laws/regulation/050017)
+- [Calculator.net loan reference](https://www.calculator.net/auto-loan-calculator.html)
+- [Calculator.net lease reference](https://www.calculator.net/auto-lease-calculator.html)
 - [Cloudflare rate limiting](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
