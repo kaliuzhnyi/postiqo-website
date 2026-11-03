@@ -22,6 +22,9 @@
 .finance-page .tool-input-wrap input[name="months"] { padding-right: 78px; }
 .finance-page .tool-input-wrap input[name="factor"] { padding-right: 12px; }
 .finance-page .tool-field input, .finance-page .tool-field select { font-size: 16px; border-radius: 9px; min-height: 49px; }
+.finance-page .tool-select { position: relative; min-width: 0; }
+.finance-page .tool-select > select { display: block; appearance: none; -webkit-appearance: none; padding-right: 40px; text-overflow: ellipsis; cursor: pointer; }
+.finance-page .tool-select > svg { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; pointer-events: none; color: #6f8aa0; }
 .finance-page .tool-field input[aria-invalid="true"] { border-color: #b42318; background: #fff8f6; }
 .finance-page input::-webkit-inner-spin-button { appearance: none; }
 .finance-page input[type="number"] { appearance: textfield; -moz-appearance: textfield; }

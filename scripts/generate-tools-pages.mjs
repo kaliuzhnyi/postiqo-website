@@ -31,7 +31,7 @@ const pages = [
     description: 'Calculate car loan and lease payments in Canada. See taxes, interest, cost breakdowns and a full payment schedule. Free, private and no sign-up required.',
     image: 'car-payment-calculator', eyebrow: 'Your car payment. The whole picture.', heading: 'Car loan &amp; lease<br>calculator.',
     intro: 'Loan or lease. Explore your payment, see where the money goes, and follow the balance over time. All in Canadian dollars.',
-    styles: '<link rel="stylesheet" href="/assets/css/finance.css?v=3">',
+    styles: '<link rel="stylesheet" href="/assets/css/finance.css?v=4">',
     scripts: '<script src="/assets/js/car-payment-calculator.js?v=3" type="module"></script>',
     body: calculatorBody({ taxProvinces, faq, cta }),
   },
