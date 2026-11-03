@@ -30,6 +30,8 @@
 .tool-field label span { font-weight: 400; color: var(--product-muted); }
 .tool-field input,.tool-field select { width: 100%; min-width: 0; border: 1px solid #becfdd; border-radius: 9px; background: white; height: 48px; padding: 11px 13px; color: var(--product-ink); font-size: 16px; }
 .tool-field input[aria-invalid=true] { border-color: #b23236; background: #fff9f9; }
+.tools-page .tool-field input:focus, .tools-page .tool-field select:focus { outline: none; border-color: #7ab8f6; box-shadow: 0 0 0 2px #e9f4ff; }
+.tools-page .tool-field input[aria-invalid=true]:focus { border-color: #b23236; box-shadow: 0 0 0 2px #fff1f1; }
 .tool-input-wrap { position: relative; }
 .tool-input-wrap input { padding-right: 61px; }
 .tool-input-wrap > span { position: absolute; right: 14px; top: 14px; font-size: 12px; color: var(--product-muted); pointer-events: none; }
@@ -39,9 +41,9 @@
 .tool-frequency > div { display: flex; padding: 4px; border-radius: 11px; background: #edf3f8; gap: 3px; }
 .tool-frequency label { flex: 1; position: relative; cursor: pointer; }
 .tool-frequency input { position: absolute; opacity: 0; }
-.tool-frequency span { display: block; padding: 11px 5px; font-size: 13px; font-weight: 600; text-align: center; border-radius: 8px; }
+.tool-frequency > div span { display: block; padding: 11px 5px; font-size: 13px; font-weight: 600; text-align: center; border-radius: 8px; }
 .tool-frequency input:checked + span { background: white; color: var(--product-blue); box-shadow: 0 2px 7px #18354d12; }
-.tool-frequency input:focus-visible + span { outline: 3px solid var(--product-blue); outline-offset: 1px; }
+.tool-frequency input:focus-visible + span { outline: none; color: var(--product-blue); background: #f7fbff; box-shadow: 0 0 0 2px #e9f4ff; }
 .tool-help { font-size: 12px; color: var(--product-muted); line-height: 1.7; margin: 18px 0 0; }
 .tool-error { color: #912b32; background: #fff1f1; padding: 13px 16px; border-radius: 9px; font-size: 14px; line-height: 1.6; margin: 20px 0 0; }
 .loan-result { padding: 38px 34px; background: #edf5ff; display: flex; flex-direction: column; }

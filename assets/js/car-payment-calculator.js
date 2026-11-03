@@ -13,7 +13,7 @@ const svg = (name, attrs) => {
 const forms = { loan: $('loan-form'), lease: $('lease-form') };
 let mode = 'loan', result, values, grouping = 'payments', page = 0, debounce, formVisible = false, summaryVisible = false;
 const pageSize = 12;
-let chartWidth = 900;
+let chartWidth = 900, chartMaximum = 1, chartRows = [];
 
 function read(form) {
   const input = {};
@@ -94,31 +94,44 @@ function renderDonut() {
   text('donut-title', `Total cash ${money(result.totalCash)}. ${result.components.map(p => `${p.label}: ${money(p.value)}`).join('. ')}`);
 }
 
-function point(row) {
+function point(row, key = 'balance') {
   const x = 76 + row.months / (result.endMonths || 1) * (chartWidth - 104);
-  const y = 210 - row.balance / (result.principal || 1) * 182;
+  const y = 210 - row[key] / chartMaximum * 182;
   return { x, y };
 }
-function renderGraph() {
+function renderGraph(resetSelection = true) {
   const lease = mode === 'lease', r = result;
   chartWidth = innerWidth <= 540 ? 450 : 900;
   $('balance-chart').setAttribute('viewBox', `0 0 ${chartWidth} 250`);
-  text('timeline-title', lease ? 'See the value left at the end' : 'Watch your balance go down');
-  text('timeline-description', lease ? `The unpaid value ends at the ${money(r.residual)} residual, before buyout tax.` : `From ${money(r.principal)} financed to a zero balance. Explore any payment below.`);
-  text('balance-chart-title', `${lease ? 'Unpaid lease value' : 'Loan balance'} over ${Number(r.endMonths.toFixed(1))} months, from ${money(r.principal)} to ${money(r.residual)}.`);
-  const points = [{ months: 0, balance: r.principal }, ...r.rows].map(point);
-  const path = points.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ');
-  $('balance-line').setAttribute('d', path); $('balance-area').setAttribute('d', `${path} L${points.at(-1).x},210 L76,210 Z`);
+  text('timeline-title', lease ? 'Follow your lease payments' : 'See your loan paid down');
+  text('timeline-description', lease ? `Track the unpaid value, depreciation covered and finance charges so far. The ${money(r.residual)} residual remains before any buyout tax.` : 'See the balance fall as repaid principal and paid interest build up. All three lines show amounts in CAD.');
+  text('chart-balance-label', lease ? 'Unpaid lease value' : 'Balance remaining');
+  text('chart-principal-label', lease ? 'Depreciation covered' : 'Principal repaid');
+  text('chart-interest-label', lease ? 'Finance charges paid' : 'Interest paid');
+  text('balance-chart-title', `${lease ? 'Unpaid lease value' : 'Loan balance'}, cumulative ${lease ? 'depreciation covered' : 'principal repaid'} and ${lease ? 'finance charges' : 'interest paid'} over ${Number(r.endMonths.toFixed(1))} months. Final balance ${money(r.residual)}, principal covered ${money(r.principal - r.residual)}, finance charges ${money(r.totalInterest)}.`);
+  let principalPaid = 0, interestPaid = 0;
+  chartRows = [{ months: 0, balance: r.principal, principalPaid: 0, interestPaid: 0 }, ...r.rows.map(row => {
+    principalPaid += row.principal; interestPaid += row.interest;
+    return { ...row, principalPaid, interestPaid };
+  })];
+  chartMaximum = Math.max(r.principal, principalPaid, interestPaid, 1);
+  for (const [id, key] of [['balance', 'balance'], ['principal', 'principalPaid'], ['interest', 'interestPaid']]) {
+    const points = chartRows.map(row => point(row, key));
+    const path = points.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ');
+    $(id + '-line').setAttribute('d', path);
+    if (id === 'balance') $('balance-area').setAttribute('d', `${path} L${points.at(-1).x},210 L76,210 Z`);
+  }
   const axis = $('balance-axis'); axis.replaceChildren();
   for (let i = 0; i <= 4; i++) {
     const y = 210 - i * 182 / 4;
     axis.append(svg('line', { x1: 76, x2: chartWidth - 28, y1: y, y2: y, stroke: '#dce6ef', 'stroke-dasharray': '3 5' }));
-    const label = svg('text', { x: 62, y: y + 5, 'text-anchor': 'end' }); label.textContent = shortMoney(r.principal * i / 4); axis.append(label);
+    const label = svg('text', { x: 62, y: y + 5, 'text-anchor': 'end' }); label.textContent = shortMoney(chartMaximum * i / 4); axis.append(label);
     if (chartWidth === 450 && i % 2) continue;
     const tick = svg('text', { x: 76 + i * (chartWidth - 104) / 4, y: 240, 'text-anchor': i === 0 ? 'start' : i === 4 ? 'end' : 'middle' });
     tick.textContent = `${Number((r.endMonths * i / 4).toFixed(1))} mo`; axis.append(tick);
   }
-  $('finance-inspect').max = r.rows.length; $('finance-inspect').value = 0; $('finance-inspect').disabled = !r.rows.length; inspect();
+  const selected = resetSelection ? Math.min(1, r.rows.length) : Math.min(+$('finance-inspect').value, r.rows.length);
+  $('finance-inspect').max = r.rows.length; $('finance-inspect').value = selected; $('finance-inspect').disabled = !r.rows.length; inspect();
   $('finance-download').disabled = !r.rows.length;
   text('schedule-title', lease ? 'Monthly lease schedule' : 'Payment-by-payment schedule'); text('schedule-count', `${r.rows.length} payments`);
   text('schedule-timing', lease ? (values.timing === 'advance' ? 'Payments are due at the start of each month. Values show the end of that month.' : 'Payments are due at the end of each month.') : 'Balance shown after each payment.');
@@ -126,12 +139,33 @@ function renderGraph() {
 }
 function inspect() {
   const index = +$('finance-inspect').value;
-  const row = index ? result.rows[index - 1] : { months: 0, balance: result.principal };
-  const { x, y } = point(row);
+  const row = chartRows[index];
+  const { x } = point(row);
   $('balance-cursor').setAttribute('x1', x); $('balance-cursor').setAttribute('x2', x);
-  $('balance-dot').setAttribute('cx', x); $('balance-dot').setAttribute('cy', y);
+  for (const [id, key] of [['balance', 'balance'], ['principal', 'principalPaid'], ['interest', 'interestPaid']]) {
+    const position = point(row, key);
+    $(id + '-dot').setAttribute('cx', position.x); $(id + '-dot').setAttribute('cy', position.y);
+    text('chart-' + id + '-value', money(row[key]));
+  }
   const value = `${index ? `Payment ${index}` : 'Start'}: ${money(row.balance)} ${mode === 'lease' ? 'unpaid value' : 'remaining'}${index ? ` / ${money(row.payment)} paid` : ''}`;
-  text('finance-inspect-result', value); $('finance-inspect').setAttribute('aria-valuetext', value);
+  const cumulative = ` / ${money(row.principalPaid)} ${mode === 'lease' ? 'depreciation covered' : 'principal repaid'} / ${money(row.interestPaid)} ${mode === 'lease' ? 'finance charges' : 'interest paid'}`;
+  text('finance-inspect-result', value); $('finance-inspect').setAttribute('aria-valuetext', value + cumulative);
+  show('finance-payment-detail', index > 0);
+  const bar = $('finance-payment-bar'), parts = $('finance-payment-parts'); bar.replaceChildren(); parts.replaceChildren();
+  if (!index) return;
+  text('finance-payment-title', `Inside payment ${index}`);
+  const components = [
+    { label: mode === 'lease' ? 'Depreciation' : 'Principal', value: row.principal, colour: '#08756b' },
+    { label: mode === 'lease' ? 'Finance charge' : 'Interest', value: row.interest, colour: '#bb730a' },
+    ...(mode === 'lease' ? [{ label: 'Tax', value: row.tax, colour: '#728698' }] : []),
+  ];
+  for (const part of components) {
+    const share = row.payment ? part.value / row.payment * 100 : 0;
+    const segment = document.createElement('span'); segment.style.width = share + '%'; segment.style.backgroundColor = part.colour; bar.append(segment);
+    const item = document.createElement('li'), dot = document.createElement('span'), amount = document.createElement('strong');
+    dot.className = 'legend-dot'; dot.style.backgroundColor = part.colour;
+    amount.textContent = `${money(part.value)} (${Number(share.toFixed(1))}%)`; item.append(dot, part.label + ' ', amount); parts.append(item);
+  }
 }
 
 function renderSchedule() {
@@ -180,14 +214,16 @@ for (const [id, form] of Object.entries(forms)) {
 $('finance-inspect').addEventListener('input', inspect);
 document.querySelectorAll('[data-group]').forEach(button => button.addEventListener('click', () => { grouping = button.dataset.group; page = 0; renderSchedule(); }));
 $('schedule-prev').addEventListener('click', () => { page--; renderSchedule(); }); $('schedule-next').addEventListener('click', () => { page++; renderSchedule(); });
-$('balance-chart').addEventListener('pointermove', event => {
-  if (event.pointerType !== 'mouse' || !result || result.error) return;
+function inspectAtPointer(event) {
+  if (!result || result.error) return;
   const rect = $('balance-chart').getBoundingClientRect();
   const months = Math.max(0, Math.min(1, ((event.clientX - rect.left) / rect.width * chartWidth - 76) / (chartWidth - 104))) * result.endMonths;
   let index = 0, distance = months;
   result.rows.forEach((row, i) => { if (Math.abs(row.months - months) < distance) { index = i + 1; distance = Math.abs(row.months - months); } });
-  $('finance-inspect').value = index; inspect();
-});
+  if (+$('finance-inspect').value !== index) { $('finance-inspect').value = index; inspect(); }
+}
+$('balance-chart').addEventListener('pointermove', event => { if (event.pointerType === 'mouse') inspectAtPointer(event); });
+$('balance-chart').addEventListener('pointerdown', inspectAtPointer);
 $('finance-download').addEventListener('click', () => {
   if (!result || result.error) return;
   const r = result, lease = mode === 'lease';
@@ -206,7 +242,7 @@ $('finance-download').addEventListener('click', () => {
   const a = document.createElement('a'); a.href = url; a.download = `postiqo-${mode}-schedule.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 addEventListener('hashchange', () => switchMode(location.hash === '#lease' ? 'lease' : 'loan'));
-addEventListener('resize', () => { if (result && !result.error && chartWidth !== (innerWidth <= 540 ? 450 : 900)) renderGraph(); });
+addEventListener('resize', () => { if (result && !result.error && chartWidth !== (innerWidth <= 540 ? 450 : 900)) renderGraph(false); });
 function mobileEstimate() { show('finance-mobile-estimate', Boolean(result && !result.error && formVisible && !summaryVisible)); }
 const visibility = new IntersectionObserver(entries => {
   for (const entry of entries) {

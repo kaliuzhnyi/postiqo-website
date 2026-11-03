@@ -34,6 +34,35 @@ test('loan and lease calculator interaction, explanations, graphs and exports', 
     assert.equal(await page.locator('#tab-lease').getAttribute('aria-selected'),'true');
     await page.keyboard.press('Home'); assert.equal(await page.locator('#tab-loan').getAttribute('aria-selected'),'true');
   });
+  await t.test('three graph series reconcile with the ledger and show the selected payment split', async () => {
+    assert.equal(await page.locator('#chart-balance-value').innerText(), '$30,468.28');
+    assert.equal(await page.locator('#chart-principal-value').innerText(), '$431.72');
+    assert.equal(await page.locator('#chart-interest-value').innerText(), '$179.99');
+    assert.match(await page.locator('#finance-payment-parts').innerText(), /Principal \$431.72 \(70.6%\)/);
+    assert.match(await page.locator('#finance-payment-parts').innerText(), /Interest \$179.99 \(29.4%\)/);
+    await page.locator('#finance-inspect').focus(); await page.keyboard.press('End');
+    assert.equal(await page.locator('#chart-principal-value').innerText(), await page.locator('#finance-principal').innerText());
+    assert.equal(await page.locator('#chart-interest-value').innerText(), await page.locator('#finance-interest').innerText());
+    assert.equal(await page.locator('#chart-balance-value').innerText(), '$0.00');
+    await page.setViewportSize({ width:390, height:950 });
+    assert.equal(await page.locator('#finance-inspect').inputValue(), '60', 'resizing preserves the inspected payment');
+    await page.keyboard.press('Home'); assert.equal(await page.locator('#finance-payment-detail').isVisible(),false);
+    assert.equal(await page.locator('#chart-principal-value').innerText(),'$0.00');
+    await page.setViewportSize({ width:1280, height:950 });
+    await page.locator('#loan-rate').fill('0'); await waitPayment('$515.00');
+    assert.match(await page.locator('#finance-payment-parts').innerText(), /Principal \$515.00 \(100%\)/);
+    assert.match(await page.locator('#finance-payment-parts').innerText(), /Interest \$0.00 \(0%\)/);
+    await page.locator('#loan-rate').fill('100'); await page.locator('#loan-months').fill('120');
+    await page.waitForFunction(()=>document.querySelector('#finance-inspect').max==='120');
+    await page.locator('#finance-inspect').focus(); await page.keyboard.press('End');
+    const charges=+(await page.locator('#chart-interest-value').innerText()).replace(/[$,]/g,'');
+    assert.ok(charges>30900,'valid long, high-rate loans can accrue more interest than principal');
+    for(const id of ['balance-line','principal-line','interest-line']) {
+      const path=await page.locator('#'+id).getAttribute('d'); assert.doesNotMatch(path,/NaN|Infinity/);
+      for(const match of path.matchAll(/[ML]([\d.]+),([\d.]+)/g)) assert.ok(+match[2]>=27.99&&+match[2]<=210.01, id+' stays within the chart');
+    }
+    await page.getByRole('button',{name:'Reset loan',exact:true}).click(); await waitPayment('$611.71');
+  });
   await t.test('extra payments reduce the term; chart, annual totals and CSV reconcile', async () => {
     await page.locator('#loan-form .finance-options').evaluate(el => { el.open=true; });
     await page.locator('#loan-extra').fill('200');
@@ -71,6 +100,10 @@ test('loan and lease calculator interaction, explanations, graphs and exports', 
     assert.equal(await page.locator('#finance-total').innerText(),'$27,114.81');
     await page.locator('#finance-inspect').focus(); await page.keyboard.press('End');
     assert.match(await page.locator('#finance-inspect-result').innerText(), /\$25,000.00 unpaid value/);
+    assert.equal(await page.locator('#chart-principal-value').innerText(), '$12,000.00');
+    assert.equal(await page.locator('#chart-interest-value').innerText(), '$5,580.00');
+    assert.match(await page.locator('#finance-payment-parts').innerText(), /Tax \$29.31/);
+    assert.match(await page.locator('#chart-principal-label').innerText(), /Depreciation/);
     await page.locator('#lease-timing').selectOption('arrears'); assert.equal(await page.locator('#finance-upfront').innerText(),'$8,480.00');
     assert.equal(await page.locator('#finance-total').innerText(),'$27,114.81');
     await page.locator('#lease-factor').fill('6'); await page.locator('#lease-error').waitFor({state:'visible'});

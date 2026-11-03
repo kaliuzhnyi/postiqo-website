@@ -20,6 +20,11 @@ explanation through `tool-help.js`; the two VIN inputs use the same component.
 Help supports mouse hover, click/touch, keyboard focus, Escape and outside-click
 dismissal. Loan and lease forms preserve independent values while switching tabs.
 On small screens, a floating estimate appears while editing above the result.
+The graph shows three cumulative series: remaining balance, principal repaid
+(depreciation covered for leases), and interest or finance charges paid. Moving
+the pointer, tapping the graph or using the slider updates the three values and
+the selected payment's principal, interest and tax shares. All series use one
+CAD scale, which expands if total interest exceeds the starting principal.
 
 ## Financial model
 
